@@ -184,10 +184,29 @@ class Bot extends events.EventEmitter
 Built-in extensions
 ###
 
-Bot::hear = (regex,callback) ->
-  @on 'user:talk', (r) ->
-    if r.text.match regex
-      callback(r)
+Bot::regexp = (regex,callback) ->
+  ifje = (r)->
+    try
+      if r.text.match regex
+        callback(regex.exec(r.text), r)
+    catch e
+      console.log e
+    
+  @on 'user:private', ifje
+  @on 'user:talk', ifje
+    
+
+Bot::command = (regex, callback) ->
+  ifje = (r)->
+    try
+      if r.text.match regex
+        callback(r)
+    catch e
+      console.log e
+
+  @on 'user:private', ifje
+  @on 'user:talk', ifje
+
 
 Bot::loadExtensions = ->
   if @settings.botDebug

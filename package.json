@@ -16,6 +16,7 @@
     "coffee-script": "~1.6.2",
     "moment": "~2.0.0",
     "then-redis": "~0.3.4",
-    "request": "~2.21.0"
+    "request": "~2.21.0",
+    "oauth": "~0.9.10"
   }
 }

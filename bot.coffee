@@ -8,42 +8,16 @@ bot = new fat.Bot
 bot.on "self:join", (r)->
   r.say "jutro"
 
-fat.Bot::regexp = (regex,callback) ->
-  ifje = (r)->
-    try
-      if r.text.match regex
-        callback(regex.exec(r.text), r)
-    catch e
-      console.log e
-    
-  @on 'user:private', ifje
-  @on 'user:talk', ifje
-    
-
-fat.Bot::command = (regex, callback) ->
-  ifje = (r)->
-    try
-      if r.text.match regex
-        callback(r)
-    catch e
-      console.log e
-
-  @on 'user:private', ifje
-  @on 'user:talk', ifje
-
-
 require("./scripts/getglue")(bot)
 require("./scripts/seen")(bot)
 require("./scripts/set-get")(bot)
+require("./scripts/novickar")(bot)
 
 bot.command /^dz0ny dz0ny/i, (r) ->
   r.reply "#{r.nick}: Enkrat bo dovolj, prosim4!"
 
 bot.command /^jutro/i, (r) ->
   r.reply "Jutro #{r.nick} !"
-
-bot.command /l4d2/i, (r) ->
-  r.reply "♥ l4d2 ♥"
 
 bot.command /^dan/i, (r) ->
   r.reply "Dan #{r.nick} !"
@@ -64,7 +38,9 @@ bot.command /^.pomo[čc]/i, (r) ->
     .film <delni naslov> -- Dobi podatke o filmu
     .tv <delni naslov> -- Dobi podatke o seriji
     .shrani <ključ> <sporočilo> -- Shrani nekaj v shrambo
-    .dobi <ključ> Dobi nekaj iz shrambe
+    .dobi <ključ> -- Dobi nekaj iz shrambe
+    .naroči -- Prijavi se na novice 
+    .odjavi -- Odjavi se od novic
   """
   r.privmsg msg
 
