@@ -32,10 +32,10 @@ replace_urls = (text, entities) ->
 module.exports = (bot) ->
   get_ids (ids) ->
     stream = new Twitter
-      consumer_key: 'sX8FjMwjIJabSZE29A'
-      consumer_secret: 'bisqqFQ4kkJxnnYhNCcpncQa8PJOY85gak5bfVYed0'
-      access_token_key: '16441340-4nBD2qPoq6pRzmagLHXiKa7fELcmFdAoHIngrODbs'
-      access_token_secret: 'eF8dUXwEtndbXBiqFQAstMXI30jpIeT6sVMoTf9F5Y'
+      consumer_key: process.env.T_CK
+      consumer_secret: process.env.T_CS
+      access_token_key: process.env.T_ATK
+      access_token_secret: process.env.T_ATS
       follow: ids
 
     stream.stream()
@@ -56,12 +56,12 @@ module.exports = (bot) ->
     
   bot.command /^\.naroči/i, (r) ->
     redis.sadd("irc:novickar", r.nick).then (status)->
-      r.privmsg "Naročen na novice #{!!status?'OK':status}"
+      r.privmsg "Naročen na novice #{!status?'OK':status}"
       redis.smembers("irc:novickar").then (nicks)->
         console.log "Naročeni: #{nicks}"
 
   bot.command /^\.odjavi/i, (r) ->
     redis.srem("irc:novickar", r.nick).then (status)->
-      r.privmsg "Odjavljen od novic #{!!status?'OK':status}"
+      r.privmsg "Odjavljen od novic #{!status?'OK':status}"
       redis.smembers("irc:novickar").then (nicks)->
         console.log "Naročeni: #{nicks}"
