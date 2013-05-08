@@ -1,8 +1,4 @@
-redis = require('then-redis').createClient()
-moment = require 'moment'
 request = require 'request'
-moment.lang("sl")
-
 
 gimdb = (naslov, cb)->
   fetch "http://www.omdbapi.com/?t=#{encodeURI(naslov)}", (data)-> 
@@ -63,16 +59,24 @@ najditv = (naslov, cb)->
           cb "#{t.title} - #{t.url} #{t.summary}"
 module.exports = (bot) ->
 
-  bot.command /^\.vkinu/i, (r) ->
-     vkinu(r.reply)
+  bot.command /^\.vkinu/i,
+    ".vkinu -- Kaj je popularno v kinu (svetovno)",
+    (r) ->
+      vkinu(r.reply)
 
-  bot.command /^\.natv/i, (r) ->
-     natv(r.reply)
+  bot.command /^\.natv/i,
+    ".natv -- Kaj je popularno na TV (svetovno)",
+    (r) ->
+      natv(r.reply)
 
-  bot.regexp /^.film (.+)/, (match, r) ->
-    f = match[1]
-    najdifilm f, r.reply
+  bot.regexp /^.film (.+)/,
+    ".film <delni naslov> -- Dobi podatke o filmu",
+    (match, r) ->
+      f = match[1]
+      najdifilm f, r.reply
   
-  bot.regexp /^.tv (.+)/, (match, r) ->
-    f = match[1]
-    najditv f, r.reply
+  bot.regexp /^.tv (.+)/,
+    ".tv <delni naslov> -- Dobi podatke o seriji",
+    (match, r) ->
+      f = match[1]
+      najditv f, r.reply

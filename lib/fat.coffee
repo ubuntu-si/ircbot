@@ -33,9 +33,9 @@ class Bot extends events.EventEmitter
   constructor: (settings, nick, channels) ->
 
     # Read package.json
-    file = fs.readFileSync __dirname + '/package.json', 'utf-8'
+    file = fs.readFileSync __dirname + '/../package.json', 'utf-8'
     @package =  JSON.parse file
-
+    @help = ["Pomoč:"]
     if typeof settings is 'string'
       @settings.server = settings
       @settings.nick = nick
@@ -184,7 +184,11 @@ class Bot extends events.EventEmitter
 Built-in extensions
 ###
 
-Bot::regexp = (regex,callback) ->
+Bot::regexp = (regex, pomoc, callback) ->
+  if typeof pomoc is "function"
+    callback = pomoc
+  else
+    @help.push pomoc
   ifje = (r)->
     try
       if r.text.match regex
@@ -196,7 +200,11 @@ Bot::regexp = (regex,callback) ->
   @on 'user:talk', ifje
     
 
-Bot::command = (regex, callback) ->
+Bot::command = (regex, pomoc, callback) ->
+  if typeof pomoc is "function"
+    callback = pomoc
+  else
+    @help.push pomoc
   ifje = (r)->
     try
       if r.text.match regex

@@ -1,16 +1,18 @@
 redis = require('then-redis').createClient()
 Twitter = require './lib/stream-tw'
 request = require 'request'
+_ = require 'underscore'
 
 sledi = """
 BBCBreaking
 wired
+cnnbrk
 hackerSi
 BreakingNews
 radiostudent
 24ur_com
 rtvslo
-newsycombinator
+HNTweets
 mashsocialmedia
 """.split('\n')
 
@@ -26,8 +28,6 @@ replace_urls = (text, entities) ->
   for u in entities
     text = text.replace u.url, u.expanded_url
   return text
-
-
 
 module.exports = (bot) ->
   get_ids (ids) ->
@@ -54,14 +54,18 @@ module.exports = (bot) ->
       catch e
         console.log e
     
-  bot.command /^\.naroči/i, (r) ->
-    redis.sadd("irc:novickar", r.nick).then (status)->
-      r.privmsg "Naročen na novice #{!status?'OK':status}"
-      redis.smembers("irc:novickar").then (nicks)->
-        console.log "Naročeni: #{nicks}"
+  bot.command /^\.naroči/i,
+    ".naroči -- Prijavi se na novice (#{sledi.split('\n')})",
+    (r) ->
+      redis.sadd("irc:novickar", r.nick).then (status)->
+        r.privmsg "Naročen na novice #{!!status?'OK':status}"
+        redis.smembers("irc:novickar").then (nicks)->
+          console.log "Naročeni: #{nicks}"
 
-  bot.command /^\.odjavi/i, (r) ->
-    redis.srem("irc:novickar", r.nick).then (status)->
-      r.privmsg "Odjavljen od novic #{!status?'OK':status}"
-      redis.smembers("irc:novickar").then (nicks)->
-        console.log "Naročeni: #{nicks}"
+  bot.command /^\.odjavi/i,
+    ".odjavi -- Odjavi se od novic (#{sledi.split('\n')})",
+    (r) ->
+      redis.srem("irc:novickar", r.nick).then (status)->
+        r.privmsg "Odjavljen od novic #{!!status?'OK':status}"
+        redis.smembers("irc:novickar").then (nicks)->
+          console.log "Naročeni: #{nicks}"
