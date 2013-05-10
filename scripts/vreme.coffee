@@ -24,7 +24,7 @@ yql = (yqlq, cbl) ->
         uri: uri
       , (error, response, body) ->
         redis.set "yqlqh:#{hash}", body
-        redis.expire "yqlqh:#{hash}", 60 #1 minuto
+        redis.expire "yqlqh:#{hash}", 60*8 #8minut
         body = JSON.parse(body)
         cbl body.query.results
     else
@@ -72,8 +72,56 @@ arso = (key, cb) ->
             data = JSON.parse(data)
             dez = data.radar.rain_level
             toca = data.hailprob.hail_level
+            napoved = data.forecast.data
+            if dez is 0
+              oblacnost = 0
+              deznost = 0
+              stej = 0
+              cez_dvanajst_ur = moment().add('h', 12)
+              sedaj = moment()
+              for f in napoved
+                """
+                  BIG IF, ni ravno šloganje sam vseeeno :)
+                """
+                if moment(f.forecast_time).isAfter(sedaj) and moment(f.forecast_time).isBefore(cez_dvanajst_ur)
+                  oblacnost += f.clouds
+                  deznost += f.rain
+                  stej++
+              if (deznost/stej)>50 and (oblacnost/stej)>50
+                msg_toca_dez = "V naslednjih 12 urah je možnost neviht"
+              else if (oblacnost/stej)>50
+                msg_toca_dez = "V naslednjih 12 urah je možno oblačno vreme"
+              else if (deznost/stej)>50
+                msg_toca_dez = "V naslednjih 12 urah so možne padavine"
+              else
+                msg_toca_dez = "V naslednjih 12 urah se obeta lepo vreme :)"
+              
+            else
+              dezm = switch dez
+                when 25 then "Šibke padavine"
+                when 50 then "Zmerne padavine"
+                when 75 then "Močne padavine"
+                when 100 then "Ekstremne padavine"
+                else ""
+
+              tocam = switch toca
+                when 0 then "zelo majhno"
+                when 33 then "zaznavno"
+                when 66 then "srednjo"
+                when 100 then "veliko"
+                else ""
+              msg_toca_dez = "#{dezm} z #{tocam} verjetnostjo toče! @#{data.radar.updated_text}"
+
             ###
-              TODO: Malce bolj človeške podatke kaj pomeni dež 33%(rahel dež?)
+              Vremenski radar na Lisci pri Sevnici sproti meri padavine nad Slovenijo in njeno bližnjo okolico.
+              Slika prikazuje razporeditev in jakost padavin, izmerjenih vsakih 10 minut.
+              Čas meritve je podan v univerzalnem koordiniranem času UTC; ustrezni uradni čas v Sloveniji je za
+              eno uro (pozimi) oziroma za dve uri (poleti) večji. Jakost padavin je predstavljena s štirimi razredi:
+              šibka (LOW), zmerna (MED), močna (HGH) in ekstremna (EXT) z možno točo.
+
+              Barve označujejo verjetnost, da se ob prikazanem času na obarvanih območjih pojavlja toča 
+              (zelena - ZELO MAJHNA, rumena - ZAZNAVNA; oranžna - MED/medium SREDNJA; rdeča - HGH/high VELIKA)
+
             ###
             yql 'select metData.domain_altitude, metData.t, metData.tsValid_issued, metData.domain_longTitle, metData.domain_lat, metData.domain_lon from xml where url in (select title from atom where url="http://spreadsheets.google.com/feeds/list/0AvY_vCMQloRXdE5HajQxUGF5ZEZYUjhKNG9EeVl2bFE/od6/public/basic")',
               (lokacije)->
@@ -84,7 +132,7 @@ arso = (key, cb) ->
                   return a - b;
                 kraj = _.first(lokacije)
                 console.log kraj           
-                cb "ARSO: #{kraj.metData.domain_longTitle} (#{kraj.metData.domain_altitude}m): #{kraj.metData.t}°C, Dež: #{dez}%, Možnost toče: #{toca}% @#{kraj.metData.tsValid_issued}"
+                cb """ARSO: #{kraj.metData.domain_longTitle} (#{kraj.metData.domain_altitude}m): #{kraj.metData.t}°C @#{kraj.metData.tsValid_issued}.\n#{msg_toca_dez}"""
                 vreme2 loc.lat, loc.lng, (msg)->
                   cb msg
           else
