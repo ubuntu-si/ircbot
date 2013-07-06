@@ -87,14 +87,14 @@ arso = (key, cb) ->
                   oblacnost += f.clouds
                   deznost += f.rain
                   stej++
-              if (deznost/stej)>50 and (oblacnost/stej)>50
+              if (deznost/stej)>5 and (oblacnost/stej)>5
                 msg_toca_dez = "V naslednjih 12 urah je možnost neviht"
-              else if (oblacnost/stej)>50
-                msg_toca_dez = "V naslednjih 12 urah je možno oblačno vreme"
-              else if (deznost/stej)>50
+              else if (oblacnost/stej)>0
+                msg_toca_dez = "V naslednjih 12 urah je predvidena oblačnost"
+              else if (deznost/stej)>0
                 msg_toca_dez = "V naslednjih 12 urah so možne padavine"
               else
-                msg_toca_dez = "V naslednjih 12 urah se obeta lepo vreme :)"
+                msg_toca_dez = "V naslednjih 12 urah se obeta stabilno vreme :)"
               
             else
               dezm = switch dez
@@ -132,7 +132,7 @@ arso = (key, cb) ->
                   return a - b;
                 kraj = _.first(lokacije)
                 console.log kraj           
-                cb """ARSO: #{kraj.metData.domain_longTitle} (#{kraj.metData.domain_altitude}m): #{kraj.metData.t}°C @#{kraj.metData.tsValid_issued}.\n#{msg_toca_dez}"""
+                cb """ARSO: #{kraj.metData.domain_longTitle} (#{kraj.metData.domain_altitude}m): #{kraj.metData.t}°C @#{kraj.metData.tsValid_issued}.\n#{msg_toca_dez}\nhttp://forecast.io/#/f/#{loc.lat},#{loc.lng}"""
                 vreme2 loc.lat, loc.lng, (msg)->
                   cb msg
           else
