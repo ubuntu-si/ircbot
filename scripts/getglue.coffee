@@ -98,11 +98,6 @@ module.exports = (bot) ->
     (r) ->
       natv(r.reply)
 
-  bot.command /^\.plosk/i,
-    ".clap -- Zaploskaj",
-    (r) ->
-      r.reply "Chapeau! http://www.youtube.com/watch?v=TAryFIuRxmQ"
-
   bot.regexp /^.film (.+)/,
     ".film <delni naslov> -- Dobi podatke o filmu",
     (match, r) ->
