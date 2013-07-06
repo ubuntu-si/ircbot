@@ -6,7 +6,6 @@
   "scripts": {
     "start": "./node_modules/.bin/coffee ./bot.coffee"
   },
-
   "repository": "",
   "private": true,
   "author": "dz0ny",
@@ -21,6 +20,7 @@
     "youtube-feeds": "latest",
     "then-redis": "latest",
     "request": "~2.21.0",
-    "oauth": "~0.9.10"
+    "oauth": "~0.9.10",
+    "humanize": "0.0.7"
   }
 }
