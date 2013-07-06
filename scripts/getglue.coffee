@@ -1,4 +1,7 @@
 request = require 'request'
+_ = require 'underscore'
+youtube = require("youtube-feeds")
+youtube.httpProtocol = "https"
 
 gimdb = (naslov, cb)->
   fetch "http://www.omdbapi.com/?t=#{encodeURI(naslov)}", (data)-> 
@@ -8,17 +11,32 @@ gimdb = (naslov, cb)->
       cb "NP"
 
 fixyt = (url)->
-  return url.replace("/v/", "/watch?v=")
+  if url
+    return url.replace("/v/", "/watch?v=").replace("&feature=youtube_gdata_player", "")
+  else
+    return ""
 
 random = (ar)->
   return ar[Math.floor(Math.random() * ar.length)];
+
+yt = (qq, cb) ->
+  youtube.feeds.videos
+    q: qq
+    "max-results": 5
+  , (err, data) ->
+    unless err
+      cb fixyt(_.first(data.items).player.default)
+    else
+      cb "Ni zadetka"
 
 fetch = (url, cb)->
   request.get url, (e, r, body)->
 
     if !e and r.statusCode is 200
+      console.log body
       cb(JSON.parse(body))
     else
+      console.log e
       cb false
 
 _get = (api, cb)->
@@ -39,25 +57,36 @@ vkinu = (cb)->
             cb "#{t.title} - #{fixyt(t.trailer_link)} [IMDB:#{imdb}] #{t.summary}"
 
 natv = (cb)->
-    tv = _get "trending/?category=tv_shows&numItems=10", (vkinu)->
-      if vkinu
-        filmi = random(vkinu.items)
+    _get "trending/?category=tv_shows&numItems=10", (data)->
+      if data
+        filmi = random(data.items)
         _object filmi.objectKey, (t)->
           cb "#{t.title} - #{fixyt(t.trailer_link)} #{t.summary}"
 
 najdifilm = (naslov, cb)->
-    tv = _get "search/objects?q=#{encodeURI(naslov)}&category=movies", (vkinu)->
-      if vkinu
-        _object vkinu.objects[0].id, (t)->
-          gimdb t.title, (imdb)->
-            cb "#{t.title} (#{t.year})[IMDB:#{imdb}] - #{fixyt(t.trailer_link)} #{t.summary}"
+    _get "search/objects?q=#{encodeURI(naslov)}&category=movies", (data)->
+      if data and data.objects.length > 0
+        _object _.first(data.objects).id, (t)->
+          if t.trailer_link
+            cb "#{t.title} (#{t.year}) - #{fixyt(t.trailer_link)} #{t.summary}"
+          else
+            yt "#{t.title} #{t.director} #{t.year} trailer", (trailer)->
+              cb "#{t.title} (#{t.year}) - #{fixyt(trailer)} #{t.summary}"
 
 najditv = (naslov, cb)->
-    tv = _get "search/objects?q=#{encodeURI(naslov)}&category=tv_shows", (vkinu)->
-      if vkinu
-        _object vkinu.objects[0].id, (t)->
-          cb "#{t.title} - #{t.url} #{t.summary}"
+    _get "search/objects?q=#{encodeURI(naslov)}&category=tv_shows", (data)->
+      if data and data.objects.length > 0
+        _object _.first(data.objects).id, (t)->
+          yt "#{t.title} trailer", (trailer)->
+            cb "#{t.title} - #{t.trailer} #{t.summary}"
+
 module.exports = (bot) ->
+
+  bot.regexp /^.yt (.+)/,
+    ".yt <iskalni niz> -- Išči na youtube",
+    (match, r) ->
+      f = match[1]
+      yt(f, r.reply)
 
   bot.command /^\.vkinu/i,
     ".vkinu -- Kaj je popularno v kinu (svetovno)",
