@@ -24,21 +24,16 @@ isUp = (domain, cb) ->
     headers: default_headers,
     method: 'GET',
   }, (err, res, body) ->
-    console.log domain
-    console.log domain.replace(" ", "")
-    console.log body
-    console.log err
-    console.log res
     unless err
       response = JSON.parse(body)
       if response.status_code is 1
-        cb "#{response.domain}(#{response.response_ip}) looks UP from here."
+        cb "#{response.domain}(#{response.response_ip}) JE dosegljiva."
       else if response.status_code is 2
-        cb "#{response.domain}(#{response.response_ip}) looks DOWN from here."
+        cb "#{response.domain}(#{response.response_ip}) NI dosegljiva."
       else if response.status_code is 3
-        cb "Are you sure '#{response.domain}' is a valid domain?"
+        cb "Si prepričan da je '#{response.domain}' res domena?"
       else
-        cb "Not sure, #{response.domain} returned an error."
+        cb "Neznano za #{response.domain}."
     else
       cb "API limit"
 

@@ -13,7 +13,7 @@ require("./scripts/getglue")(bot)
 require("./scripts/seen")(bot)
 require("./scripts/set-get")(bot)
 require("./scripts/vreme")(bot)
-require("./scripts/kuki")(bot)
+#require("./scripts/kuki")(bot)
 -if process.env.T_CK?
   require("./scripts/novickar")(bot)
 
