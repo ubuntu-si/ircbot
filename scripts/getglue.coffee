@@ -80,7 +80,7 @@ module.exports = (bot) ->
       , (err, data) ->
         unless err
           izbran = _.first(data.items)
-          r.reply "#{izbran.title}(#{moment.duration(izbran.duration, 'seconds').humanize()}) #{fixyt(izbran.player.default)} ♥#{humanize.numberFormat(izbran.likeCount)} ▶#{humanize.numberFormat(izbran.viewCount)}"
+          r.reply "#{izbran.title}(#{moment.duration(izbran.duration, 'seconds').humanize()}) #{fixyt(izbran.player.default)} ♥#{humanize.numberFormat(izbran.likeCount,0)} ▶#{humanize.numberFormat(izbran.viewCount,0)}"
         else
           r.reply "Ni zadetka"
 
@@ -91,7 +91,7 @@ module.exports = (bot) ->
       fetch "http://api.soundcloud.com/tracks.json?order=hotness&client_id=93e33e327fd8a9b77becd179652272e2&q=#{encodeURI(f)}", (data) ->
         if data
           izbran = _.first(data)
-          r.reply "#{izbran.title}(#{moment.duration(izbran.duration).humanize()}) #{izbran.permalink_url} ♥#{humanize.numberFormat(izbran.favoritings_count)} ▶#{humanize.numberFormat(izbran.playback_count)}"
+          r.reply "#{izbran.title}(#{moment.duration(izbran.duration).humanize()}) #{izbran.permalink_url} ♥#{humanize.numberFormat(izbran.favoritings_count,0)} ▶#{humanize.numberFormat(izbran.playback_count,0)}"
         else
           r.reply "Ni zadetka"
 
