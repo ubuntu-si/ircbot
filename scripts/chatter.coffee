@@ -171,3 +171,7 @@ module.exports = (bot) ->
   bot.regexp /botsnack/i, (match, r) ->
     r.reply random snacks
 
+  bot.command /^\.plosk/i,
+    ".plosk -- Zaploskaj",
+    (r) ->
+      r.reply "Chapeau! http://www.youtube.com/watch?v=TAryFIuRxmQ"
