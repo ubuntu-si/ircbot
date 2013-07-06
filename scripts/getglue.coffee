@@ -48,21 +48,6 @@ _object = (api, cb)->
     url = "http://ws.guide.getglue.com/v4/objects/#{api}?token=hOAksHX9QsObO24IbywobRCkMYbDg9yIp7KVp3Cf8Vtf-1617243277&app=WebsiteHD"
     fetch url, cb
 
-vkinu = (cb)->
-    _get "guides/suggestions/new_releases?category=new_releases&name=movies_in_theaters&order=relevance&limit=5", (vkinu)->
-      if vkinu
-        filmi = random(vkinu.items)
-        _object filmi.objectKey, (t)->
-          gimdb t.title, (imdb)->
-            cb "#{t.title} - #{fixyt(t.trailer_link)} [IMDB:#{imdb}] #{t.summary}"
-
-natv = (cb)->
-    _get "trending/?category=tv_shows&numItems=10", (data)->
-      if data
-        filmi = random(data.items)
-        _object filmi.objectKey, (t)->
-          cb "#{t.title} - #{fixyt(t.trailer_link)} #{t.summary}"
-
 najdifilm = (naslov, cb)->
     _get "search/objects?q=#{encodeURI(naslov)}&category=movies", (data)->
       if data and data.objects.length > 0
@@ -85,27 +70,25 @@ module.exports = (bot) ->
   bot.regexp /^.yt (.+)/,
     ".yt <iskalni niz> -- Išči na youtube",
     (match, r) ->
-      f = match[1]
-      yt(f, r.reply)
-
-  bot.command /^\.vkinu/i,
-    ".vkinu -- Kaj je popularno v kinu (svetovno)",
-    (r) ->
-      vkinu(r.reply)
-
-  bot.command /^\.natv/i,
-    ".natv -- Kaj je popularno na TV (svetovno)",
-    (r) ->
-      natv(r.reply)
+      f = match[1].trim()
+      youtube.feeds.videos
+        q: f
+        "max-results": 5
+      , (err, data) ->
+        unless err
+          izbran = _.first(data.items)
+          r.reply "#{izbran.title} #{fixyt(izbran.player.default)}(#{moment(izbran.duration).format('h:mm:ss')}) #{izbran.likeCount}(všeč)/#{izbran.viewCount}(ogledov)"
+        else
+          r.reply "Ni zadetka"
 
   bot.regexp /^.film (.+)/,
     ".film <delni naslov> -- Dobi podatke o filmu",
     (match, r) ->
-      f = match[1]
+      f = match[1].trim()
       najdifilm f, r.reply
   
   bot.regexp /^.tv (.+)/,
     ".tv <delni naslov> -- Dobi podatke o seriji",
     (match, r) ->
-      f = match[1]
+      f = match[1].trim()
       najditv f, r.reply
