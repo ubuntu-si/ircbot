@@ -86,6 +86,7 @@ class Bot extends events.EventEmitter
 
   prepEvents: ->
     @client.on 'error', (err) ->
+      console.log err
       @emit 'client:error', err
 
     @client.on 'registered', (msg) =>
