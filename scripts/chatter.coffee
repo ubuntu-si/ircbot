@@ -1,4 +1,3 @@
-redis = require('then-redis').createClient()
 moment = require 'moment'
 request = require 'request'
 cleverbot = require('cleverbot-node')
@@ -144,10 +143,7 @@ module.exports = (bot) ->
       data = match[1].trim()
       c.write data, (c) =>
         r.reply c.message
-  bot.command /^\.plosk/i,
-    ".clap -- Zaploskaj",
-    (r) ->
-      r.reply "Chapeau! http://www.youtube.com/watch?v=TAryFIuRxmQ"
+
   bot.regexp /^\[?sp\]?:? (.+)/i,
     (match, r) ->
       data = match[1].trim()

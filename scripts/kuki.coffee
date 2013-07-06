@@ -1,4 +1,3 @@
-redis = require('then-redis').createClient()
 moment = require 'moment'
 moment.lang("sl")
 spawn = require("child_process").spawn

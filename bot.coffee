@@ -1,8 +1,21 @@
 fat = require './lib/fat'
-redis = require('then-redis').createClient()
+http = require 'http'
 
+redis_settings = {
+  parser: "javascript"
+}
 
+if process.env.OPENSHIFT_REDIS_HOST?
+  console.log process.env.OPENSHIFT_REDIS_PORT, process.env.OPENSHIFT_REDIS_HOST, redis_settings
+  global.redis = require('then-redis').createClient(process.env.OPENSHIFT_REDIS_PORT, process.env.OPENSHIFT_REDIS_HOST, redis_settings)
+  redis.auth process.env.REDIS_PASSWORD
+else
+  global.redis = require('then-redis').createClient()
 
+redis.on "error", (err)->
+  console.log err
+redis.info (err, reply) ->
+  console.log err, reply
 bot = new fat.Bot
   server:   'freenode',
   nick:   process.env.IRC_NICK || 'breza',
@@ -23,7 +36,9 @@ bot.command /^.pomo[čc]$/i, (r) ->
 
 bot.connect()
 
+
 process.on "uncaughtException", (err) ->
+  console.log err
   try
     bot.say err.toString(), "dz0ny"
   catch e

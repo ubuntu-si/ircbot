@@ -1,4 +1,3 @@
-redis = require('then-redis').createClient()
 request = require 'request'
 moment = require 'moment'
 crypto = require 'crypto'

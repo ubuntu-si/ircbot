@@ -1,4 +1,3 @@
-redis = require('then-redis').createClient()
 crypto = require 'crypto'
 
 module.exports = (bot) ->
