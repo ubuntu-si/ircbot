@@ -2,6 +2,7 @@ request = require 'request'
 _ = require 'underscore'
 youtube = require("youtube-feeds")
 youtube.httpProtocol = "https"
+moment = require 'moment'
 
 gimdb = (naslov, cb)->
   fetch "http://www.omdbapi.com/?t=#{encodeURI(naslov)}", (data)-> 
@@ -78,6 +79,17 @@ module.exports = (bot) ->
         unless err
           izbran = _.first(data.items)
           r.reply "#{izbran.title} #{fixyt(izbran.player.default)}(#{moment(izbran.duration).format('h:mm:ss')}) #{izbran.likeCount}(všeč)/#{izbran.viewCount}(ogledov)"
+        else
+          r.reply "Ni zadetka"
+
+  bot.regexp /^.sc (.+)/,
+    ".sc <iskalni niz> -- Išči na soundcloud",
+    (match, r) ->
+      f = match[1].trim()
+      fetch "http://api.soundcloud.com/tracks.json?order=hotness&client_id=93e33e327fd8a9b77becd179652272e2&q=#{encodeURI(f)}", (data) ->
+        if data
+          izbran = _.first(data)
+          r.reply "#{izbran.title} #{izbran.permalink_url}"
         else
           r.reply "Ni zadetka"
 
