@@ -2,19 +2,23 @@
   "name": "ircbot",
   "version": "0.0.1",
   "description": "#ubuntu-si bot",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "./node_modules/.bin/coffee ./bot.coffee"
   },
+
   "repository": "",
-  "author": "",
+  "private": true,
+  "author": "dz0ny",
   "license": "BSD",
   "dependencies": {
     "irc": "0.3.4",
+    "cleverbot-node": "latest",
     "underscore": "1.4.x",
     "sty": "0.6.x",
     "coffee-script": "~1.6.2",
     "moment": "~2.0.0",
+    "youtube-feeds": "latest",
     "then-redis": "~0.3.4",
     "request": "~2.21.0",
     "oauth": "~0.9.10"
