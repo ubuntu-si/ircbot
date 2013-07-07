@@ -6,9 +6,12 @@ redis_settings = {
 }
 
 if process.env.OPENSHIFT_REDIS_HOST?
-  console.log process.env.OPENSHIFT_REDIS_PORT, process.env.OPENSHIFT_REDIS_HOST, redis_settings
-  global.redis = require('then-redis').createClient(process.env.OPENSHIFT_REDIS_PORT, process.env.OPENSHIFT_REDIS_HOST, redis_settings)
-  redis.auth process.env.REDIS_PASSWORD
+  global.redis = require('then-redis').createClient({
+    host: process.env.OPENSHIFT_REDIS_HOST,
+    port: process.env.OPENSHIFT_REDIS_PORT,
+    database: 1,
+    password: process.env.REDIS_PASSWORD
+  })
 else
   global.redis = require('then-redis').createClient()
 
