@@ -107,26 +107,6 @@ snacks = [
 module.exports = (bot) ->
   c = new cleverbot()
 
-  interv = false
-  running = false
-  msgs = []
-  nickg = false
-
-  poslji = ()=>
-    
-    skupaj = msgs.join("<br>")
-    title = skupaj.slice(0,140).replace("<br>", " ")
-    spmj = {
-      title:title,
-      msg:skupaj,
-      nick: nickg
-    }
-    console.log spmj
-    request.post("http://ubuntusilog-node10.rhcloud.com/v1/sporocilo").form(spmj)
-    running = false
-    msgs = []
-    nickg = false
-
   bot.regexp /^\.stran (.*)/i,
   ".stran <domena> -- Ali stran dela?",
   (match, r) ->
@@ -143,19 +123,6 @@ module.exports = (bot) ->
       data = match[1].trim()
       c.write data, (c) =>
         r.reply c.message
-
-  bot.regexp /^\[?sp\]?:? (.+)/i,
-    (match, r) ->
-      data = match[1].trim()
-
-      unless nickg
-        nickg = r.nick
-
-      msgs.push "<#{r.nick}> #{data}"
-      console.log "<#{r.nick}> #{data}"
-      clearTimeout interv
-      interv = setTimeout poslji, 15000
-
 
   bot.regexp /^(zdravo|hi|dan)$/i, (match, r) ->
     hello = random hellos

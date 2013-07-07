@@ -1,9 +1,4 @@
 fat = require './lib/fat'
-http = require 'http'
-
-redis_settings = {
-  parser: "javascript"
-}
 
 if process.env.OPENSHIFT_REDIS_HOST?
   global.redis = require('then-redis').createClient({
@@ -29,6 +24,7 @@ require("./scripts/getglue")(bot)
 require("./scripts/seen")(bot)
 require("./scripts/set-get")(bot)
 require("./scripts/vreme")(bot)
+require("./scripts/sp")(bot)
 #require("./scripts/kuki")(bot)
 -if process.env.T_CK?
   require("./scripts/novickar")(bot)
@@ -38,7 +34,6 @@ bot.command /^.pomo[čc]$/i, (r) ->
   r.privmsg msg
 
 bot.connect()
-
 
 process.on "uncaughtException", (err) ->
   console.log err
