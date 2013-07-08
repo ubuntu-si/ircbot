@@ -74,7 +74,7 @@ module.exports = (bot) ->
       nick: nickg,
       date: moment()
     }
-    redis.lpush("sp_25", JSON.stringify(spmj)).then ->
+    redis.lpush("irc:sp", JSON.stringify(spmj)).then ->
       redis.ltrim(0, 24).then ->
         console.log "saved an trimmed" 
     running = false
@@ -84,7 +84,7 @@ module.exports = (bot) ->
   bot.regexp /^\.sp/i,
   ".sp -- Prikaži zadnjih 5 sporočil prevajalcem",
   (match, r) ->
-    redis.lrange("sp25", 0, 4).then (data)->
+    redis.lrange("irc:sp", 0, 4).then (data)->
       for msg in data
         r.reply JSON.parse(msg).skupaj.replace("<br>", "\n")
   
@@ -100,7 +100,7 @@ module.exports = (bot) ->
 
       msgs.push "<#{r.nick}> #{data}"
       clearTimeout interv
-      interv = setTimeout poslji, 15000
+      interv = setTimeout poslji, 9000
 
 
 app.get "/feed", (req, res) ->
@@ -111,7 +111,7 @@ app.get "/feed", (req, res) ->
     description: "Sporočila za ubuntu prevajalce"
     author: "dz0ny"
   )
-  redis.lrange("sp25", 0, -1).then (data)->
+  redis.lrange("irc:sp", 0, -1).then (data)->
     for msg in data
       m = JSON.parse(msg)
       rssFeed.item({
