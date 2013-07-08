@@ -30,6 +30,33 @@ io.enable('browser client gzip')
 io.set('log level', 1)  
 ## ENDOF SOCKET IO
 
+http = require("http")
+express = require("express")
+
+app = express()
+
+app.set "port", process.env.OPENSHIFT_NODEJS_PORT or 8080
+app.set "host", process.env.OPENSHIFT_NODEJS_IP or "127.0.0.1"
+app.set "views", __dirname + "/views"
+app.set "view engine", "jade"
+app.use express.favicon()
+app.use express.compress()
+app.use express.logger("dev")
+app.use express.cookieParser()
+app.use express.bodyParser()
+app.use express.methodOverride()
+app.use app.router
+app.use express.static(path.join(__dirname, "public", "dist"))
+server = http.createServer(app)
+
+## SOCKET IO
+io = sxoket_io.listen(server)
+io.enable('browser client minification')  
+io.enable('browser client etag')   
+io.enable('browser client gzip')      
+io.set('log level', 1)  
+## ENDOF SOCKET IO
+
 module.exports = (bot) ->
 
   interv = false

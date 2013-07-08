@@ -38,7 +38,7 @@ module.exports = (bot) ->
         else
           r.reply "#{r.nick}: O čemu ti to?"
 
-  bot.regexp /^\.sporoči (.*)$/,
+  bot.regexp /^\.sporoči (.*)/,
     ".sporoči <nick> <sporočilo> -- Pošlji sporočilo uporabniku, če ni prisoten",
     (match, r) ->
       usr = r.text.replace(".sporoči ", "").split(" ")[0]
