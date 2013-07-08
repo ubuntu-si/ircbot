@@ -18,8 +18,8 @@ app.use express.logger("dev")
 app.use express.cookieParser()
 app.use express.bodyParser()
 app.use express.methodOverride()
-app.use app.router
 app.use express.static(path.join(__dirname, "public", "dist"))
+app.use app.router
 server = http.createServer(app)
 
 ## SOCKET IO
@@ -81,7 +81,7 @@ module.exports = (bot) ->
     msgs = []
     nickg = false
 
-  bot.regexp /^\.sp$/i,
+  bot.regexp /^\.sp/i,
   ".sp -- Prikaži zadnjih 5 sporočil prevajalcem",
   (match, r) ->
     redis.lrange("sp25", 0, 4).then (data)->

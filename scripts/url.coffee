@@ -10,7 +10,9 @@ module.exports = (bot) ->
       msg = "#{r.nick}: #{r.text} @#{moment().toString()}"
       redis.rpush("irc:zgodovina", msg)
 
-  bot.command /^\.url (.+)/,
-    ".url -- Seznam zadnjih 50 povezav",
-    (match, r) ->
-      r.privmsg "Ni še narejeno"
+  bot.regexp /^\.url/i,
+  ".url -- Prikaži zadnjih 5 povezav",
+  (match, r) ->
+    redis.lrange("irc:zgodovina", 0, 4).then (data)->
+      for msg in data
+        r.reply msg
