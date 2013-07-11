@@ -6,10 +6,11 @@ module.exports = (bot) ->
   bot.on 'user:join', (r) ->
     
     redis.lrange("irc:#{r.nick}:pass", 0 , -1).then (msg)->
+      console.log msg
       if msg
         if msg.length > 1
           r.privmsg "Živjo #{r.nick}, par sporočilc imam za tebe :)"
-        else
+
         for m in msg
           r.privmsg m
         redis.del("irc:#{r.nick}:pass")
