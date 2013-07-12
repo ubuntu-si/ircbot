@@ -70,10 +70,11 @@ apt = (paket, cb)=>
   request.get url, (e, r, body)->
     if !e and r.statusCode is 200
       $ = cheerio.load(body)
-      paketi = $ "#psearchres h3"
+      paketi = $("#psearchres h3").map (i, el) ->
+          return $(this).text()
       cisti = []
       for paket in paketi
-        cisti.push paket.replace "Package "
+        cisti.push paket.replace "Package ", ""
       cb cisti.join ", "
     else
       console.log e
@@ -118,8 +119,8 @@ module.exports = (bot) ->
       f = match[1].trim()
       najditv f, r.reply 
 
-  bot.regexp /^.askubuntu (.+)/,
-    ".askubuntu <pojem> -- Išči po askubuntu, če vsebuje !! potem prikaže povezave",
+  bot.regexp /^.asku (.+)/,
+    ".asku <pojem> -- Išči po askubuntu, če vsebuje !! potem prikaže povezave",
     (match, r) ->
       f = match[1].trim()
       res = new HowDoI f, "askubuntu.com"
@@ -146,3 +147,5 @@ module.exports = (bot) ->
     ".apt <paket> -- Najde pakete v packages.ubuntu.com",
     (match, r) ->
       f = match[1].trim()
+      apt f, (answer)->
+        r.reply answer
