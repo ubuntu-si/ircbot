@@ -1,6 +1,4 @@
 Twitter = require './lib/stream-tw'
-request = require 'request'
-_ = require 'underscore'
 
 sledi = [
   "BBCBreaking"

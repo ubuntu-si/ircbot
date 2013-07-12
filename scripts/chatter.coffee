@@ -1,5 +1,3 @@
-moment = require 'moment'
-request = require 'request'
 cleverbot = require('cleverbot-node')
 
 odgovori_spam_prot = (r, msg)->

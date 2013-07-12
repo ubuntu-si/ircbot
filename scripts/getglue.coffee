@@ -1,10 +1,8 @@
-request = require 'request'
-_ = require 'underscore'
 youtube = require("youtube-feeds")
 youtube.httpProtocol = "https"
-moment = require 'moment'
 humanize = require 'humanize'
-moment.lang("sl")
+HowDoI = require './lib/howdoi'
+cheerio = require 'cheerio'
 
 gimdb = (naslov, cb)->
   fetch "http://www.omdbapi.com/?t=#{encodeURI(naslov)}", (data)-> 
@@ -34,9 +32,7 @@ yt = (qq, cb) ->
 
 fetch = (url, cb)->
   request.get url, (e, r, body)->
-
     if !e and r.statusCode is 200
-      console.log body
       cb(JSON.parse(body))
     else
       console.log e
@@ -67,6 +63,21 @@ najditv = (naslov, cb)->
         _object _.first(data.objects).id, (t)->
           yt "#{t.title} trailer", (trailer)->
             cb "#{t.title} - #{t.trailer} #{t.summary}"
+
+
+apt = (paket, cb)=>
+  url = "http://packages.ubuntu.com/search?suite=all&searchon=names&keywords=#{encodeURI(paket)}"
+  request.get url, (e, r, body)->
+    if !e and r.statusCode is 200
+      $ = cheerio.load(body)
+      paketi = $ "#psearchres h3"
+      cisti = []
+      for paket in paketi
+        cisti.push paket.replace "Package "
+      cb cisti.join ", "
+    else
+      console.log e
+      cb "Ne najdem"
 
 module.exports = (bot) ->
 
@@ -105,4 +116,33 @@ module.exports = (bot) ->
     ".tv <delni naslov> -- Dobi podatke o seriji",
     (match, r) ->
       f = match[1].trim()
-      najditv f, r.reply
+      najditv f, r.reply 
+
+  bot.regexp /^.askubuntu (.+)/,
+    ".askubuntu <pojem> -- Išči po askubuntu, če vsebuje !! potem prikaže povezave",
+    (match, r) ->
+      f = match[1].trim()
+      res = new HowDoI f, "askubuntu.com"
+      res.get_answer (answer)->
+        r.reply answer
+
+  bot.regexp /^.stof (.+)/,
+    ".stof <pojem> -- Išči po stackoverflow, če vsebuje !! potem prikaže povezave",
+    (match, r) ->
+      f = match[1].trim()
+      res = new HowDoI f, "stackoverflow.com"
+      res.get_answer (answer)->
+        r.reply answer
+
+  bot.regexp /^.stx (.+)/,
+    ".stx <pojem> -- Išči po stackexchange, če vsebuje !! potem prikaže povezave",
+    (match, r) ->
+      f = match[1].trim()
+      res = new HowDoI f, "stackexchange.com"
+      res.get_answer (answer)->
+        r.reply answer
+
+  bot.regexp /^.apt (.+)/,
+    ".apt <paket> -- Najde pakete v packages.ubuntu.com",
+    (match, r) ->
+      f = match[1].trim()

@@ -1,4 +1,3 @@
-moment = require 'moment'
 RSS = require 'juan-rss'
 path = require 'path'
 

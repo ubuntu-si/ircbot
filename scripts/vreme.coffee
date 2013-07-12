@@ -1,9 +1,4 @@
-request = require 'request'
-moment = require 'moment'
 crypto = require 'crypto'
-_ = require 'underscore'
-
-
 
 oddaljenost = (lat1, lon1, lat2, lon2) ->
   ## http://mathworld.wolfram.com/SphericalTrigonometry.html

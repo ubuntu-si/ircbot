@@ -1,5 +1,3 @@
-moment = require 'moment'
-moment.lang("sl")
 
 module.exports = (bot) ->
 

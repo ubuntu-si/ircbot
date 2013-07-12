@@ -1,5 +1,11 @@
 fat = require './lib/fat'
 
+global.moment = require 'moment'
+global.request = require 'request'
+moment.lang("sl")
+global._ = require 'underscore'
+
+
 if process.env.OPENSHIFT_REDIS_HOST?
   global.redis = require('then-redis').createClient({
     host: process.env.OPENSHIFT_REDIS_HOST,
