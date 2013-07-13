@@ -80,6 +80,36 @@ apt = (paket, cb)=>
       console.log e
       cb "Ne najdem"
 
+aptd = (paket, cb)=>
+  url = "http://packages.ubuntu.com/search?suite=all&searchon=all&keywords=#{encodeURI(paket)}"
+  request.get url, (e, r, body)->
+    if !e and r.statusCode is 200
+      $ = cheerio.load(body)
+      paketi = $("#psearchres h3").map (i, el) ->
+          return $(this).text()
+      cisti = []
+      for paket in paketi
+        cisti.push paket.replace "Package ", ""
+      cb cisti.join ", "
+    else
+      console.log e
+      cb "Ne najdem"
+
+deb = (paket, cb)=>
+  url = "http://packages.ubuntu.com/search?suite=all&arch=any&searchon=names&exact=1&keywords=#{encodeURI(paket)}"
+  request.get url, (e, r, body)->
+    if !e and r.statusCode is 200
+      $ = cheerio.load(body)
+      paketi = $("#psearchres h3").map (i, el) ->
+          return $(this).text()
+      cisti = []
+      for paket in paketi
+        cisti.push paket.replace "Package ", ""
+      cb cisti.join ", "
+    else
+      console.log e
+      cb "Ne najdem"
+
 module.exports = (bot) ->
 
   bot.regexp /^.yt (.+)/,
@@ -144,8 +174,22 @@ module.exports = (bot) ->
         r.reply answer
 
   bot.regexp /^.apt (.+)/,
-    ".apt <paket> -- Najde pakete v packages.ubuntu.com",
+    ".apt <paket> -- Najde pakete po imenu v packages.ubuntu.com",
     (match, r) ->
       f = match[1].trim()
       apt f, (answer)->
+        r.reply answer
+
+  bot.regexp /^.aptd (.+)/,
+    ".aptd <opis> -- Najde pakete po opisu v packages.ubuntu.com",
+    (match, r) ->
+      f = match[1].trim()
+      apt f, (answer)->
+        r.reply answer
+
+  bot.regexp /^.deb (.+)/,
+    ".deb <paket> -- Najde paket po imenu in prikaže opis ter izdaje",
+    (match, r) ->
+      f = match[1].trim()
+      deb f, (answer)->
         r.reply answer
