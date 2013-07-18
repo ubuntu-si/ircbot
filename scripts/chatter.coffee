@@ -3,7 +3,7 @@ cleverbot = require('cleverbot-node')
 odgovori_spam_prot = (r, msg)->
 
   redis.get("irc:antispam").then (anti)->
-    console.log anti
+    logger.log anti
     unless anti
       redis.set "irc:antispam", msg
       redis.expire "irc:antispam", 1800

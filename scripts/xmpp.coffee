@@ -9,9 +9,9 @@ xmpp.connect
 
 module.exports = (bot) ->
   xmpp.on "chat", (from, message) ->
-    console.log "<#{from}> #{message}"
+    logger.log "<#{from}> #{message}"
     redis.smembers("irc:xmpp").then (nicks)->
-      console.log "Naročeni: #{nicks}"
+      logger.log "Naročeni: #{nicks}"
       if nicks?   
         for nick in nicks
           bot.say "#{message}", nick
@@ -28,7 +28,7 @@ module.exports = (bot) ->
       redis.sadd("irc:xmpp", r.nick).then (status)->
         r.privmsg "Naročen na slovenski-prevajalci@im.partych.at"
         redis.smembers("irc:xmpp").then (nicks)->
-          console.log "Naročeni: #{nicks}"
+          logger.log "Naročeni: #{nicks}"
 
   bot.command /^\.odjaviXMMP$/i,
     ".odjaviXMMP -- Odjavi se od slovenski-prevajalci@im.partych.at",
@@ -36,4 +36,4 @@ module.exports = (bot) ->
       redis.srem("irc:xmpp", r.nick).then (status)->
         r.privmsg "Odjavljen od slovenski-prevajalci@im.partych.at"
         redis.smembers("irc:xmpp").then (nicks)->
-          console.log "Naročeni: #{nicks}"
+          logger.log "Naročeni: #{nicks}"

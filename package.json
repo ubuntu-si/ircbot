@@ -12,11 +12,11 @@
   "author": "dz0ny",
   "license": "BSD",
   "dependencies": {
-    "irc": "0.3.4",
+    "irc": "latest",
     "cleverbot-node": "latest",
     "underscore": "1.4.x",
     "sty": "0.6.x",
-    "coffee-script": "~1.6.2",
+    "coffee-script": "1.6.1",
     "moment": "~2.0.0",
     "youtube-feeds": "latest",
     "then-redis": "latest",
@@ -29,6 +29,8 @@
     "simple-xmpp": "~0.1.12",
     "cheerio": "~0.12.0",
     "chai": "~1.7.2",
-    "mocha": "~1.12.0"
+    "mocha": "~1.12.0",
+    "winston": "~0.7.2",
+    "winston-sentry": "0.0.4"
   }
 }

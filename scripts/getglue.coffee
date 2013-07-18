@@ -35,7 +35,7 @@ fetch = (url, cb)->
     if !e and r.statusCode is 200
       cb(JSON.parse(body))
     else
-      console.log e
+      logger.log e
       cb false
 
 _get = (api, cb)->
@@ -77,7 +77,7 @@ apt = (paket, cb)=>
         cisti.push paket.replace "Package ", ""
       cb cisti.join ", "
     else
-      console.log e
+      logger.log e
       cb "Ne najdem"
 
 aptd = (paket, cb)=>
@@ -92,7 +92,7 @@ aptd = (paket, cb)=>
         cisti.push paket.replace "Package ", ""
       cb cisti.join ", "
     else
-      console.log e
+      logger.log e
       cb "Ne najdem"
 
 deb = (paket, cb)=>
@@ -107,7 +107,7 @@ deb = (paket, cb)=>
         cisti.push paket.replace "Package ", ""
       cb cisti.join ", "
     else
-      console.log e
+      logger.log e
       cb "Ne najdem"
 
 module.exports = (bot) ->

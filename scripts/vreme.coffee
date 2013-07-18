@@ -12,7 +12,7 @@ yql = (yqlq, cbl) ->
   uri = "http://query.yahooapis.com/v1/public/yql?format=json&q=" + encodeURIComponent(yqlq)
   hash = crypto.createHash('md5').update(yqlq).digest("hex")
   redis.get("yqlqh:#{hash}").then (cached)->
-    console.log "uri", uri
+    logger.log "uri", uri
     unless cached
       request
         uri: uri
@@ -125,7 +125,7 @@ arso = (key, cb) ->
                   b = oddaljenost b.metData.domain_lat, b.metData.domain_lon, loc.lat, loc.lng
                   return a - b;
                 kraj = _.first(lokacije)
-                console.log kraj           
+                logger.log kraj           
                 cb """ARSO: #{kraj.metData.domain_longTitle} (#{kraj.metData.domain_altitude}m): #{kraj.metData.t}°C @#{kraj.metData.tsValid_issued}.\n#{msg_toca_dez}\nhttp://forecast.io/#/f/#{loc.lat},#{loc.lng}"""
                 vreme2 loc.lat, loc.lng, (msg)->
                   cb msg

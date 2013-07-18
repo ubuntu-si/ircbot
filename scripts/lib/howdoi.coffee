@@ -19,8 +19,8 @@ class HowDoI
         $ = cheerio.load(data)
         links = $('h3 a').map (i, el) ->
           return $(this).attr 'href'
-        console.log @google_url
-        console.log links
+        logger.log @google_url
+        logger.log links
         cb(@filter(links))
       else
         cb([])  

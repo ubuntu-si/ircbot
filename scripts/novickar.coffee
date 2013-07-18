@@ -24,12 +24,12 @@ get_ids = (cb)->
     oauth: oauth
     json: true
   , (e, r, data) ->
-    console.log data
-    console.log e
+    logger.log data
+    logger.log e
     ids = []
     for u in data
       ids.push u.id_str
-    console.log "Sledim: #{ids}"
+    logger.log "Sledim: #{ids}"
     cb ids
     
 replace_urls = (text, entities) ->
@@ -48,19 +48,19 @@ module.exports = (bot) ->
 
     stream.stream()
     stream.on "error", (e)->
-      console.log e
+      logger.log e
 
     stream.on "data", (tweet)->
       try
         unless tweet.retweeted_status or tweet.in_reply_to_screen_name or (/^RT/.test tweet.text)
           text = replace_urls tweet.text, tweet.entities.urls
           redis.smembers("irc:novickar").then (nicks)->
-            console.log "Naročeni: #{nicks}"
+            logger.log "Naročeni: #{nicks}"
             if nicks?   
               for nick in nicks
                 bot.say text, nick
       catch e
-        console.log e
+        logger.log e
     
   bot.command /^\.naroči$/i,
     ".naroči -- Prijavi se na novice (#{sledi.join(",")})",
@@ -68,7 +68,7 @@ module.exports = (bot) ->
       redis.sadd("irc:novickar", r.nick).then (status)->
         r.privmsg "Naročen na novice #{!status?'OK':status}"
         redis.smembers("irc:novickar").then (nicks)->
-          console.log "Naročeni: #{nicks}"
+          logger.log "Naročeni: #{nicks}"
 
   bot.command /^\.odjavi$/i,
     ".odjavi -- Odjavi se od novic (#{sledi.join(",")})",
@@ -76,4 +76,4 @@ module.exports = (bot) ->
       redis.srem("irc:novickar", r.nick).then (status)->
         r.privmsg "Odjavljen od novic #{!status?'OK':status}"
         redis.smembers("irc:novickar").then (nicks)->
-          console.log "Naročeni: #{nicks}"
+          logger.log "Naročeni: #{nicks}"

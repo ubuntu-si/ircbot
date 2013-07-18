@@ -1,4 +1,17 @@
 fat = require './lib/fat'
+winston = require('winston')
+sentry = require('winston-sentry')
+
+global.logger = new winston.Logger({
+    transports: [
+        new winston.transports.Console({level: 'silly'}),
+        new sentry({
+                patchGlobal: true,
+                level: 'warn',
+                dsn: process.env.DSN
+        })
+    ],
+})
 
 global.moment = require 'moment'
 global.request = require 'request'
@@ -17,9 +30,9 @@ else
   global.redis = require('then-redis').createClient()
 
 redis.on "error", (err)->
-  console.log err
+  logger.log err
 redis.info (err, reply) ->
-  console.log err, reply
+  logger.log err, reply
 bot = new fat.Bot
   server:   'freenode',
   nick:   process.env.IRC_NICK || 'breza',
@@ -42,11 +55,3 @@ bot.command /^.pomo[čc]$/i, (r) ->
 
 bot.connect()
 
-process.on "uncaughtException", (err) ->
-  console.log err
-  try
-    bot.say err.toString(), "dz0ny"
-  catch e
-    console.log err
-    console.log e
-   

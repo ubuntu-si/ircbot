@@ -75,7 +75,7 @@ module.exports = (bot) ->
     }
     redis.lpush("irc:sp", JSON.stringify(spmj)).then ->
       redis.ltrim(0, 24).then ->
-        console.log "saved an trimmed" 
+        logger.log "saved an trimmed" 
     running = false
     msgs = []
     nickg = false
