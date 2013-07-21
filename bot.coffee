@@ -31,26 +31,30 @@ redis.on "error", (err)->
   logger.log err
 redis.info().then (reply, err) ->
   console.log err, reply
-  unless err
-    bot = new fat.Bot
-      server:   'freenode',
-      nick:   process.env.IRC_NICK || 'breza',
-      channels: [process.env.IRC_CHANNEL || '#ubuntu-si1']
 
-    require("./scripts/chatter")(bot)
-    require("./scripts/getglue")(bot)
-    require("./scripts/seen")(bot)
-    require("./scripts/set-get")(bot)
-    require("./scripts/vreme")(bot)
-    require("./scripts/sp")(bot)
-    -if process.env.XMPP_PASSWORD?
-      require("./scripts/xmpp")(bot)
-    -if process.env.T_CK?
-      require("./scripts/novickar")(bot)
+bot = new fat.Bot
+  server:   'freenode',
+  nick:   process.env.IRC_NICK || 'breza',
+  channels: [process.env.IRC_CHANNEL || '#ubuntu-si']
 
-    bot.command /^.pomo[čc]$/i, (r) ->
-      msg = bot.help.join "\n"
-      r.privmsg msg
+require("./scripts/chatter")(bot)
+require("./scripts/getglue")(bot)
+require("./scripts/seen")(bot)
+require("./scripts/set-get")(bot)
+require("./scripts/vreme")(bot)
+require("./scripts/sp")(bot)
+-if process.env.XMPP_PASSWORD?
+  require("./scripts/xmpp")(bot)
+-if process.env.T_CK?
+  require("./scripts/novickar")(bot)
 
-    bot.connect()
+bot.command /^.pomo[čc]$/i, (r) ->
+  msg = bot.help.join "\n"
+  r.privmsg msg
 
+bot.connect()
+
+process.on "uncaughtException", (err) ->
+  
+  # handle the error safely
+  logger.log err

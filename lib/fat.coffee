@@ -80,9 +80,9 @@ class Bot extends events.EventEmitter
       realName: @settings.realname
       port:     @settings.port
       channels: @settings.channels
-      autoConnect: false
+      autoConnect: true
       floodProtection: true
-      autoRejoin: true
+      autoRejoin: false
 
   prepEvents: ->
     @client.on 'error', (err) ->

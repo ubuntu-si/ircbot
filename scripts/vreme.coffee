@@ -135,8 +135,8 @@ arso = (key, cb) ->
                 cb msg
         else
           vreme key, (msg)->
-            cb "#{imeg}: #{msg}"
-      catch
+            cb "#{imeg}: #{msg}"   
+      catch e
         r.reply "Neznana lokacija"
 
 
