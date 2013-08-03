@@ -14,14 +14,7 @@ gimdb = (naslov, cb)->
 gimdb2 = (naslov, cb)->
   fetch "http://www.omdbapi.com/?t=#{encodeURI(naslov)}", (data)-> 
     if data
-      cb "#{data.Title} (#{data.Year}) - #{data.imdbRating}(✋ #{data.imdbVotes) http://imdb.com/title/#{data.imdbID}\n#{data.Plot}"
-    else
-      cb "NP"
-
-gimdb = (naslov, cb)->
-  fetch "http://www.omdbapi.com/?t=#{encodeURI(naslov)}", (data)-> 
-    if data
-      cb data.imdbRating
+      cb "#{data.Title} (#{data.Year}) - #{data.imdbRating}(✋ #{data.imdbVotes} http://imdb.com/title/#{data.imdbID}\n#{data.Plot}"
     else
       cb "NP"
 
