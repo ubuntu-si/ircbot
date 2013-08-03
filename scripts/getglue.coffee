@@ -11,6 +11,20 @@ gimdb = (naslov, cb)->
     else
       cb "NP"
 
+gimdb2 = (naslov, cb)->
+  fetch "http://www.omdbapi.com/?t=#{encodeURI(naslov)}", (data)-> 
+    if data
+      cb "#{data.Title} (#{data.Year}) - #{data.imdbRating}(✋ #{data.imdbVotes) http://imdb.com/title/#{data.imdbID}\n#{data.Plot}"
+    else
+      cb "NP"
+
+gimdb = (naslov, cb)->
+  fetch "http://www.omdbapi.com/?t=#{encodeURI(naslov)}", (data)-> 
+    if data
+      cb data.imdbRating
+    else
+      cb "NP"
+
 fixyt = (url)->
   if url
     return url.replace("/v/", "/watch?v=").replace("&feature=youtube_gdata_player", "")
@@ -192,4 +206,11 @@ module.exports = (bot) ->
     (match, r) ->
       f = match[1].trim()
       deb f, (answer)->
+        r.reply answer
+
+  bot.regexp /^.imdb (.+)/,
+    ".imdb <naslov> -- Dobi osnovne podatke z IMBD ",
+    (match, r) ->
+      f = match[1].trim()
+      gimdb2 f, (answer)->
         r.reply answer
