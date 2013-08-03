@@ -116,6 +116,11 @@ module.exports = (bot) ->
   (match, r) ->
     ascime match[1], r
 
+  bot.regexp /^\.ubuntu (.+)/,
+  ".ubuntu  <msg> -- Ubuntify msg",
+  (match, r) ->
+    r.reply "While evaluating our options, using the #{match[1]} (or any of its implementations) we concluded that neither approach would allow us to do what we want in the quality that we would like to see for Ubuntu."
+
   bot.regexp /^breza:? (.+)/,
     (match, r) ->
       data = match[1].trim()
