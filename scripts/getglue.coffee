@@ -5,18 +5,21 @@ HowDoI = require './lib/howdoi'
 cheerio = require 'cheerio'
 
 gimdb = (naslov, cb)->
-  fetch "http://www.omdbapi.com/?t=#{encodeURI(naslov)}", (data)-> 
+  fetch "http://www.omdbapi.com/?t=#{encodeURIComponent(naslov)}", (data)-> 
     if data
       cb data.imdbRating
     else
       cb "NP"
 
 gimdb2 = (naslov, cb)->
-  fetch "http://www.omdbapi.com/?t=#{encodeURI(naslov)}", (data)-> 
-    if data
-      cb "#{data.Title} (#{data.Year}) - #{data.imdbRating}(✋ #{data.imdbVotes} http://imdb.com/title/#{data.imdbID}\n#{data.Plot}"
-    else
-      cb "NP"
+  _get "search/objects?q=#{encodeURI(naslov)}&category=movies", (data)->
+    if data and data.objects.length > 0
+      _object _.first(data.objects).id, (t)->
+        fetch "http://www.omdbapi.com/?tomatoes=true&t=#{encodeURIComponent(t.title)}", (data)->
+          if data
+            cb "#{data.Title} (#{data.Year}) - #{data.imdbRating}(✋ #{data.imdbVotes}) (RT #{data.tomatoMeter}) http://imdb.com/title/#{data.imdbID}\n#{data.Plot}"
+          else
+            cb "NP"
 
 fixyt = (url)->
   if url
