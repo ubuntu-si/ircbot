@@ -1,6 +1,6 @@
 cleverbot = require('cleverbot-node')
 is_url = /([a-zA-Z\d]+://)?(\w+:\w+@)?([a-zA-Z\d.-]+\.[A-Za-z]{2,4})(:\d+)?(/.*)?/ig
-cherio = require "chreio"
+cherio = require "cherio"
 
 odgovori_spam_prot = (r, msg)->
 
