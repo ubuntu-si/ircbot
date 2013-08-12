@@ -1,4 +1,6 @@
 cleverbot = require('cleverbot-node')
+is_url = /([a-zA-Z\d]+://)?(\w+:\w+@)?([a-zA-Z\d.-]+\.[A-Za-z]{2,4})(:\d+)?(/.*)?/ig
+cherio = require "chreio"
 
 odgovori_spam_prot = (r, msg)->
 
@@ -104,6 +106,20 @@ snacks = [
 
 module.exports = (bot) ->
   c = new cleverbot()
+
+  bot.on 'user:talk', (r) ->
+    if r.text.test is_url
+      url = r.text
+      request.get url, (e, r, body)->
+        if !e and r.statusCode is 200
+          $ = cheerio.load(body)
+          naslov = $("meta title").map (i, el) ->
+              return $(this).text()
+          opis = $("meta description").map (i, el) ->
+              return $(this).text()
+          r.reply "#{naslov}\n#{opis}"
+        else
+          logger.log e
 
   bot.regexp /^\.stran (.*)/i,
   ".stran <domena> -- Ali stran dela?",

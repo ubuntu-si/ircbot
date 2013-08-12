@@ -42,7 +42,7 @@ require("./scripts/getglue")(bot)
 require("./scripts/seen")(bot)
 require("./scripts/set-get")(bot)
 require("./scripts/vreme")(bot)
-require("./scripts/sp")(bot)
+#require("./scripts/sp")(bot)
 # -if process.env.XMPP_PASSWORD?
 #   require("./scripts/xmpp")(bot)
 -if process.env.T_CK?
