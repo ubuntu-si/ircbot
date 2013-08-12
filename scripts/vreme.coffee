@@ -137,7 +137,8 @@ arso = (key, cb) ->
           vreme key, (msg)->
             cb "#{imeg}: #{msg}"   
       catch e
-        r.reply "Neznana lokacija"
+        console.log  e
+        cb "Neznana lokacija"
 
 
 module.exports = (bot) ->
@@ -147,3 +148,5 @@ module.exports = (bot) ->
       key = match[1]
       arso key, (msg)->
         r.reply msg
+
+module.exports.arso = arso

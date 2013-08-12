@@ -1,24 +1,24 @@
 is_url = RegExp("^http://([a-zA-Z0-9_\-]+)([\.][a-zA-Z0-9_\-]+)+([/][a-zA-Z0-9\~\(\)_\-]*)+([\.][a-zA-Z0-9\(\)_\-]+)*$", "ig")
 cheerio = require 'cheerio'
 
+resolve = (r)->
+  if is_url.test r.text
+    url = r.text
+    request.get url, (e, rw, body)->
+      if !e and rw.statusCode is 200
+        $ = cheerio.load(body)
+        naslov = $("title").map (i, el) ->
+            return $(this).text()
+        opis = $("meta[name=description]").map (i, el) ->
+            return $(this).attr("content")
+        r.reply "#{naslov}\n#{opis}"
+      else
+        console.log e
+
 module.exports = (bot) ->
 
   bot.on 'user:talk', (r) ->
-    console.log r.text
-    if is_url.test r.text
-      url = r.text
-      console.log url
-      request.get url, (e, r, body)->
-        if !e and r.statusCode is 200
-          console.log body
-          $ = cheerio.load(body)
-          naslov = $("meta title").map (i, el) ->
-              return $(this).text()
-          opis = $("meta description").map (i, el) ->
-              return $(this).text()
-          r.reply "#{naslov}\n#{opis}"
-        else
-          logger.log e
+    resolve r
 
   bot.on 'user:talk', (r) ->
     if is_url.test r.text
@@ -31,3 +31,5 @@ module.exports = (bot) ->
     redis.lrange("irc:zgodovina", 0, 4).then (data)->
       for msg in data
         r.reply msg
+
+module.exports.resolve = resolve
