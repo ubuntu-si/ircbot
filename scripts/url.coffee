@@ -4,7 +4,8 @@ cheerio = require 'cheerio'
 module.exports = (bot) ->
 
   bot.on 'user:talk', (r) ->
-    if r.text.test is_url
+    console.log r.text
+    if is_url.test r.text
       url = r.text
       console.log url
       request.get url, (e, r, body)->
@@ -20,7 +21,7 @@ module.exports = (bot) ->
           logger.log e
 
   bot.on 'user:talk', (r) ->
-    if r.text.test is_url
+    if is_url.test r.text
       msg = "#{r.nick}: #{r.text} @#{moment().toString()}"
       redis.rpush("irc:zgodovina", msg)
 
