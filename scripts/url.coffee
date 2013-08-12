@@ -1,4 +1,4 @@
-is_url = urlRegEx = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-]*)?\??(?:[\-\+=&;%@\.\w]*)#?(?:[\.\!\/\\\w]*))?)/g
+is_url = RegExp("^http://([a-zA-Z0-9_\-]+)([\.][a-zA-Z0-9_\-]+)+([/][a-zA-Z0-9\~\(\)_\-]*)+([\.][a-zA-Z0-9\(\)_\-]+)*$", "ig")
 cheerio = require 'cheerio'
 
 module.exports = (bot) ->
@@ -6,8 +6,10 @@ module.exports = (bot) ->
   bot.on 'user:talk', (r) ->
     if r.text.test is_url
       url = r.text
+      console.log url
       request.get url, (e, r, body)->
         if !e and r.statusCode is 200
+          console.log body
           $ = cheerio.load(body)
           naslov = $("meta title").map (i, el) ->
               return $(this).text()
@@ -16,7 +18,7 @@ module.exports = (bot) ->
           r.reply "#{naslov}\n#{opis}"
         else
           logger.log e
-  
+
   bot.on 'user:talk', (r) ->
     if r.text.test is_url
       msg = "#{r.nick}: #{r.text} @#{moment().toString()}"
