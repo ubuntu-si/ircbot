@@ -1,4 +1,5 @@
 cleverbot = require('cleverbot-node')
+ddg = require('ddg')
 
 odgovori_spam_prot = (r, msg)->
 
@@ -160,3 +161,14 @@ module.exports = (bot) ->
     ".plosk -- Zaploskaj",
     (r) ->
       r.reply "Chapeau! http://www.youtube.com/watch?v=TAryFIuRxmQ"
+
+  bot.regexp /^\.ddg (.+)/,
+  ".ddg -- Vse kar zna https://api.duckduckgo.com/api",
+  (match, r) ->
+    options =
+      useragent: "ubuntu.si"
+      no_redirects: "1"
+      no_html: "1"
+
+    ddg.query match[1].trim(), options, (err, data) ->
+      r.reply data

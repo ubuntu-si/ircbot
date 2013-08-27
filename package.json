@@ -32,6 +32,7 @@
     "mocha": "~1.12.0",
     "winston": "~0.7.2",
     "winston-sentry": "0.0.4",
-    "imdb-api": "~1.3.1"
+    "imdb-api": "~1.3.1",
+    "ddg": "0.0.3"
   }
 }
