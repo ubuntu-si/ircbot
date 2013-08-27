@@ -100,6 +100,18 @@ snacks = [
   "Thanks for the treat!"
 ]
 
+deletions = [
+  "~breza();",
+  "delete breza;",
+  "del breza",
+  "free(breza);",
+  "breza = null;",
+  "breza = NULL;",
+  "breza = nil;",
+  "breza = 0;",
+  "Segmentation fault (core dumped)"
+]
+
 
 
 module.exports = (bot) ->
@@ -140,6 +152,9 @@ module.exports = (bot) ->
 
   bot.regexp /botsnack/i, (match, r) ->
     r.reply random snacks
+
+  bot.regexp /^\.delete/i, (match, r) ->
+    r.reply random deletions
 
   bot.command /^\.plosk/i,
     ".plosk -- Zaploskaj",
