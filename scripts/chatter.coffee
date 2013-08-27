@@ -163,7 +163,7 @@ module.exports = (bot) ->
       r.reply "Chapeau! http://www.youtube.com/watch?v=TAryFIuRxmQ"
 
   bot.regexp /^\.ddg (.+)/,
-  ".ddg -- Vse kar zna https://api.duckduckgo.com/api",
+  ".ddg -- Vse kar zna https://api.duckduckgo.com/api ali https://api.duckduckgo.com/goodies",
   (match, r) ->
     options =
       useragent: "ubuntu.si"
@@ -171,5 +171,5 @@ module.exports = (bot) ->
       no_html: "1"
 
     ddg.query match[1].trim(), options, (err, data) ->
-      r.reply data.AbstractText || data.Definition
+      r.reply data.AbstractText || data.Definition || data.Answer
       r.reply data.AbstractURL || data.Redirect
