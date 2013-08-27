@@ -171,4 +171,5 @@ module.exports = (bot) ->
       no_html: "1"
 
     ddg.query match[1].trim(), options, (err, data) ->
-      r.reply data
+      r.reply data.AbstractText || data.Definition
+      r.reply data.AbstractURL
