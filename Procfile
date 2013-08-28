@@ -1,1 +1,1 @@
-web: coffee bot.coffee
+web: node_modules/.bin/coffee bot.coffee
