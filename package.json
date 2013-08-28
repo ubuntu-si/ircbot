@@ -5,7 +5,6 @@
   "main": "server.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha -R spec --compilers coffee:coffee-script",
-    "start": "./node_modules/.bin/coffee ./bot.coffee"
   },
   "repository": "",
   "private": true,

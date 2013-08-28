@@ -6,7 +6,6 @@ global.logger = new winston.Logger({
     transports: [
         new winston.transports.Console({level: 'silly'}),
         new sentry({
-                patchGlobal: true,
                 dsn: "http://34f5e477a2f9431d96fac1e04006ea3d:94020b35b5f34276a0f727ce38216bd3@sentry.radioterminal.si/7"
         })
     ],
