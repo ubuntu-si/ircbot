@@ -30,12 +30,16 @@ module.exports = (bot) ->
   bot.on 'user:talk', (r) ->
     if is_url.test r.text
       msg = "#{r.nick}: #{r.text} @#{moment().toString()}"
-      redis.rpush("irc:zgodovina", msg)
+      # LPUSH zgodovina "msg"
+      # LTRIM zgodovina 0 5
+      # LRANGE zgodovina 0 -1
+      redis.lpush("irc:zgodovina", msg)
+      redis.ltrim("irc:zgodovina", 0, 5)
 
   bot.regexp /^\.url/i,
-  ".url -- Prikaži zadnjih 5 povezav",
+  ".url -- Prikaži zadnjih 6 povezav",
   (match, r) ->
-    redis.lrange("irc:zgodovina", 0, 4).then (data)->
+    redis.lrange("irc:zgodovina", 0, -1).then (data)->
       for msg in data
         r.reply msg
 
