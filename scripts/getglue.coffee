@@ -122,13 +122,18 @@ deb = (paket, cb)=>
 
 zamenjaj = (v, f, t, cb)=>
   url = "http://rate-exchange.appspot.com/currency?from=#{f}&to=#{t}"
-  request.get url, (e, r, body)->
-    if !e and r.statusCode is 200
-      rate = Number(JSON.parse(body).rate)
-      cb "#{v * rate}"
-    else
-      logger.log e
-      cb "Napaka"
+  v = Number(v.replace(",","."))
+  
+  if v
+    request.get url, (e, r, body)->
+      if !e and r.statusCode is 200
+        rate = Number(JSON.parse(body).rate)
+        cb "#{v * rate}"
+      else
+        logger.log e
+        cb "Napaka"
+  else
+    cb "Napaka"
 
 module.exports = (bot) ->
 
@@ -214,7 +219,7 @@ module.exports = (bot) ->
       deb f, (answer)->
         r.reply answer
         
-  bot.regexp /^.zamenjaj (\d+) (.+) (.+)/,
+  bot.regexp /^.zamenjaj ([\d,.]+) (.+) (.+)/,
     ".zamenjaj <vrednost> <valuta> <valuta> -- Pretvori med valutami (primer .zamenjaj 10 eur usd)",
     (match, r) ->
       vrednost = match[1].trim()
