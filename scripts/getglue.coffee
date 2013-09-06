@@ -128,7 +128,7 @@ zamenjaj = (v, f, t, cb)=>
     request.get url, (e, r, body)->
       if !e and r.statusCode is 200
         rate = Number(JSON.parse(body).rate)
-        cb "#{v * rate}"
+        cb "#{v * rate} #{t}"
       else
         logger.log e
         cb "Napaka"
