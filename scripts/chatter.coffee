@@ -106,7 +106,7 @@ module.exports = (bot) ->
     r.reply hello.replace "%", r.nick
 
   bot.regexp /^ping$/i, (match, r) ->
-    r.reply r.nick "pong"
+    r.reply "#{r.nick}: pong"
 
   bot.regexp /botsnack/i, (match, r) ->
     r.reply random snacks
