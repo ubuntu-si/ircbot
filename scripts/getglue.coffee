@@ -120,6 +120,16 @@ deb = (paket, cb)=>
       logger.log e
       cb "Ne najdem"
 
+zamenjaj = (v, f, t, cb)=>
+  url = "http://rate-exchange.appspot.com/currency?from=#{f}&to=#{t}"
+  request.get url, (e, r, body)->
+    if !e and r.statusCode is 200
+      rate = Number(JSON.parse(body).rate)
+      cb "#{v * rate}"
+    else
+      logger.log e
+      cb "Napaka"
+
 module.exports = (bot) ->
 
   bot.regexp /^.yt (.+)/,
@@ -203,6 +213,15 @@ module.exports = (bot) ->
       f = match[1].trim()
       deb f, (answer)->
         r.reply answer
+        
+  bot.regexp /^.zamenjaj (\d+) (.+) (.+)/,
+    ".zamenjaj <vrednost> <valuta> <valuta> -- Pretvori med valutami (primer .zamenjaj 10 eur usd)",
+    (match, r) ->
+      vrednost = match[1].trim()
+      from = match[2].trim()
+      to = match[3].trim()
+      zamenjaj vrednost, from, to, (answer)->
+        r.reply "#{r.nick}: #{answer}"
 
   bot.regexp /^.imdb (.+)/,
     ".imdb <naslov> -- Dobi osnovne podatke z IMBD ",
