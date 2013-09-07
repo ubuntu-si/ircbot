@@ -24,8 +24,8 @@ resolve = (r)->
 
 module.exports = (bot) ->
 
-#  bot.on 'user:talk', (r) ->
-#   resolve r
+  bot.on 'user:talk', (r) ->
+   resolve r
 
   bot.on 'user:talk', (r) ->
     if is_url.test r.text
