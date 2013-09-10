@@ -1,4 +1,3 @@
-cleverbot = require('cleverbot-node')
 ddg = require('ddg')
 
 odgovori_spam_prot = (r, msg)->
@@ -73,7 +72,6 @@ deletions = [
 
 
 module.exports = (bot) ->
-  c = new cleverbot()
 
   bot.regexp /^\.stran (.*)/i,
   ".stran <domena> -- Ali stran dela?",
@@ -90,12 +88,6 @@ module.exports = (bot) ->
   ".ubuntu  <msg> -- Ubuntify msg",
   (match, r) ->
     r.reply "While evaluating our options, using the #{match[1]} (or any of its implementations) we concluded that neither approach would allow us to do what we want in the quality that we would like to see for Ubuntu."
-
-  bot.regexp /^breza:? (.+)/,
-    (match, r) ->
-      data = match[1].trim()
-      c.write data, (c) =>
-        r.reply c.message
 
   bot.regexp /^(zdravo|hi|dan)$/i, (match, r) ->
     hello = random hellos
