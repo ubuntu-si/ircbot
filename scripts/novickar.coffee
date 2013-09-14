@@ -54,8 +54,8 @@ module.exports = (bot) ->
       try
         unless tweet.retweeted_status or tweet.in_reply_to_screen_name or (/^RT/.test tweet.text)
           text = replace_urls tweet.text, tweet.entities.urls
+          text = "[#{tweet.user.screen_name}] " + text
           redis.smembers("irc:novickar").then (nicks)->
-            logger.log "Naročeni: #{nicks}"
             if nicks?   
               for nick in nicks
                 bot.say text, nick
