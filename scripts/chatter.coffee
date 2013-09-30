@@ -105,7 +105,14 @@ module.exports = (bot) ->
 
   bot.regexp /^\.delete/i, (match, r) ->
     r.reply random deletions
-
+  
+  bot.command /^\.restart/i,
+    ".restart -- Ponovno zaženi",
+    (r) ->
+      r.nick is "dz0ny"
+        r.reply "o/"
+        process.exit()
+  
   bot.command /^\.plosk/i,
     ".plosk -- Zaploskaj",
     (r) ->
