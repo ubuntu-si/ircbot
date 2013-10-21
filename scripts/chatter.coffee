@@ -51,10 +51,10 @@ mornings = [
 
 snacks = [
   "Om nom nom!",
-  "That's very nice of you!",
-  "Oh thx, have a cookie yourself!",
-  "Thank you very much.",
-  "Thanks for the treat!"
+  "Kako lepo od tebe!",
+  "Aww, kako si prijazna/en!",
+  "Najlepše ti hvala.",
+  "Hvala za okusen priboljšek!\nNa še tebi en piškotek!"
 ]
 
 deletions = [
