@@ -50,7 +50,7 @@ snacks_full = [
 snacks = [
   "Om nom nom!",
   "Kako lepo od tebe!",
-  "Aww, kako si prijazna/en!",
+  "Aww, lepa ti hvala!",
   "Najlepše ti hvala.",
   "Hvala za okusen priboljšek!\nNa še tebi en piškotek!"
 ]
@@ -67,9 +67,19 @@ deletions = [
   "Segmentation fault (core dumped)"
 ]
 
+needs_snack = [
+  "Kako mi kruli!",
+  "Nič piškotka za mene?",
+  "lačna sem?",
+]
 
 
 module.exports = (bot) ->
+
+  bot.on 'user:talk', (r) ->
+    redis.keys("irc:piskot:*").then (data)->
+      if data.length == 0
+        r.reply random needs_snack
 
   bot.regexp /^\.stran (.*)/i,
   ".stran <domena> -- Ali stran dela?",
@@ -99,8 +109,10 @@ module.exports = (bot) ->
     r.reply "#{r.nick}: pong"
 
   bot.regexp /botsnack/i, (match, r) ->
+    ## stetje
     redis.set "irc:piskot:#{r.nick}", r.text
     redis.expire "irc:piskot:#{r.nick}", 3600
+
     redis.keys("irc:piskot:*").then (data)->
       if data.length > 2
         r.reply random snacks_full
