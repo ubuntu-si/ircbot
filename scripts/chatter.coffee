@@ -1,14 +1,5 @@
 ddg = require('ddg')
-
-odgovori_spam_prot = (r, msg)->
-
-  redis.get("irc:antispam").then (anti)->
-    logger.log anti
-    unless anti
-      redis.set "irc:antispam", msg
-      redis.expire "irc:antispam", 1800
-      r.reply msg
-
+ 
 random = (ar)->
   return ar[Math.floor(Math.random() * ar.length)];
 
@@ -47,6 +38,13 @@ hellos = [
 mornings = [
     "Dobro jutro, %",
     "Dobro jutro tudi tebi, %",
+]
+
+snacks_full = [
+  "Uhh, zredila se bom. Bi kdo piškot?!",
+  "III koliko piškotov že imam!",
+  "Kako ste danes radodarni <3",
+  "Bi kdo piškotek?",
 ]
 
 snacks = [
@@ -101,7 +99,13 @@ module.exports = (bot) ->
     r.reply "#{r.nick}: pong"
 
   bot.regexp /botsnack/i, (match, r) ->
-    r.reply random snacks
+    redis.set "irc:piskot:#{r.nick}", r.text
+    redis.expire "irc:piskot:#{r.nick}", 3600
+    redis.keys("irc:piskot:*").then (data)->
+      if data.length > 2
+        r.reply random snacks_full
+      else
+        r.reply random snacks
 
   bot.regexp /^\.delete/i, (match, r) ->
     r.reply random deletions
@@ -109,7 +113,7 @@ module.exports = (bot) ->
   bot.command /^\.restart/i,
     ".restart -- Ponovno zaženi",
     (r) ->
-      r.nick is "dz0ny"
+      if r.nick is "dz0ny"
         r.reply "o/"
         process.exit()
   
@@ -125,7 +129,7 @@ module.exports = (bot) ->
         useragent: "ubuntu.si"
         no_redirects: "1"
         no_html: "1"
-  
+
       ddg.query match[1].trim(), options, (err, data) ->
         r.reply data.AbstractText
         r.reply data.Definition
