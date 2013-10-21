@@ -34,6 +34,7 @@ hellos = [
     "Hej %, lepo te je videti!",
     "Zdravo, %",
     "Dober dan, %",
+    "Ja buhdej, %",
 ]
 mornings = [
     "Dobro jutro, %",
