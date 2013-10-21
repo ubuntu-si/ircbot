@@ -45,6 +45,7 @@ snacks_full = [
   "Uhh, zredila se bom. Bi kdo piškot?!",
   "III koliko piškotov že imam!",
   "Kako ste danes radodarni <3",
+  "Zatlači si nekam ta piškot :/",
   "Bi kdo piškotek?",
 ]
 
