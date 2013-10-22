@@ -81,7 +81,8 @@ module.exports = (bot) ->
   bot.on 'user:talk', (r) ->
     redis.keys("irc:piskot:*").then (data)->
       if data.length == 0
-        r.reply random needs_snack
+        unless r.text.match("/botsnack/i")
+          r.reply random needs_snack
 
   bot.regexp /^\.stran (.*)/i,
   ".stran <domena> -- Ali stran dela?",
