@@ -83,7 +83,8 @@ module.exports = (bot) ->
       if data.length == 0
         unless /botsnack/i.test(r.text)
           r.reply random needs_snack
-
+          redis.set "irc:piskot:#{r.nick}", r.text
+          redis.expire "irc:piskot:#{r.nick}", 1800
   bot.regexp /^\.stran (.*)/i,
   ".stran <domena> -- Ali stran dela?",
   (match, r) ->
