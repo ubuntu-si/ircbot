@@ -34,7 +34,7 @@ redis.info().then (reply, err) ->
 bot = new fat.Bot
   server:   'freenode',
   nick:   'jabuk',
-  channels: ['#ubuntu-si-off']
+  channels: ['#ubuntu-si-off', '#ubuntu-si']
 
 require("./scripts/chatter")(bot)
 require("./scripts/getglue")(bot)
@@ -42,9 +42,6 @@ require("./scripts/seen")(bot)
 require("./scripts/set-get")(bot)
 require("./scripts/vreme")(bot)
 require("./scripts/url")(bot)
-#require("./scripts/sp")(bot)
-# -if process.env.XMPP_PASSWORD?
-#   require("./scripts/xmpp")(bot)
 -if process.env.T_CK?
   require("./scripts/novickar")(bot)
 
