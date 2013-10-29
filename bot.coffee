@@ -34,7 +34,7 @@ redis.info().then (reply, err) ->
 bot = new fat.Bot
   server:   'freenode',
   nick:   'jabuk',
-  channels: ['#ubuntu-si-offtopic']
+  channels: ['#ubuntu-si-off']
 
 require("./scripts/chatter")(bot)
 require("./scripts/getglue")(bot)
