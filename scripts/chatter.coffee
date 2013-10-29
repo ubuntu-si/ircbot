@@ -29,52 +29,6 @@ ascime = (msg, r)->
   request.get "http://asciime.heroku.com/generate_ascii?s=#{encodeURI(msg)}", (err, re, data) ->
     r.reply data
 
-hellos = [
-    "Živjo, %",
-    "Hej %, lepo te je videti!",
-    "Zdravo, %",
-    "Dober dan, %",
-    "Ja buhdej, %",
-]
-mornings = [
-    "Dobro jutro, %",
-    "Dobro jutro tudi tebi, %",
-]
-
-snacks_full = [
-  "Uhh, zredila se bom. Bi kdo piškot?!",
-  "III koliko piškotov že imam!",
-  "Kako ste danes radodarni <3",
-  "Zatlači si nekam ta piškot :/",
-  "Bi kdo piškotek?",
-]
-
-snacks = [
-  "Om nom nom!",
-  "Kako lepo od tebe!",
-  "Aww, lepa ti hvala!",
-  "Najlepše ti hvala.",
-  "Hvala za okusen priboljšek!\nNa še tebi en piškotek!"
-]
-
-deletions = [
-  "~breza();",
-  "delete breza;",
-  "del breza",
-  "free(breza);",
-  "breza = null;",
-  "breza = NULL;",
-  "breza = nil;",
-  "breza = 0;",
-  "Segmentation fault (core dumped)"
-]
-
-needs_snack = [
-  "Kako mi kruli!",
-  "Nič piškotka za mene?",
-  "lačna sem?",
-]
-
 
 module.exports = (bot) ->
 
@@ -94,14 +48,6 @@ module.exports = (bot) ->
   ".ubuntu  <msg> -- Ubuntify msg",
   (match, r) ->
     r.reply "While evaluating our options, using the #{match[1]} (or any of its implementations) we concluded that neither approach would allow us to do what we want in the quality that we would like to see for Ubuntu."
-
-  bot.regexp /^(zdravo|hi|dan)$/i, (match, r) ->
-    hello = random hellos
-    r.reply hello.replace "%", r.nick
-
-  bot.regexp /^jutro$/i, (match, r) ->
-    hello = random mornings
-    r.reply hello.replace "%", r.nick
 
   bot.regexp /^ping$/i, (match, r) ->
     r.reply "#{r.nick}: pong"
