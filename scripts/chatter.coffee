@@ -78,13 +78,7 @@ needs_snack = [
 
 module.exports = (bot) ->
 
-  bot.on 'user:talk', (r) ->
-    redis.keys("irc:piskot:*").then (data)->
-      if data.length == 0
-        unless /botsnack/i.test(r.text)
-          r.reply random needs_snack
-          redis.set "irc:piskot:#{r.nick}", r.text
-          redis.expire "irc:piskot:#{r.nick}", 1800
+
   bot.regexp /^\.stran (.*)/i,
   ".stran <domena> -- Ali stran dela?",
   (match, r) ->
@@ -111,18 +105,6 @@ module.exports = (bot) ->
 
   bot.regexp /^ping$/i, (match, r) ->
     r.reply "#{r.nick}: pong"
-
-  bot.regexp /botsnack/i, (match, r) ->
-    ## stetje
-    redis.set "irc:piskot:#{r.nick}", r.text
-    redis.expire "irc:piskot:#{r.nick}", 3600
-    redis.set "irc:piskot:ziva", r.text
-    redis.expire "irc:piskot:ziva", 3600 * 8
-    redis.keys("irc:piskot:*").then (data)->
-      if data.length > 2
-        r.reply random snacks_full
-      else
-        r.reply random snacks
 
   bot.regexp /^\.delete/i, (match, r) ->
     r.reply random deletions
