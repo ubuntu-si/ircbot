@@ -25,10 +25,6 @@ isUp = (domain, cb) ->
     else
       cb "API limit"
 
-ascime = (msg, r)->
-  request.get "http://asciime.heroku.com/generate_ascii?s=#{encodeURI(msg)}", (err, re, data) ->
-    r.reply data
-
 
 module.exports = (bot) ->
 
@@ -39,28 +35,8 @@ module.exports = (bot) ->
     isUp match[1], (domain) ->
       r.reply domain
 
-  bot.regexp /^\.a (.+)/,
-  ".a  <msg> -- ASCIIfy msg",
-  (match, r) ->
-    ascime match[1], r
-
-  bot.regexp /^\.ubuntu (.+)/,
-  ".ubuntu  <msg> -- Ubuntify msg",
-  (match, r) ->
-    r.reply "While evaluating our options, using the #{match[1]} (or any of its implementations) we concluded that neither approach would allow us to do what we want in the quality that we would like to see for Ubuntu."
-
   bot.regexp /^ping$/i, (match, r) ->
     r.reply "#{r.nick}: pong"
-
-  bot.regexp /^\.delete/i, (match, r) ->
-    r.reply random deletions
-  
-  bot.command /^\.restart/i,
-    ".restart -- Ponovno zaženi",
-    (r) ->
-      if r.nick is "dz0ny"
-        r.reply "o/"
-        process.exit()
   
   bot.command /^\.plosk/i,
     ".plosk -- Zaploskaj",
