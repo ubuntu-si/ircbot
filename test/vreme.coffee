@@ -25,3 +25,15 @@ describe 'vreme.coffee', ->
       expect(msg.length).to.be.at.least 140
       done()
 
+  it 'test .vreme lj', (done)->
+    bot.test ".vreme lj", (msg)->
+      expect(msg).to.be.a('string')
+      expect(msg.length).to.be.at.least 140
+      done()
+
+  it 'test .vreme new york', (done)->
+    bot.test ".vreme new york", (msg)->
+      expect(msg).to.be.a('string')
+      expect(msg.length).to.be.at.least 60
+      done()
+

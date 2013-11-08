@@ -1,10 +1,10 @@
 fs          = require 'fs'
 irc         = require 'irc'
 sty         = require 'sty'
-u           = require 'underscore'
 events      = require 'events'
 global.cheerio = require 'cheerio'
 global.request = require 'request'
+global._ = require 'underscore'
 global.moment = require 'moment'
 moment.lang("sl")
 
@@ -45,7 +45,7 @@ class Bot extends events.EventEmitter
       @settings.nick = nick
       @settings.channels = channels
     else
-      @settings = u.extend defaults, settings
+      @settings = _.extend defaults, settings
 
     @prepClient()
     @prepEvents()

@@ -1,35 +1,5 @@
 crypto = require 'crypto'
 
-arso = (key, cb) ->
-  request.get "http://maps.googleapis.com/maps/api/geocode/json?address=#{encodeURI(key)},%20slovenija&sensor=true", (err, b, res) ->
-    if err
-      vreme key, (msg)->
-        cb "#{key}: #{msg}"
-    else
-      try
-        res = JSON.parse(res)
-        krajg = _.first(_.first(res.results).address_components).short_name
-        loc = _.first(res.results).geometry.location
-        imeg = _.first(res.results).formatted_address
-        if (/Slovenia/i).test imeg 
-          yql 'select metData.ddavg_longText, metData.rh, metData.ffavg_val, metData.domain_altitude, metData.t, metData.tsValid_issued, metData.domain_longTitle, metData.domain_lat, metData.domain_lon from xml where url in (select title from atom where url="http://spreadsheets.google.com/feeds/list/0AvY_vCMQloRXdE5HajQxUGF5ZEZYUjhKNG9EeVl2bFE/od6/public/basic")',
-            (lokacije)->
-              lokacije = lokacije.data
-              lokacije.sort (a, b)->
-                a = oddaljenost a.metData.domain_lat, a.metData.domain_lon, loc.lat, loc.lng
-                b = oddaljenost b.metData.domain_lat, b.metData.domain_lon, loc.lat, loc.lng
-                return a - b;
-              kraj = _.first(lokacije)
-              cb """ARSO: #{kraj.metData.domain_longTitle} (#{kraj.metData.domain_altitude}m): #{kraj.metData.t}°C @#{kraj.metData.tsValid_issued}.\nVlažnost: #{kraj.metData.rh}% Veter: #{kraj.metData.ddavg_longText} #{kraj.metData.ffavg_val} m/s\nhttp://forecast.io/#/f/#{loc.lat},#{loc.lng}"""
-              vreme2 loc.lat, loc.lng, (msg)->
-                cb msg
-        else
-          vreme key, (msg)->
-            cb "#{imeg}: #{msg}"   
-      catch e
-        console.log  e
-        cb "Neznana lokacija"
-
 module.exports = (bot) ->
 
   oddaljenost = (lat1, lon1, lat2, lon2) ->
@@ -81,7 +51,35 @@ module.exports = (bot) ->
         cb "Podatkov o vremenu ni mogoče pridobiti..."
 
 
-
+  arso = (key, cb) ->
+    request.get "http://maps.googleapis.com/maps/api/geocode/json?address=#{encodeURI(key)},%20slovenija&sensor=true", (err, b, res) ->
+      if err
+        vreme key, (msg)->
+          cb "#{key}: #{msg}"
+      else
+        try
+          res = JSON.parse(res)
+          krajg = _.first(_.first(res.results).address_components).short_name
+          loc = _.first(res.results).geometry.location
+          imeg = _.first(res.results).formatted_address
+          if (/Slovenia/i).test imeg 
+            yql 'select metData.ddavg_longText, metData.rh, metData.ffavg_val, metData.domain_altitude, metData.t, metData.tsValid_issued, metData.domain_longTitle, metData.domain_lat, metData.domain_lon from xml where url in (select title from atom where url="http://spreadsheets.google.com/feeds/list/0AvY_vCMQloRXdE5HajQxUGF5ZEZYUjhKNG9EeVl2bFE/od6/public/basic")',
+              (lokacije)->
+                lokacije = lokacije.data
+                lokacije.sort (a, b)->
+                  a = oddaljenost a.metData.domain_lat, a.metData.domain_lon, loc.lat, loc.lng
+                  b = oddaljenost b.metData.domain_lat, b.metData.domain_lon, loc.lat, loc.lng
+                  return a - b;
+                kraj = _.first(lokacije)
+                cb """ARSO: #{kraj.metData.domain_longTitle} (#{kraj.metData.domain_altitude}m): #{kraj.metData.t}°C @#{kraj.metData.tsValid_issued}.\nVlažnost: #{kraj.metData.rh}% Veter: #{kraj.metData.ddavg_longText} #{kraj.metData.ffavg_val} m/s\nhttp://forecast.io/#/f/#{loc.lat},#{loc.lng}"""
+                vreme2 loc.lat, loc.lng, (msg)->
+                  cb msg
+          else
+            vreme key, (msg)->
+              cb "#{imeg}: #{msg}"   
+        catch e
+          console.log  e
+          cb "Neznana lokacija"
 
   bot.regexp /^\.vreme (.+)/i,
     ".vreme <kraj> dobi podatke o vremenu za <kraj>"
@@ -115,4 +113,3 @@ module.exports = (bot) ->
 
       napoved r.reply
 
-module.exports.arso = arso
