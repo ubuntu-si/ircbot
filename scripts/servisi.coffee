@@ -111,8 +111,38 @@ module.exports = (bot) ->
     ".imdb <naslov> -- Dobi osnovne podatke z IMBD ",
     (match, r) ->
       f = match[1].trim()
-      gimdb2 f, (answer)->
-        r.reply answer
+
+      imdb = (ime, cb)->
+        url = "http://www.imdb.com/find?q=#{encodeURI(ime)}&s=all"
+        bot.fetchHTML url, ($)->
+          naslov = $(".findResult:first-child .result_text a").text()
+          url_filma = $(".findResult:first-child .result_text a").attr("href")
+
+          if url_filma?
+            url_filma = "http://www.imdb.com#{url_filma}"
+            bot.fetchHTML url_filma, ($)->
+              ocena = $(".star-box-details a").eq(0).attr("title")
+              if ocena?
+                ocena = ocena.split(" IMDb users have given a weighted average vote of ").reverse()
+                ocena = "#{ocena[0]} (#{ocena[1]} glasov)"
+                metascore = $(".star-box-details a").eq(1).text().replace(/[\n\r]/gm,"").replace(/\s+/,"")
+              else
+                ocena = "Ni podatka"
+                metascore = "Ni podatka"
+              opis = $("p[itemprop=\"description\"]").text().replace(/[\n\r]/gm,"").replace(/\s\s/g,"")
+              cas = $(".infobar time[itemprop=\"duration\"]").text().replace(/[\n\r]/gm,"").replace(/\s\s/g,"")
+              naslov = $("title").text().replace(" - IMDb", "")
+              trailer = $("a[itemprop=\"trailer\"]").attr("href")
+              if trailer?
+                trailer = "http://www.imdb.com#{trailer}"
+              
+              msg = "#{naslov} #{cas}\nOcena: #{ocena} MT: #{metascore}\n#{opis}\n#{trailer || url_filma}"
+              console.log msg
+              cb msg
+          else
+            cb "Ne najdem!"
+
+      imdb f, r.reply
 
   bot.regexp /^\.stran (.*)/i,
     ".stran <domena> -- Ali stran dela?",
