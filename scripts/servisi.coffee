@@ -2,18 +2,6 @@ youtube = require("youtube-feeds")
 youtube.httpProtocol = "https"
 humanize = require 'humanize'
 HowDoI = require './lib/howdoi'
-cheerio = require 'cheerio'
-
-random = (ar)->
-  return ar[Math.floor(Math.random() * ar.length)];
-
-fetch = (url, cb)->
-  request.get url, (e, r, body)->
-    if !e and r.statusCode is 200
-      cb(JSON.parse(body))
-    else
-      logger.log e
-      cb false
 
 module.exports = (bot) ->
 
@@ -42,7 +30,7 @@ module.exports = (bot) ->
     ".sc <iskalni niz> -- Išči na soundcloud",
     (match, r) ->
       f = match[1].trim()
-      fetch "http://api.soundcloud.com/tracks.json?order=hotness&client_id=93e33e327fd8a9b77becd179652272e2&q=#{encodeURI(f)}", (data) ->
+      bot.fetchJSON "http://api.soundcloud.com/tracks.json?order=hotness&client_id=93e33e327fd8a9b77becd179652272e2&q=#{encodeURI(f)}", (data) ->
         if data
           izbran = _.first(data)
           r.reply "#{izbran.title}(#{moment.duration(izbran.duration).humanize()}) #{izbran.permalink_url} ♥#{humanize.numberFormat(izbran.favoritings_count,0)} ▶#{humanize.numberFormat(izbran.playback_count,0)}"
@@ -79,9 +67,8 @@ module.exports = (bot) ->
 
       apt = (paket, cb)=>
         url = "http://packages.ubuntu.com/search?suite=all&searchon=names&keywords=#{encodeURI(paket)}"
-        request.get url, (e, r, body)->
-          if !e and r.statusCode is 200
-            $ = cheerio.load(body)
+        bot.fetchHTML url , ($)->
+          if $?
             paketi = $("#psearchres h3").map (i, el) ->
                 return $(this).text()
             cisti = []
@@ -92,8 +79,7 @@ module.exports = (bot) ->
             logger.log e
             cb "Ne najdem"
 
-      f = match[1].trim()
-      apt f, (answer)->
+      apt match[1].trim(), (answer)->
         r.reply answer
       
   bot.regexp /^.pretvori ([\d,.]+) (.+) (.+)/,

@@ -3,6 +3,10 @@ irc         = require 'irc'
 sty         = require 'sty'
 u           = require 'underscore'
 events      = require 'events'
+cheerio = require 'cheerio'
+request = require 'request'
+global.moment = require 'moment'
+moment.lang("sl")
 
 defaults =
   server: 'freenode'
@@ -133,9 +137,6 @@ class Bot extends events.EventEmitter
     if @settings.botDebug
       console.log "[#{sty.bold 'debug'}](#{sty.red sty.bold n}) #{sty.bold d}"
 
-  # This is temporary, do not use
-  loadExtensions: ->
-
   ###
   Catch all events
   ###
@@ -181,7 +182,6 @@ class Bot extends events.EventEmitter
     @client.join channel, callback
     @chanels.push channel
 
-
 ###
 Built-in extensions
 ###
@@ -216,6 +216,39 @@ Bot::command = (regex, pomoc, callback) ->
 
   @on 'user:private', ifje
   @on 'user:talk', ifje
+
+Bot::random = (ar)->
+  return ar[Math.floor(Math.random() * ar.length)];
+
+Bot::fetchJSON = (url, cb)->
+  default_headers = {
+    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1588.0 Safari/537.36',
+  }
+  request {
+    url: url,
+    headers: default_headers,
+    method: 'GET',
+  }, (e, rw, body)->
+    if !e and r.statusCode is 200
+      cb(JSON.parse(body))
+    else
+      console.log e
+      cb false
+
+Bot::fetchHTML = (url, cb)->
+  default_headers = {
+    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1588.0 Safari/537.36',
+  }
+  request {
+    url: url,
+    headers: default_headers,
+    method: 'GET',
+  }, (e, rw, body)->
+    if !e and r.statusCode is 200
+      cb( cheerio.load(body) )
+    else
+      console.log e
+      cb false
 
 
 Bot::loadExtensions = ->

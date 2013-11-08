@@ -1,30 +1,20 @@
 chai = require 'chai'
-global.request = require 'request'
 should = chai.should()
 expect = chai.expect
 
-url = require '../scripts/url'
+fat = require '../lib/fat_tests'
 
-describe 'URL basic', ->
-  q = url
-
-  it 'should have url resolver', (done)->
-    should.exist q.resolve
+describe 'url.coffee', ->
+  this.timeout 1000
+  bot = require("../scripts/url")(new fat.BotTest())
+  # generic test
+  it 'should display help', (done)->
+    bot.help.should.be.an 'array'
+    expect(bot.help.length).to.be.at.least 2
     done()
 
-describe 'URL resolve "http://www.theguardian.com/commentisfree/2013/aug/11/nsa-internet-surveillance-email"', ->
-  this.timeout 16000
-  q = url
-
-  it 'should get some info about link', (done)->
-    reply = (links)=>
-      links.should.be.an 'string'
-      expect(links.length).to.be.at.least 10
+  it 'test .nalozi ne prikaze ce ni veljavnega urlja', (done)->
+    bot.test ".nalozi http://medialize.github.io/URI.js/docs.html#static-withinString", (msg)=>
+      expect(msg).to.contain "Ni URL"
       done()
-    r = {
-        text: "http://www.theguardian.com/commentisfree/2013/aug/11/nsa-internet-surveillance-email",
-        reply: reply
-    }
-    q.resolve r
-
 

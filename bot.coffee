@@ -1,15 +1,16 @@
 fat = require './lib/fat'
 
-global.moment = require 'moment'
-global.request = require 'request'
-moment.lang("sl")
 global._ = require 'underscore'
-global.redis = require('then-redis').createClient()
 
-redis.on "error", (err)->
-  logger.log err
-redis.info().then (reply, err) ->
-  console.log err, reply
+if process.env.OPENSHIFT_REDIS_HOST?
+  global.redis = require('then-redis').createClient({
+    host: process.env.OPENSHIFT_REDIS_HOST,
+    port: process.env.OPENSHIFT_REDIS_PORT,
+    database: 1,
+    password: process.env.REDIS_PASSWORD
+  })
+else
+  global.redis = require('then-redis').createClient()
 
 bot = new fat.Bot
   server:   'freenode',
@@ -34,4 +35,4 @@ bot.connect()
 process.on "uncaughtException", (err) ->
   
   # handle the error safely
-  logger.log err
+  console.log err

@@ -1,8 +1,5 @@
 ddg = require('ddg')
  
-random = (ar)->
-  return ar[Math.floor(Math.random() * ar.length)];
-
 module.exports = (bot) ->
 
   bot.regexp /^ping$/i, (match, r) ->

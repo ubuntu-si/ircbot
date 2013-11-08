@@ -107,16 +107,14 @@ module.exports = (bot) ->
       arso key, (msg)->
         r.reply msg
 
-  bot.regexp /^\.prognoza/i,
+  bot.command /^\.prognoza/i,
     ".prognoza Vremenska prognoza"
-    (match, r) ->
-      prognoza (msg)->
-        r.reply msg
+    (r) ->
+      prognoza r.reply
 
-  bot.regexp /^\.napoved/i,
+  bot.command /^\.prognoza/i,
     ".napoved Vremenska napoved"
-    (match, r) ->
-      napoved (msg)->
-        r.reply msg
+    (r) ->
+      napoved r.reply
 
 module.exports.arso = arso
