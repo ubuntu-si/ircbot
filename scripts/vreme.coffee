@@ -27,7 +27,7 @@ yql = (yqlq, cbl) ->
 vreme = (kraj, cb) ->
 
   yql "select woeid from geo.places where text = \"" + kraj + "\"", (res) ->
-    if res
+    if res?
       try
         id = _.first(res.place).woeid
       catch e
@@ -38,6 +38,24 @@ vreme = (kraj, cb) ->
         cb "#{(100 / (212 - 32) * (item.condition.temp - 32)).toFixed(2)}°C #{item.link}"
     else
       cb "Podatka o vremenu ni..."
+
+prognoza = (cb) ->
+
+  yql 'select * from html where url="http://www.arso.gov.si/vreme/napovedi%20in%20podatki/napoved.html" and  xpath=\'//td[@class="vsebina"]/p[2]\'', (res) ->
+    if res?
+      cb res.content
+    else
+      cb "Podatka o vremenu ni..."
+
+napoved = (cb) ->
+
+  yql 'select * from html where url="http://www.arso.gov.si/vreme/napovedi%20in%20podatki/napoved.html" and  xpath=\'//td[@class="vsebina"]/p[4]\'', (res) ->
+    if res?
+      cb res.content
+    else
+      cb "Podatka o vremenu ni..."
+
+
 vreme2 = (lat, lon, cb) ->
 
   request.get "http://api.openweathermap.org/data/2.5/weather?APPID=017203dd3aeecf20cfb0b4bc1b032b36&lat=#{lat}&lon=#{lon}", (err, b, res) ->
@@ -87,6 +105,18 @@ module.exports = (bot) ->
     (match, r) ->
       key = match[1]
       arso key, (msg)->
+        r.reply msg
+
+  bot.regexp /^\.prognoza/i,
+    ".prognoza Vremenska prognoza"
+    (match, r) ->
+      prognoza (msg)->
+        r.reply msg
+
+  bot.regexp /^\.napoved/i,
+    ".napoved Vremenska napoved"
+    (match, r) ->
+      napoved (msg)->
         r.reply msg
 
 module.exports.arso = arso
