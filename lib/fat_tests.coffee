@@ -4,9 +4,19 @@ class TestRedis
     constructor: () ->
 
     lrange:()->
+      return {then: @then}
     lpush:()->
+      return {then: @then}
     rpush:()->
-
+      return {then: @then}
+    get:()->
+      return {then: @then}
+    set:()->
+      return {then: @then}
+    expire:()->
+      return {then: @then}
+    then:(cb)->
+      cb(false)
 global.redis = new TestRedis()
 
 class BotTest extends fat.Bot
@@ -22,10 +32,10 @@ class BotTest extends fat.Bot
       nick: "mocha"
       channel: "TEST"
       text: message
-      reply: (txt) =>
+      reply: (txt) ->
         #console.log "bot: #{txt}"
         cb txt
-      privmsg: (txt) =>
+      privmsg: (txt) ->
         #console.log "privbot: #{txt}"
         cb txt
 

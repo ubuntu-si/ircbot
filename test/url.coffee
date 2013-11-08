@@ -14,7 +14,7 @@ describe 'url.coffee', ->
     done()
 
   it 'test .nalozi ne prikaze ce ni veljavnega urlja', (done)->
-    bot.test ".nalozi http://medialize.github.io/URI.js/docs.html#static-withinString", (msg)=>
-      expect(msg).to.contain "Ni URL"
+    bot.test ".nalozi http://medialize.github.io/URI.js/docs.html#static-withinString", (msg)->
+      expect(msg).to.not.contain "Ni URL"
       done()
 

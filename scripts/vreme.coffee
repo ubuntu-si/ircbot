@@ -1,73 +1,5 @@
 crypto = require 'crypto'
 
-oddaljenost = (lat1, lon1, lat2, lon2) ->
-  ## http://mathworld.wolfram.com/SphericalTrigonometry.html
-  R = 6371; #v KM
-  return Math.acos(Math.sin(lat1)*Math.sin(lat2) + 
-                    Math.cos(lat1)*Math.cos(lat2) *
-                    Math.cos(lon2-lon1)) * R
-
-yql = (yqlq, cbl) ->
- 
-  uri = "http://query.yahooapis.com/v1/public/yql?format=json&q=" + encodeURIComponent(yqlq)
-  hash = crypto.createHash('md5').update(yqlq).digest("hex")
-  redis.get("yqlqh:#{hash}").then (cached)->
-    logger.log "uri", uri
-    unless cached
-      request
-        uri: uri
-      , (error, response, body) ->
-        redis.set "yqlqh:#{hash}", body
-        redis.expire "yqlqh:#{hash}", 60*8 #8minut
-        body = JSON.parse(body)
-        cbl body.query.results
-    else
-      cbl JSON.parse(cached).query.results
-
-vreme = (kraj, cb) ->
-
-  yql "select woeid from geo.places where text = \"" + kraj + "\"", (res) ->
-    if res?
-      try
-        id = _.first(res.place).woeid
-      catch e
-        id = res.place.woeid
-      
-      yql "select item from weather.forecast where woeid = \"" + id + "\"", (res) ->
-        item = res.channel.item
-        cb "#{(100 / (212 - 32) * (item.condition.temp - 32)).toFixed(2)}°C #{item.link}"
-    else
-      cb "Podatka o vremenu ni..."
-
-prognoza = (cb) ->
-
-  yql 'select * from html where url="http://www.arso.gov.si/vreme/napovedi%20in%20podatki/napoved.html" and  xpath=\'//td[@class="vsebina"]/p[2]\'', (res) ->
-    if res?
-      cb res.content
-    else
-      cb "Podatka o vremenu ni..."
-
-napoved = (cb) ->
-
-  yql 'select * from html where url="http://www.arso.gov.si/vreme/napovedi%20in%20podatki/napoved.html" and  xpath=\'//td[@class="vsebina"]/p[4]\'', (res) ->
-    if res?
-      cb res.content
-    else
-      cb "Podatka o vremenu ni..."
-
-
-vreme2 = (lat, lon, cb) ->
-
-  request.get "http://api.openweathermap.org/data/2.5/weather?APPID=017203dd3aeecf20cfb0b4bc1b032b36&lat=#{lat}&lon=#{lon}", (err, b, res) ->
-    unless err
-      res = JSON.parse(res)
-      vzhod = moment.unix(res.sys.sunrise).format("HH:mm:ss")
-      zahod = moment.unix(res.sys.sunset).format("HH:mm:ss")
-      t = (res.main.temp-273.15).toFixed(2)
-      cb "#{res.name}: #{t}°C, Sončni vzhod: #{vzhod}, Sončni zahod: #{zahod}"
-    else
-      cb "Podatkov o vremenu ni mogoče pridobiti..."
-
 arso = (key, cb) ->
   request.get "http://maps.googleapis.com/maps/api/geocode/json?address=#{encodeURI(key)},%20slovenija&sensor=true", (err, b, res) ->
     if err
@@ -98,8 +30,59 @@ arso = (key, cb) ->
         console.log  e
         cb "Neznana lokacija"
 
-
 module.exports = (bot) ->
+
+  oddaljenost = (lat1, lon1, lat2, lon2) ->
+    ## http://mathworld.wolfram.com/SphericalTrigonometry.html
+    R = 6371; #v KM
+    return Math.acos(Math.sin(lat1)*Math.sin(lat2) + 
+                      Math.cos(lat1)*Math.cos(lat2) *
+                      Math.cos(lon2-lon1)) * R
+
+  yql = (yqlq, cbl) ->
+   
+    uri = "http://query.yahooapis.com/v1/public/yql?format=json&q=" + encodeURIComponent(yqlq)
+    hash = crypto.createHash('md5').update(yqlq).digest("hex")
+    redis.get("yqlqh:#{hash}").then (cached)->
+      unless cached
+        bot.fetchJSON uri, (body) ->
+          redis.set "yqlqh:#{hash}", JSON.stringify(body.query.results)
+          redis.expire "yqlqh:#{hash}", 60*8 #8minut
+          cbl body.query.results
+      else
+        cbl JSON.parse(cached)
+
+  vreme = (kraj, cb) ->
+
+    yql "select woeid from geo.places where text = \"" + kraj + "\"", (res) ->
+      if res?
+        try
+          id = _.first(res.place).woeid
+        catch e
+          id = res.place.woeid
+        
+        yql "select item from weather.forecast where woeid = \"" + id + "\"", (res) ->
+          item = res.channel.item
+          cb "#{(100 / (212 - 32) * (item.condition.temp - 32)).toFixed(2)}°C #{item.link}"
+      else
+        cb "Podatka o vremenu ni..."
+
+
+  vreme2 = (lat, lon, cb) ->
+
+    request.get "http://api.openweathermap.org/data/2.5/weather?APPID=017203dd3aeecf20cfb0b4bc1b032b36&lat=#{lat}&lon=#{lon}", (err, b, res) ->
+      unless err
+        res = JSON.parse(res)
+        vzhod = moment.unix(res.sys.sunrise).format("HH:mm:ss")
+        zahod = moment.unix(res.sys.sunset).format("HH:mm:ss")
+        t = (res.main.temp-273.15).toFixed(2)
+        cb "#{res.name}: #{t}°C, Sončni vzhod: #{vzhod}, Sončni zahod: #{zahod}"
+      else
+        cb "Podatkov o vremenu ni mogoče pridobiti..."
+
+
+
+
   bot.regexp /^\.vreme (.+)/i,
     ".vreme <kraj> dobi podatke o vremenu za <kraj>"
     (match, r) ->
@@ -110,11 +93,26 @@ module.exports = (bot) ->
   bot.command /^\.prognoza/i,
     ".prognoza Vremenska prognoza"
     (r) ->
+      prognoza = (cb) ->
+
+        yql 'select * from html where url="http://www.arso.gov.si/vreme/napovedi%20in%20podatki/napoved.html" and  xpath=\'//td[@class="vsebina"]/p[2]\'', (res) ->
+          if res?
+            cb res.p.content
+          else
+            cb "Podatka o vremenu ni..."
       prognoza r.reply
 
-  bot.command /^\.prognoza/i,
+  bot.command /^\.napoved/i,
     ".napoved Vremenska napoved"
     (r) ->
+      napoved = (cb) ->
+
+        yql 'select * from html where url="http://www.arso.gov.si/vreme/napovedi%20in%20podatki/napoved.html" and  xpath=\'//td[@class="vsebina"]/p[4]\'', (res) ->
+          if res?
+            cb res.p.content
+          else
+            cb "Podatka o vremenu ni..."
+
       napoved r.reply
 
 module.exports.arso = arso

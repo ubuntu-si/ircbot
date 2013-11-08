@@ -3,8 +3,8 @@ irc         = require 'irc'
 sty         = require 'sty'
 u           = require 'underscore'
 events      = require 'events'
-cheerio = require 'cheerio'
-request = require 'request'
+global.cheerio = require 'cheerio'
+global.request = require 'request'
 global.moment = require 'moment'
 moment.lang("sl")
 
@@ -228,7 +228,7 @@ Bot::fetchJSON = (url, cb)->
     url: url,
     headers: default_headers,
     method: 'GET',
-  }, (e, rw, body)->
+  }, (e, r, body)->
     if !e and r.statusCode is 200
       cb(JSON.parse(body))
     else
@@ -243,7 +243,7 @@ Bot::fetchHTML = (url, cb)->
     url: url,
     headers: default_headers,
     method: 'GET',
-  }, (e, rw, body)->
+  }, (e, r, body)->
     if !e and r.statusCode is 200
       cb( cheerio.load(body) )
     else
