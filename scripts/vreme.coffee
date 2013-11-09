@@ -90,25 +90,25 @@ module.exports = (bot) ->
   bot.command /^\.prognoza/i,
     ".prognoza Vremenska prognoza"
     (r) ->
-      prognoza = (cb) ->
+      url = "http://www.arso.gov.si/vreme/napovedi%20in%20podatki/napoved.html"
+      bot.fetchHTML url, ($)->
+        if $?
+          vsebina = $("td.vsebina p").eq(2).text()
+          console.log vsebina
+          r.reply vsebina
+        else
+          r.reply "Podatka o vremenu ni..."
 
-        yql 'select * from html where url="http://www.arso.gov.si/vreme/napovedi%20in%20podatki/napoved.html" and  xpath=\'//td[@class="vsebina"]/p[2]\'', (res) ->
-          if res?
-            cb res.p.content
-          else
-            cb "Podatka o vremenu ni..."
-      prognoza r.reply
 
   bot.command /^\.napoved/i,
     ".napoved Vremenska napoved"
     (r) ->
-      napoved = (cb) ->
-
-        yql 'select * from html where url="http://www.arso.gov.si/vreme/napovedi%20in%20podatki/napoved.html" and  xpath=\'//td[@class="vsebina"]/p[4]\'', (res) ->
-          if res?
-            cb res.p.content
-          else
-            cb "Podatka o vremenu ni..."
-
-      napoved r.reply
+      url = "http://www.arso.gov.si/vreme/napovedi%20in%20podatki/napoved.html"
+      bot.fetchHTML url, ($)->
+        if $?
+          vsebina = $("td.vsebina p").eq(4).text()
+          console.log vsebina
+          r.reply vsebina
+        else
+          r.reply "Podatka o vremenu ni..."
 
