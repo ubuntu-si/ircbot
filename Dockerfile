@@ -28,7 +28,6 @@ run    apt-get --yes install build-essential --force-yes
 ## Setup Bot
 run    cd /opt; git clone https://github.com/ubuntu-si/ircbot.git bot --depth 1
 run    cd /opt/bot ; npm install
-run    npm install -g foreman
 
 WORKDIR /opt/bot
-CMD ["/usr/bin/nf", "start"]
+CMD ["/usr/bin/npm", "run-script", "deploy"]

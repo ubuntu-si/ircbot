@@ -5,7 +5,7 @@ expect = chai.expect
 fat = require '../lib/fat_tests'
 
 describe 'url.coffee', ->
-  this.timeout 1000
+  this.timeout 16000
   bot = require("../scripts/url")(new fat.BotTest())
   # generic test
   it 'should display help', (done)->

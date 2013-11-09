@@ -4,7 +4,9 @@
   "description": "#ubuntu-si bot",
   "main": "server.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha -R spec --compilers coffee:coffee-script"
+    "test": "./node_modules/.bin/mocha -R spec --compilers coffee:coffee-script",
+    "deploy": "git pull&&npm test&&npm start",
+    "start": "./node_modules/.bin/coffee bot.coffee"
   },
   "repository": "",
   "private": true,
