@@ -16,24 +16,24 @@ describe 'vreme.coffee', ->
   it 'test .prognoza', (done)->
     bot.test ".prognoza", (msg)->
       expect(msg).to.be.a('string')
-      expect(msg.length).to.be.at.least 140
+      expect(msg.length).to.be.at.least 40
       done()
 
   it 'test .napoved', (done)->
     bot.test ".napoved", (msg)->
       expect(msg).to.be.a('string')
-      expect(msg.length).to.be.at.least 140
+      expect(msg.length).to.be.at.least 40
       done()
 
   it 'test .vreme lj', (done)->
     bot.test ".vreme lj", (msg)->
       expect(msg).to.be.a('string')
-      expect(msg.length).to.be.at.least 140
+      expect(msg.length).to.be.at.least 20
       done()
 
   it 'test .vreme new york', (done)->
     bot.test ".vreme new york", (msg)->
       expect(msg).to.be.a('string')
-      expect(msg.length).to.be.at.least 60
+      expect(msg.length).to.be.at.least 20
       done()
 

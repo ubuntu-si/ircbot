@@ -220,34 +220,38 @@ Bot::command = (regex, pomoc, callback) ->
 Bot::random = (ar)->
   return ar[Math.floor(Math.random() * ar.length)];
 
-Bot::fetchJSON = (url, cb)->
+Bot::fetch = (url, cb)->
+
+  ua = [
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.114 Safari/537.36",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1588.0 Safari/537.36",
+    "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:25.0) Gecko/20100101 Firefox/25.0"
+  ]
+
   default_headers = {
-    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1588.0 Safari/537.36',
+    'User-Agent': @random ua
   }
   request {
     url: url,
     headers: default_headers,
     method: 'GET',
-  }, (e, r, body)->
+  }, cb
+
+
+Bot::fetchJSON = (url, cb)->
+  @fetch url, (e, r, body)->
     if !e and r.statusCode is 200
-      cb(JSON.parse(body))
+      cb( JSON.parse(body) )
     else
       console.log e
       cb false
 
 Bot::fetchHTML = (url, cb)->
-  default_headers = {
-    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1588.0 Safari/537.36',
-  }
-  request {
-    url: url,
-    headers: default_headers,
-    method: 'GET',
-  }, (e, r, body)->
-    if !e and r.statusCode is 200
+  @fetch url, (e, r, body)->
+    type =  r.headers["content-type"]
+    if !e and r.statusCode is 200 and type.indexOf('html') != -1
       cb( cheerio.load(body) )
     else
-      console.log e
       cb false
 
 

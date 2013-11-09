@@ -17,11 +17,13 @@ run    ln -s /bin/true /sbin/initctl
 run    apt-get install -y -q curl git wget 
 
 ## NODE
-run    apt-get install -y -q nodejs npm
+run    apt-get install -y -q nodejs
 env   DEBIAN_FRONTEND dialog
 
-## County required
+## Bot required
 run    apt-get --yes install redis-server --force-yes
+run    apt-get --yes install python --force-yes
+run    apt-get --yes install build-essential --force-yes
 
 ## Setup Bot
 run    cd /opt; git clone https://github.com/ubuntu-si/ircbot.git bot --depth 1

@@ -1,18 +1,18 @@
 module.exports = (bot) ->
 
-  is_url = RegExp("(http|https)://([a-zA-Z0-9_\-]+)([\.][a-zA-Z0-9_\-]+)+([/][a-zA-Z0-9\~\(\)_\-]*)+([\.][a-zA-Z0-9\(\)_\-]+)*", "ig")
+  is_url = /^(https?):\/\/.+/
 
   resolve = (url, cb)->
     if is_url.test url
-      bot.fetchHTML ($)->
-        if $?
+      bot.fetchHTML url, (e, $)->
+        if $? and not e
           naslov = $("title").map (i, el) ->
               return $(this).text()
           opis = $("meta[name=description]").map (i, el) ->
               return $(this).attr("content")
           cb "#{naslov}\n#{opis}"
         else
-          cb "Napaka fetchHTML"
+          cb "Ni HTML"
     else
       cb "Ni URL"
 
