@@ -6,7 +6,6 @@ env   DEBIAN_FRONTEND noninteractive
 run    apt-get install -y software-properties-common
 run    add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) universe"
 run    add-apt-repository -y ppa:chris-lea/node.js
-run    add-apt-repository -y ppa:nginx/stable
 run    apt-get --yes update
 run    apt-get --yes upgrade --force-yes
 
@@ -18,7 +17,7 @@ run    ln -s /bin/true /sbin/initctl
 run    apt-get install -y -q curl git wget 
 
 ## NODE
-run    apt-get install -y -q nodejs
+run    apt-get install -y -q nodejs npm
 env   DEBIAN_FRONTEND dialog
 
 ## County required
