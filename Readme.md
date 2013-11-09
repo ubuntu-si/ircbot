@@ -1,17 +1,22 @@
-# #ubuntu-si irc bot
+#ubuntu-si irc bot
 
 Potrebuješ:
 
  - nodejs
  - redis
- - node-foreman
+ - docker
 
 Zaženeš:
 
- - npm install
- - nf start 
+ - ```sudo docker build -t dz0ny/ircbot github.com/ubuntu-si/ircbot```
+ - ``` sudo docker run -d dz0ny/ircbot```
 
-Ukazi:
+Tesiraš & razvijaš lokalno:
+
+  - ```./node_modules/.bin/mocha -R spec --compilers coffee:coffee-script test/vreme.coffee``` testiraš specifično funkcionalnost
+  - ```npm test``` če želiš kompleten projekt
+
+##Ukazi:
 
   - .plosk -- Zaploskaj
   - .ddg -- Vse kar zna https://api.duckduckgo.com/api ali https://api.duckduckgo.com/goodies
