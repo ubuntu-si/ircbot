@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha -R spec --compilers coffee:coffee-script",
-    "deploy": "git pull&&npm test&&npm start",
+    "deploy": "git pull&&npm install&&npm start",
     "start": "./node_modules/.bin/coffee bot.coffee"
   },
   "repository": "",
