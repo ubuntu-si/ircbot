@@ -1,5 +1,7 @@
 #ubuntu-si irc bot
 
+[![Build Status](https://travis-ci.org/ubuntu-si/ircbot.png?branch=master)](https://travis-ci.org/ubuntu-si/ircbot)
+
 Potrebuješ:
 
  - nodejs
