@@ -12,15 +12,9 @@ module.exports = (bot) ->
   yql = (yqlq, cbl) ->
    
     uri = "http://query.yahooapis.com/v1/public/yql?format=json&q=" + encodeURIComponent(yqlq)
-    hash = crypto.createHash('md5').update(yqlq).digest("hex")
-    redis.get("yqlqh:#{hash}").then (cached)->
-      unless cached
-        bot.fetchJSON uri, (body) ->
-          redis.set "yqlqh:#{hash}", JSON.stringify(body.query.results)
-          redis.expire "yqlqh:#{hash}", 60*8 #8minut
-          cbl body.query.results
-      else
-        cbl JSON.parse(cached)
+    bot.fetchJSON uri, (body) ->
+      cbl body.query.results
+
 
   vreme = (kraj, cb) ->
 
