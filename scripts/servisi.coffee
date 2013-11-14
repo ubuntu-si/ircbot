@@ -76,7 +76,7 @@ module.exports = (bot) ->
               cisti.push paket.replace "Package ", ""
             cb cisti.join ", "
           else
-            logger.log e
+            console.log e
             cb "Ne najdem"
 
       apt match[1].trim(), (answer)->
@@ -96,7 +96,7 @@ module.exports = (bot) ->
               rate = Number(JSON.parse(body).rate)
               cb "#{v * rate} #{t}"
             else
-              logger.log e
+              console.log e
               cb "Napaka"
         else
           cb "Napaka"

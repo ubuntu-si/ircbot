@@ -4,7 +4,7 @@ module.exports = (bot) ->
   bot.on 'user:join', (r) ->
     
     redis.lrange("irc:#{r.nick}:pass", 0 , -1).then (msg)->
-      logger.log msg
+      console.log msg
       if msg
         if msg.length > 1
           r.privmsg "Živjo #{r.nick}, par sporočilc imam za tebe :)"
@@ -21,7 +21,7 @@ module.exports = (bot) ->
     ".videl <nick> -- Kdaj je bil uporabnik zadnjič na kanalu, sporočilo",
     (match, r) ->
       usr = match[1]
-      logger.log "iščem uporabnika #{usr}"
+      console.log "iščem uporabnika #{usr}"
       
       if usr is r.nick
         return r.reply "#{r.nick}: Kdaj si se zadnjič pogledal/a v ogledalo?"
@@ -30,9 +30,9 @@ module.exports = (bot) ->
 
         if timestamp
           cas = moment.unix(timestamp).fromNow()
-          logger.log "zadnjič #{timestamp} - > #{cas}"
+          console.log "zadnjič #{timestamp} - > #{cas}"
           redis.get("irc:#{usr}:msg").then (msg)->
-            logger.log msg
+            console.log msg
             r.reply "#{r.nick}: #{usr} je bil zadnjič prisoten/na #{cas} z sporočilom: #{msg}"
         else
           r.reply "#{r.nick}: O čemu ti to?"
@@ -41,7 +41,7 @@ module.exports = (bot) ->
     ".sporoči <nick> <sporočilo> -- Pošlji sporočilo uporabniku, če ni prisoten",
     (match, r) ->
       usr = r.text.replace(".sporoči ", "").split(" ")[0]
-      logger.log usr
+      console.log usr
       msg = r.text.slice(r.text.indexOf(usr)+usr.length+1, r.text.length)
       
       if usr is r.nick
