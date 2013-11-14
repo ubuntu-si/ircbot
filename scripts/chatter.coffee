@@ -25,6 +25,10 @@ module.exports = (bot) ->
     bot.fetchJSON "http://pugme.herokuapp.com/random", (data)->
       r.reply data.pug
 
+  bot.command /wat/i, (r) ->
+    bot.fetchJSON "http://watme.herokuapp.com/random", (data)->
+      r.reply data.wat
+
   bot.regexp /pug bomb( (\d+))?/i, (match, r) ->
     count = match[1] || 5
     bot.fetchJSON "http://pugme.herokuapp.com/bomb?count=#{count}", (data)->
