@@ -66,7 +66,7 @@ module.exports = (bot) ->
                   return a - b;
                 kraj = _.first(lokacije)
                 vreme2 loc.lat, loc.lng, (msg)->
-                  cb """ARSO: #{kraj.metData.domain_longTitle} (#{kraj.metData.domain_altitude}m): #{kraj.metData.t}°C @#{kraj.metData.tsValid_issued}.\nVlažnost: #{kraj.metData.rh}% Veter: #{kraj.metData.ddavg_longText} #{kraj.metData.ffavg_val} m/s\nhttp://forecast.io/#/f/#{loc.lat},#{loc.lng}""" + msg
+                  cb """ARSO: #{kraj.metData.domain_longTitle} (#{kraj.metData.domain_altitude}m): #{kraj.metData.t}°C @#{kraj.metData.tsValid_issued}.\nVlažnost: #{kraj.metData.rh}% Veter: #{kraj.metData.ddavg_longText} #{kraj.metData.ffavg_val} m/s\nhttp://forecast.io/#/f/#{loc.lat},#{loc.lng}\n""" + msg
           else
             vreme key, (msg)->
               cb "#{imeg}: #{msg}"   
