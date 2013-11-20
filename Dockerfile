@@ -17,7 +17,7 @@ run    ln -s /bin/true /sbin/initctl
 run    apt-get install -y -q curl git wget 
 
 ## NODE
-run    apt-get install -y -q nodejs
+run    apt-get install -y -q nodejs supervisor
 env   DEBIAN_FRONTEND dialog
 
 ## Bot required
@@ -29,5 +29,8 @@ run    apt-get --yes install build-essential --force-yes
 run    cd /opt; git clone https://github.com/ubuntu-si/ircbot.git bot --depth 1
 run    cd /opt/bot ; npm install
 
-WORKDIR /opt/bot
-CMD ["/usr/bin/npm", "run-script", "deploy"]
+add    ./supervisor/supervisord.conf /etc/supervisor/supervisord.conf
+add    ./supervisor/conf.d/redis.conf /etc/supervisor/conf.d/redis.conf
+add    ./supervisor/conf.d/bot.conf /etc/supervisor/conf.d/bot.conf
+
+ENTRYPOINT ["/usr/bin/supervisord"]
