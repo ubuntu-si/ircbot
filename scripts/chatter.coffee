@@ -21,15 +21,15 @@ module.exports = (bot) ->
     bot.fetchJSON "http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=facepalm", (data)->
       r.reply bot.random(data.responseData.results).unescapedUrl
       
-  bot.command /pug me/i, (r) ->
+  bot.command /^pug me/i, (r) ->
     bot.fetchJSON "http://pugme.herokuapp.com/random", (data)->
       r.reply data.pug
 
-  bot.command /wat/i, (r) ->
+  bot.command /^wat/i, (r) ->
     bot.fetchJSON "http://watme.herokuapp.com/random", (data)->
       r.reply data.wat
 
-  bot.regexp /pug bomb( (\d+))?/i, (match, r) ->
+  bot.regexp /^pug bomb( (\d+))?/i, (match, r) ->
     count = match[1] || 5
     bot.fetchJSON "http://pugme.herokuapp.com/bomb?count=#{count}", (data)->
       r.reply pug for pug in data.pugs
