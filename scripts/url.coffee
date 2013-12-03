@@ -25,7 +25,7 @@ module.exports = (bot) ->
     ".url <nick> Prikaži urlje, ki jih je objavil <nick>"
     (match, r) ->
       nick = match[1]
-      redis.lrange("irc:zgodovina:#{nick}", 0, 5).then (data)->
+      redis.lrange("irc:zgodovina:#{nick}", -5, 5).then (data)->
         for msg in data
           r.reply msg
 
