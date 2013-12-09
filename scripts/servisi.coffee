@@ -22,7 +22,7 @@ module.exports = (bot) ->
       , (err, data) ->
         unless err
           izbran = _.first(data.items)
-          r.reply "#{izbran.title}(#{moment.duration(izbran.duration, 'seconds').humanize()}) #{fixyt(izbran.player.default)} ♥#{humanize.numberFormat(izbran.likeCount,0)} ▶#{humanize.numberFormat(izbran.viewCount,0)}"
+          r.reply "#{izbran.title} (#{moment.duration(izbran.duration, 'seconds').humanize()}) #{fixyt(izbran.player.default)} ♥#{humanize.numberFormat(izbran.likeCount,0)} ▶#{humanize.numberFormat(izbran.viewCount,0)}"
         else
           r.reply "Ni zadetka"
 
