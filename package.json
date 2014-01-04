@@ -27,6 +27,7 @@
     "chai": "latest",
     "mocha": "latest",
     "ddg": "latest",
-    "URIjs": "~1.11.2"
+    "URIjs": "~1.11.2",
+    "mathjs": "~0.17.1"
   }
 }

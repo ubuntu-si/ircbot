@@ -2,6 +2,7 @@ youtube = require("youtube-feeds")
 youtube.httpProtocol = "https"
 humanize = require 'humanize'
 HowDoI = require './lib/howdoi'
+mathjs = require('mathjs')()
 
 module.exports = (bot) ->
 
@@ -36,6 +37,16 @@ module.exports = (bot) ->
           r.reply "#{izbran.title}(#{moment.duration(izbran.duration).humanize()}) #{izbran.permalink_url} ♥#{humanize.numberFormat(izbran.favoritings_count,0)} ▶#{humanize.numberFormat(izbran.playback_count,0)}"
         else
           r.reply "Ni zadetka"
+
+  bot.regexp /^.calc (.+)/,
+    ".calc <enačba> -- Izračunaj",
+    (match, r) ->
+      f = match[1].trim()
+      res = mathjs.eval(f)
+      if res.value?
+        r.reply String(res.value.toFixed(2))
+      else 
+        r.reply String(res.toFixed(2))
 
   bot.regexp /^.asku (.+)/,
     ".asku <pojem> -- Išči po askubuntu, če vsebuje !! potem prikaže povezave",

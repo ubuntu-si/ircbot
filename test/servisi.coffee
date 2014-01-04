@@ -25,6 +25,16 @@ describe 'servisi.coffee', ->
       expect(msg.length).to.be.at.least 140
       done()
 
+  it 'test .calc 5.08 cm in inch', (done)->
+    bot.test ".calc 5.08 cm in inch", (msg)->
+      expect(msg).to.be.a('string')
+      done()
+
+  it 'test .calc sin(45 deg) ^ 2', (done)->
+    bot.test ".calc sin(45 deg) ^ 2", (msg)->
+      expect(msg).to.be.a('string')
+      done()
+
   it 'test .imdb The Hobbit The Desolation of Smaug', (done)->
     bot.test ".imdb The Hobbit The Desolation of Smaug", (msg)->
       expect(msg).to.be.a('string')
