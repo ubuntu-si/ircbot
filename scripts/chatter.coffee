@@ -29,6 +29,12 @@ module.exports = (bot) ->
     bot.fetchJSON "http://watme.herokuapp.com/random", (data)->
       r.reply data.wat
 
+  bot.command /lignux/i, (r) ->
+    r.reply "#{r.nick}: linux*"
+
+  bot.command /^YES yes/i, (r) ->
+    r.reply "The YES dance\nhttps://www.youtube.com/watch?v=eyqUj3PGHv4"
+
   bot.regexp /^pug bomb( (\d+))?/i, (match, r) ->
     count = match[1] || 5
     bot.fetchJSON "http://pugme.herokuapp.com/bomb?count=#{count}", (data)->
