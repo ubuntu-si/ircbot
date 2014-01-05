@@ -8,6 +8,10 @@ Potrebuješ:
  - redis
  - docker
 
+Preden začneš:
+
+ - ```npm install```
+
 Zaženeš:
 
  - ```sudo docker build -t dz0ny/ircbot github.com/ubuntu-si/ircbot```
