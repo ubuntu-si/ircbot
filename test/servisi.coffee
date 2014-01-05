@@ -7,6 +7,12 @@ fat = require '../lib/fat_tests'
 describe 'servisi.coffee', ->
   this.timeout 16000
   bot = require("../scripts/servisi")(new fat.BotTest())
+
+  it 'test .stran ubuntu.si', (done)->
+    bot.test ".stran ubuntu.si", (msg)->
+        expect(msg).to.be.a('string')
+        done()
+        
   # generic test
   it 'should display help', (done)->
     bot.help.should.be.an 'array'
