@@ -12,6 +12,11 @@ describe 'servisi.coffee', ->
     bot.test ".stran ubuntu.si", (msg)->
         expect(msg).to.be.a('string')
         done()
+
+  it 'test .stran localhost', (done)->
+    bot.test ".stran localhost", (msg)->
+        expect(msg).to.be.a('string')
+        done()
         
   # generic test
   it 'should display help', (done)->
