@@ -161,8 +161,8 @@ module.exports = (bot) ->
         domena = match[1].trim()
         url = "http://isup.me/#{domena}"
         bot.fetch url, (error, response, body)->
-          dostopna = body.indexOf("is up")
           if !error and response.statusCode is 200
+            dostopna = body.indexOf("is up")
             if dostopna != -1
               irc.reply "#{domena} je dosegljiva!"
             else
