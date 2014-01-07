@@ -51,3 +51,8 @@ describe 'servisi.coffee', ->
       expect(msg).to.be.a('string')
       expect(msg.length).to.be.at.least 140
       done()
+
+  it 'test .stran ubuntu.si', (done)->
+    bot.test ".stran ubuntu.si", (msg)->
+      expect(msg).to.be.a('string')
+      done()

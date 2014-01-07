@@ -159,9 +159,13 @@ module.exports = (bot) ->
       ".stran <domena> -- Ali stran dela?",
       (match, irc) ->
         domena = match[1].trim()
-        url = "http://#{domena}/"
+        url = "http://isup.me/#{domena}"
         bot.fetch url, (error, response, body)->
           if !error and response.statusCode is 200
-            irc.reply "#{domena} je dostopna!"
+            dostopna = body.indexOf("is up")
+            if dostopna != -1
+              irc.reply "#{domena} je dosegljiva!"
+            else
+              irc.reply "#{domena} ni dosegljiva"
           else
-            irc.reply "#{domena} ni dostopna!"
+            irc.reply "http://isup.me ni na voljo!"
