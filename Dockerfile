@@ -14,23 +14,18 @@ run    dpkg-divert --local --rename --add /sbin/initctl
 run    ln -s /bin/true /sbin/initctl
 
 # TOOLS
-run    apt-get install -y -q curl wget 
+run    apt-get install -y -q wget 
 
 ## NODE
-run    apt-get install -y -q nodejs supervisor
+run    apt-get install -y -q nodejs
 env   DEBIAN_FRONTEND dialog
 
 ## Bot required
-run    apt-get --yes install redis-server --force-yes
-run    apt-get --yes install python --force-yes
-run    apt-get --yes install build-essential --force-yes
+run    apt-get --yes install redis-server python-minimal build-essential --force-yes
 
 ## Setup Bot
 add    . /opt/bot
-run    cd /opt/bot ; npm install
-
-add    ./supervisor/supervisord.conf /etc/supervisor/supervisord.conf
-add    ./supervisor/conf.d/redis.conf /etc/supervisor/conf.d/redis.conf
-add    ./supervisor/conf.d/bot.conf /etc/supervisor/conf.d/bot.conf
-
-ENTRYPOINT ["/usr/bin/supervisord"]
+run    cd /opt/bot; rm -rf node_modules; npm install
+run    wget https://godist.herokuapp.com/projects/ddollar/forego/releases/current/linux-amd64/forego -O /usr/bin/forego; chmod +x  /usr/bin/forego
+workdir /opt/bot
+cmd ["forego", "start"]

@@ -1,1 +1,2 @@
-web: node_modules/.bin/coffee bot.coffee
+worker: npm start
+db: /usr/bin/redis-server
