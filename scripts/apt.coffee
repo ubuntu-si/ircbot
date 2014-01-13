@@ -12,9 +12,11 @@ module.exports = (bot) ->
               for paket in $("#psearchres h3")
                 arches = []
                 for arch in $(paket).next().find("li .resultlink")
-                  arches.push $(arch).text().trim()
+                  archname = $(arch).text().trim()
+                  if archname.indexOf("-") == -1
+                    arches.push archname
                 paketi.push "#{$(paket).text().replace("Package ","")} {#{arches.join(", ")}}"
-              cb paketi.join "\n"
+              cb paketi.reverse().slice(-10).join "\n"
           else
               cb "Ne najdem"
 
@@ -31,7 +33,7 @@ module.exports = (bot) ->
               paketi = []
               for paket in $("td.file") 
                 paketi.push [$(paket).text().trim(), $(paket).next().text().trim()].join(" > ")
-              cb paketi.join "\n"
+              cb paketi.reverse().slice(-10).join "\n"
           else
             cb "Ne najdem"
 

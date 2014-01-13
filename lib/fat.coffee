@@ -87,7 +87,7 @@ class Bot extends events.EventEmitter
       autoConnect: false
       autoRejoin: true
       floodProtection: true
-      floodProtectionDelay: 1000
+      floodProtectionDelay: 300
 
   prepEvents: ->
     @client.on 'error', (err) ->
