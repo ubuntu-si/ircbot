@@ -71,27 +71,6 @@ module.exports = (bot) ->
       res = new HowDoI f, "stackexchange.com"
       res.get_answer (answer)->
         r.reply answer
-
-  bot.regexp /^.apt (.+)/,
-    ".apt <paket> -- Najde pakete po imenu v packages.ubuntu.com",
-    (match, r) ->
-
-      apt = (paket, cb)=>
-        url = "http://packages.ubuntu.com/search?suite=all&searchon=names&keywords=#{encodeURI(paket)}"
-        bot.fetchHTML url , ($)->
-          if $?
-            paketi = $("#psearchres h3").map (i, el) ->
-                return $(this).text()
-            cisti = []
-            for paket in paketi
-              cisti.push paket.replace "Package ", ""
-            cb cisti.join ", "
-          else
-            console.log e
-            cb "Ne najdem"
-
-      apt match[1].trim(), (answer)->
-        r.reply answer
       
   bot.regexp /^.pretvori ([\d,.]+) (.+) (.+)/,
     ".pretvori <vrednost> <valuta> <valuta> -- Pretvori med valutami (primer .pretvori 10 eur usd)",

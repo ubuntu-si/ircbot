@@ -20,6 +20,7 @@ require("./scripts/servisi")(bot)
 require("./scripts/seen")(bot)
 require("./scripts/set-get")(bot)
 require("./scripts/vreme")(bot)
+require("./scripts/apt")(bot)
 require("./scripts/url")(bot)
 -if process.env.T_CK?
   require("./scripts/novickar")(bot)
