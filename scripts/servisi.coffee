@@ -146,8 +146,10 @@ module.exports = (bot) ->
               trailer = $("a[itemprop=\"trailer\"]").attr("href")
               if trailer?
                 trailer = "http://www.imdb.com#{trailer}"
+                msg = "#{naslov} #{cas}\nOcena: #{ocena} MT: #{metascore}\n#{opis}\nTrailer:#{trailer} Povezava:#{url_filma}"
+              else
+                msg = "#{naslov} #{cas}\nOcena: #{ocena} MT: #{metascore}\n#{opis}\nPovezava:#{url_filma}"
               
-              msg = "#{naslov} #{cas}\nOcena: #{ocena} MT: #{metascore}\n#{opis}\n#{trailer || url_filma}"
               console.log msg
               cb msg
           else
