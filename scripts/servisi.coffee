@@ -81,7 +81,7 @@ module.exports = (bot) ->
         url = "http://www.imdb.com/find?q=#{encodeURI(ime)}&s=all"
         bot.fetchHTML url, ($)->
           naslov = $(".findResult:first-child .result_text a").text()
-          url_filma = $(".findResult:first-child .result_text a").attr("href")
+          url_filma = $(".findResult:first-child .result_text a").attr("href").split("?")[0]
 
           if url_filma?
             url_filma = "http://www.imdb.com#{url_filma}"
@@ -100,9 +100,9 @@ module.exports = (bot) ->
               trailer = $("a[itemprop=\"trailer\"]").attr("href")
               if trailer?
                 trailer = "http://www.imdb.com#{trailer}"
-                msg = "#{naslov} #{cas}\nOcena: #{ocena} MT: #{metascore}\n#{opis}\nTrailer:#{trailer}\nPovezava:#{url_filma}"
+                msg = "#{naslov} #{cas}\nOcena: #{ocena} MT: #{metascore}\n#{opis}\nTrailer: #{trailer.split("?")[0]}\nPovezava: #{url_filma}"
               else
-                msg = "#{naslov} #{cas}\nOcena: #{ocena} MT: #{metascore}\n#{opis}\nPovezava:#{url_filma}"
+                msg = "#{naslov} #{cas}\nOcena: #{ocena} MT: #{metascore}\n#{opis}\nPovezava: #{url_filma}"
               
               console.log msg
               cb msg
