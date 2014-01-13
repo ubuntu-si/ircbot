@@ -12,8 +12,8 @@ else
 
 bot = new fat.Bot
   server:   'freenode',
-  nick:   'jabuk',
-  channels: ['#ubuntu-si']
+  nick:   process.env.IRC_NICK || 'jabuk',
+  channels: [process.env.IRC_CHANNEL || '#ubuntu-si']
 
 require("./scripts/chatter")(bot)
 require("./scripts/servisi")(bot)
