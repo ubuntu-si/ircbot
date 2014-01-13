@@ -1,7 +1,6 @@
 youtube = require("youtube-feeds")
 youtube.httpProtocol = "https"
 humanize = require 'humanize'
-HowDoI = require './lib/howdoi'
 mathjs = require('mathjs')()
 
 module.exports = (bot) ->
@@ -47,30 +46,6 @@ module.exports = (bot) ->
         r.reply String(res.value.toFixed(2))
       else 
         r.reply String(res.toFixed(2))
-
-  bot.regexp /^.asku (.+)/,
-    ".asku <pojem> -- Išči po askubuntu, če vsebuje !! potem prikaže povezave",
-    (match, r) ->
-      f = match[1].trim()
-      res = new HowDoI f, "askubuntu.com"
-      res.get_answer (answer)->
-        r.reply answer
-
-  bot.regexp /^.stof (.+)/,
-    ".stof <pojem> -- Išči po stackoverflow, če vsebuje !! potem prikaže povezave",
-    (match, r) ->
-      f = match[1].trim()
-      res = new HowDoI f, "stackoverflow.com"
-      res.get_answer (answer)->
-        r.reply answer
-
-  bot.regexp /^.stx (.+)/,
-    ".stx <pojem> -- Išči po stackexchange, če vsebuje !! potem prikaže povezave",
-    (match, r) ->
-      f = match[1].trim()
-      res = new HowDoI f, "stackexchange.com"
-      res.get_answer (answer)->
-        r.reply answer
       
   bot.regexp /^.pretvori ([\d,.]+) (.+) (.+)/,
     ".pretvori <vrednost> <valuta> <valuta> -- Pretvori med valutami (primer .pretvori 10 eur usd)",
