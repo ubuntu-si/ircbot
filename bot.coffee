@@ -11,8 +11,8 @@ else
   global.redis = require('then-redis').createClient()
 
 bot = new fat.Bot
-  server:   'freenode',
-  nick:   process.env.IRC_NICK || 'jabuk',
+  server:   process.env.IRC_SERVER || 'freenode',
+  nick:     process.env.IRC_NICK || 'jabuk',
   channels: [process.env.IRC_CHANNEL || '#ubuntu-si']
 
 require("./scripts/chatter")(bot)
