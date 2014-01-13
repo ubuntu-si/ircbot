@@ -14,7 +14,7 @@ run    dpkg-divert --local --rename --add /sbin/initctl
 run    ln -s /bin/true /sbin/initctl
 
 # TOOLS
-run    apt-get install -y -q curl git wget 
+run    apt-get install -y -q curl wget 
 
 ## NODE
 run    apt-get install -y -q nodejs supervisor
@@ -26,7 +26,7 @@ run    apt-get --yes install python --force-yes
 run    apt-get --yes install build-essential --force-yes
 
 ## Setup Bot
-run    cd /opt; git clone https://github.com/ubuntu-si/ircbot.git bot --depth 1
+add    . /opt/bot
 run    cd /opt/bot ; npm install
 
 add    ./supervisor/supervisord.conf /etc/supervisor/supervisord.conf
