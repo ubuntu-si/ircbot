@@ -2,5 +2,7 @@ language: node_js
 node_js:
   - 0.10
 
-after_success:
-  - curl -q "http://tf2.ubuntu.si/deployments/$1$BcFZtTD9$LA8k5Gzvj57OD2dYA7b/H."
+notifications:
+  irc:
+    channels:
+      - "irc.freenode.org#ubuntu-si"
