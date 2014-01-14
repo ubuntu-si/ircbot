@@ -24,12 +24,12 @@ get_ids = (cb)->
     oauth: oauth
     json: true
   , (e, r, data) ->
-    logger.log data
-    logger.log e
+    console.log data
+    console.log e
     ids = []
     for u in data
       ids.push u.id_str
-    logger.log "Sledim: #{ids}"
+    console.log "Sledim: #{ids}"
     cb ids
     
 replace_urls = (text, entities) ->
@@ -48,7 +48,7 @@ module.exports = (bot) ->
 
     stream.stream()
     stream.on "error", (e)->
-      logger.log e
+      console.log e
 
     stream.on "data", (tweet)->
       try
@@ -60,7 +60,7 @@ module.exports = (bot) ->
               for nick in nicks
                 bot.say text, nick
       catch e
-        logger.log e
+        console.log e
     
   bot.command /^\.naroči$/i,
     ".naroči -- Prijavi se na novice (#{sledi.join(",")})",
@@ -68,7 +68,7 @@ module.exports = (bot) ->
       redis.sadd("irc:novickar", r.nick).then (status)->
         r.privmsg "Naročen na novice #{!status?'OK':status}"
         redis.smembers("irc:novickar").then (nicks)->
-          logger.log "Naročeni: #{nicks}"
+          console.log "Naročeni: #{nicks}"
 
   bot.command /^\.odjavi$/i,
     ".odjavi -- Odjavi se od novic (#{sledi.join(",")})",
@@ -76,4 +76,4 @@ module.exports = (bot) ->
       redis.srem("irc:novickar", r.nick).then (status)->
         r.privmsg "Odjavljen od novic #{!status?'OK':status}"
         redis.smembers("irc:novickar").then (nicks)->
-          logger.log "Naročeni: #{nicks}"
+          console.log "Naročeni: #{nicks}"
