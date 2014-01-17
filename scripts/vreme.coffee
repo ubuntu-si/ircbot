@@ -34,9 +34,8 @@ module.exports = (bot) ->
 
   vreme2 = (lat, lon, cb) ->
 
-    request.get "http://api.openweathermap.org/data/2.5/weather?APPID=017203dd3aeecf20cfb0b4bc1b032b36&lat=#{lat}&lon=#{lon}", (err, b, res) ->
-      unless err
-        res = JSON.parse(res)
+    bot.fetchJSON "http://api.openweathermap.org/data/2.5/weather?APPID=017203dd3aeecf20cfb0b4bc1b032b36&lat=#{lat}&lon=#{lon}", (res) ->
+      unless res
         vzhod = moment.unix(res.sys.sunrise).format("HH:mm:ss")
         zahod = moment.unix(res.sys.sunset).format("HH:mm:ss")
         t = (res.main.temp-273.15).toFixed(2)
@@ -46,13 +45,12 @@ module.exports = (bot) ->
 
 
   arso = (key, cb) ->
-    request.get "http://maps.googleapis.com/maps/api/geocode/json?address=#{encodeURI(key)},%20slovenija&sensor=true", (err, b, res) ->
-      if err
+    bot.fetchJSON "http://maps.googleapis.com/maps/api/geocode/json?address=#{encodeURI(key)},%20slovenija&sensor=true", (res) ->
+      unless res
         vreme key, (msg)->
           cb "#{key}: #{msg}"
       else
         try
-          res = JSON.parse(res)
           krajg = _.first(_.first(res.results).address_components).short_name
           loc = _.first(res.results).geometry.location
           imeg = _.first(res.results).formatted_address
