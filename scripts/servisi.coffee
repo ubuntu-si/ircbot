@@ -59,7 +59,8 @@ module.exports = (bot) ->
           request.get url, (e, r, body)->
             if !e and r.statusCode is 200
               rate = Number(JSON.parse(body).rate)
-              cb "#{v * rate} #{t}"
+              vsota = Number(v * rate).toFixed(2)
+              cb "#{vsota} #{t}"
             else
               console.log e
               cb "Napaka"
