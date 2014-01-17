@@ -35,7 +35,7 @@ module.exports = (bot) ->
   vreme2 = (lat, lon, cb) ->
 
     bot.fetchJSON "http://api.openweathermap.org/data/2.5/weather?APPID=017203dd3aeecf20cfb0b4bc1b032b36&lat=#{lat}&lon=#{lon}", (res) ->
-      unless res
+      if res
         vzhod = moment.unix(res.sys.sunrise).format("HH:mm:ss")
         zahod = moment.unix(res.sys.sunset).format("HH:mm:ss")
         t = (res.main.temp-273.15).toFixed(2)
@@ -46,10 +46,10 @@ module.exports = (bot) ->
 
   arso = (key, cb) ->
     bot.fetchJSON "http://maps.googleapis.com/maps/api/geocode/json?address=#{encodeURI(key)},%20slovenija&sensor=true", (res) ->
-      unless res
+      unless res # ne jnajde kraja
         vreme key, (msg)->
           cb "#{key}: #{msg}"
-      else
+      else #najde kraj
         try
           krajg = _.first(_.first(res.results).address_components).short_name
           loc = _.first(res.results).geometry.location
