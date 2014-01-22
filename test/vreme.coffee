@@ -31,6 +31,12 @@ describe 'vreme.coffee', ->
       expect(msg.length).to.be.at.least 20
       done()
 
+  it 'test .vreme katarina pri ljubljani (oblacnost ter vremenski pojav pa brez vetra)', (done)->
+    bot.test ".vreme boja", (msg)->
+      expect(msg).to.be.a('string')
+      expect(msg.length).to.be.at.least 20
+      done()
+
   it 'test .vreme new york', (done)->
     bot.test ".vreme new york", (msg)->
       expect(msg).to.be.a('string')
