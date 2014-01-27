@@ -27,6 +27,7 @@
     "mocha": "latest",
     "ddg": "latest",
     "URIjs": "~1.11.2",
-    "mathjs": "~0.17.1"
+    "mathjs": "~0.17.1",
+    "suncalc": "~1.2.2"
   }
 }

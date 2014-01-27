@@ -1,4 +1,5 @@
 crypto = require 'crypto'
+suncalc = require 'suncalc'
 
 module.exports = (bot) ->
 
@@ -34,16 +35,28 @@ module.exports = (bot) ->
 
 
   vreme2 = (lat, lon, cb) ->
-    cached_time = 5 * 60 #5min
-    url = "http://api.openweathermap.org/data/2.5/weather?APPID=017203dd3aeecf20cfb0b4bc1b032b36&lat=#{lat}&lon=#{lon}"
-    bot.fetchJSONCached redis, cached_time, url, (res) ->
-      if res
-        vzhod = moment.unix(res.sys.sunrise).format("HH:mm:ss")
-        zahod = moment.unix(res.sys.sunset).format("HH:mm:ss")
-        t = (res.main.temp-273.15).toFixed(2)
-        cb "#{res.name}: #{t}°C, Sončni vzhod: #{vzhod}, Sončni zahod: #{zahod}"
-      else
-        cb "Podatkov o vremenu ni mogoče pridobiti..."
+    secondsTimeSpanToHMS = (s) ->
+      h = Math.floor(s / 3600) #Get whole hours
+      s -= h * 3600
+      m = Math.floor(s / 60) #Get remaining minutes
+      s -= m * 60
+      h + "ur " + ((if m < 10 then "0" + m else m)) + "min " + ((if s < 10 then "0" + s else s)) #zero padding on minutes and seconds
+
+    time = suncalc.getTimes(new Date, lat, lon)
+    vzhod = moment(time.sunrise).format("HH:mm:ss")
+    zahod = moment(time.sunset).format("HH:mm:ss")
+    kulminacija = moment(time.solarNoon).format("HH:mm:ss")
+    dolg = moment.duration(moment(time.sunset).diff(moment(time.sunrise)))/1000
+    if suncalc.getMoonFraction(new Date) == 0 
+      luna = "Prazna luna"
+    else if suncalc.getMoonFraction(new Date) == 1
+      luna = "Polna luna"
+    else
+      luna = "Luna je v ščipu"
+    
+    msg = "Sončni vzhod: #{vzhod}, Kulminacija: #{kulminacija}, Sončni zahod: #{zahod}\nDan je dolg: #{secondsTimeSpanToHMS(dolg.toFixed(0))}s, #{luna}"
+    console.log msg
+    cb msg
 
 
   arso = (key, cb) ->
@@ -93,7 +106,7 @@ module.exports = (bot) ->
                 else 
                   vremenski_pojav = ""
                 vreme2 loc.lat, loc.lng, (msg)->
-                  cb """ARSO: #{kraj.metData.domain_longTitle} (#{kraj.metData.domain_altitude}m): #{kraj.metData.t}°C @#{kraj.metData.tsValid_issued}.\nVlažnost: #{kraj.metData.rh}% #{veter} #{oblacnost} #{vremenski_pojav}\nhttp://forecast.io/#/f/#{loc.lat},#{loc.lng}\n""" + msg          
+                  cb """ARSO: #{kraj.metData.domain_longTitle} (#{kraj.metData.domain_altitude}m): #{kraj.metData.t}°C @#{kraj.metData.tsValid_issued}.\nVlažnost: #{kraj.metData.rh}% #{veter} #{oblacnost} #{vremenski_pojav}\n""" + msg          
           else
             vreme key, (msg)->
               cb "#{imeg}: #{msg}"   
