@@ -249,8 +249,9 @@ Bot::fetchJSON = (url, cb)->
       cb false
 
 Bot::fetchJSONCached = (db, time, url, cb)->
-  key = 'cached:json:#{@(keyhash(url))}'
+  key = "cached:json:#{@keyhash(url)}"
   db.get(key).then (val)=>
+    console.log(key, val)
     if val
       cb JSON.parse val
     else
