@@ -2,6 +2,7 @@ fs          = require 'fs'
 irc         = require 'irc'
 sty         = require 'sty'
 events      = require 'events'
+crypto      = require 'crypto'
 global.cheerio = require 'cheerio'
 global.request = require 'request'
 global._ = require 'underscore'
@@ -247,6 +248,19 @@ Bot::fetchJSON = (url, cb)->
       console.log e
       cb false
 
+Bot::fetchJSONCached = (db, time, url, cb)->
+  key = 'cached:json:#{@(keyhash(url))}'
+  db.get(key).then (val)=>
+    if val
+      cb JSON.parse val
+    else
+      @fetchJSON url, (res)->
+        db.setex(key, time, JSON.stringify(res))
+        cb res
+
+Bot::keyhash = (data)->
+  return crypto.createHash('md5').update(data).digest("hex")
+
 Bot::fetchHTML = (url, cb)->
   @fetch url, (e, r, body)->
     type =  r.headers["content-type"]
@@ -254,7 +268,6 @@ Bot::fetchHTML = (url, cb)->
       cb( cheerio.load(body) )
     else
       cb false
-
 
 Bot::loadExtensions = ->
   if @settings.botDebug

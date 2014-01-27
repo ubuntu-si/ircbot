@@ -13,6 +13,8 @@ class TestRedis
       return {then: @then}
     set:()->
       return {then: @then}
+    setex:()->
+      return {then: @then}
     expire:()->
       return {then: @then}
     then:(cb)->

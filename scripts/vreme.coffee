@@ -11,9 +11,10 @@ module.exports = (bot) ->
 
   yql = (yqlq, cbl) ->
    
+    cached_time = 15 * 60 #15min
     uri = "http://query.yahooapis.com/v1/public/yql?format=json&q=" + encodeURIComponent(yqlq)
-    bot.fetchJSON uri, (body) ->
-      cbl body.query.results
+    bot.fetchJSONCached redis, cached_time, uri, (res) ->
+      cbl res.query.results
 
 
   vreme = (kraj, cb) ->
@@ -33,8 +34,9 @@ module.exports = (bot) ->
 
 
   vreme2 = (lat, lon, cb) ->
-
-    bot.fetchJSON "http://api.openweathermap.org/data/2.5/weather?APPID=017203dd3aeecf20cfb0b4bc1b032b36&lat=#{lat}&lon=#{lon}", (res) ->
+    cached_time = 5 * 60 #5min
+    url = "http://api.openweathermap.org/data/2.5/weather?APPID=017203dd3aeecf20cfb0b4bc1b032b36&lat=#{lat}&lon=#{lon}"
+    bot.fetchJSONCached redis, cached_time, url, (res) ->
       if res
         vzhod = moment.unix(res.sys.sunrise).format("HH:mm:ss")
         zahod = moment.unix(res.sys.sunset).format("HH:mm:ss")
@@ -45,8 +47,10 @@ module.exports = (bot) ->
 
 
   arso = (key, cb) ->
-    bot.fetchJSON "http://maps.googleapis.com/maps/api/geocode/json?address=#{encodeURI(key)},%20slovenija&sensor=true", (res) ->
-      unless res # ne jnajde kraja
+    cached_time_geo = 356 * 24 * 60 * 60 #1 leto
+    url_geo = "http://maps.googleapis.com/maps/api/geocode/json?address=#{encodeURI(key)},%20slovenija&sensor=true"
+    bot.fetchJSONCached redis, cached_time_geo, url_geo, (res) ->
+      unless res # ne najde kraja
         vreme key, (msg)->
           cb "#{key}: #{msg}"
       else #najde kraj

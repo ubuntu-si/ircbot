@@ -106,11 +106,16 @@ module.exports = (bot) ->
                 msg = "#{naslov} #{cas}\nOcena: #{ocena} MT: #{metascore}\n#{opis}\nPovezava: #{url_filma}"
               
               console.log msg
+              redis.setex("imdb:#{ime}", 24*60*5, msg)
               cb msg
           else
             cb "Ne najdem!"
 
-      imdb f, r.reply
+      redis.get("imdb:#{f}").then (res)->
+        unless res
+          imdb f, r.reply
+        else
+          r.reply res
 
     bot.regexp /^\.stran (.*)/i,
       ".stran <domena> -- Ali stran dela?",
