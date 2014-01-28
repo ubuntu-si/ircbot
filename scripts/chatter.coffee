@@ -21,10 +21,6 @@ module.exports = (bot) ->
     bot.fetchJSON "http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=facepalm", (data)->
       r.reply bot.random(data.responseData.results).unescapedUrl
       
-  bot.command /^pug me/i, (r) ->
-    bot.fetchJSON "http://pugme.herokuapp.com/random", (data)->
-      r.reply data.pug
-
   bot.command /^wat/i, (r) ->
     bot.fetchJSON "http://watme.herokuapp.com/random", (data)->
       r.reply data.wat
@@ -34,16 +30,20 @@ module.exports = (bot) ->
 
   bot.command /^YES yes/i, (r) ->
     r.reply "The YES dance\nhttps://www.youtube.com/watch?v=eyqUj3PGHv4"
-
-  bot.regexp /^pug bomb( (\d+))?/i, (match, r) ->
-    count = match[1] || 5
-    bot.fetchJSON "http://pugme.herokuapp.com/bomb?count=#{count}", (data)->
-      r.reply pug for pug in data.pugs
       
   bot.regexp /^\.vrzi/,
     ".vrzi -- Glava ali cifra",
     (match, r) ->
-      r.reply bot.random ["glava", "cifra"]
+      r.reply bot.random ["glava", "cifra"]      
+
+  bot.regexp /^\.pic (.+)/,
+    ".pic <query> -- Prikaži naključno sliko",
+    (match, r) ->
+      url = "http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=#{encodeURI(match[1].trim())}"
+      console.log url
+      bot.fetchJSONCached redis, 60*60, url, (data)->
+        console.log data
+        r.reply bot.random(data.responseData.results).unescapedUrl
       
   bot.regexp /^\.roll (.+)/,
     ".roll <izbira1,izbira2,...> -- Universe has all the answers",
