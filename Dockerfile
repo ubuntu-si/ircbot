@@ -23,6 +23,8 @@ env   DEBIAN_FRONTEND dialog
 ## Bot required
 run    apt-get --yes install redis-server python-minimal build-essential --force-yes
 run    echo "Europe/Ljubljana" > /etc/timezone
+run    rm /etc/localtime
+run    ln -s /etc/localtime /usr/share/zoneinfo/Europe/Ljubljana
 ## Setup Bot
 add    . /opt/bot
 run    cd /opt/bot; rm -rf node_modules; npm install
