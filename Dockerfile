@@ -9,10 +9,6 @@ run    add-apt-repository -y ppa:chris-lea/node.js
 run    apt-get --yes update --force-yes
 run    apt-get --yes upgrade --force-yes
 
-#SHIMS
-run    dpkg-divert --local --rename --add /sbin/initctl
-run    ln -s /bin/true /sbin/initctl
-
 # TOOLS
 run    apt-get install -y -q wget 
 
