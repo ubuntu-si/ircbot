@@ -1,12 +1,12 @@
-FROM base
+from   stackbrew/ubuntu:saucy
 
 env   DEBIAN_FRONTEND noninteractive
 
 # REPOS
-run    apt-get install -y software-properties-common
+run    apt-get install -y software-properties-common --force-yes
 run    add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) universe"
 run    add-apt-repository -y ppa:chris-lea/node.js
-run    apt-get --yes update
+run    apt-get --yes update --force-yes
 run    apt-get --yes upgrade --force-yes
 
 #SHIMS
@@ -19,7 +19,7 @@ run    apt-get install -y -q wget
 ## NODE
 run    apt-get install -y -q nodejs
 env   DEBIAN_FRONTEND dialog
-
+run    npm update npm -g
 ## Bot required
 run    apt-get --yes install redis-server python-minimal build-essential --force-yes
 run    echo "Europe/Ljubljana" > /etc/timezone

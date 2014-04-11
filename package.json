@@ -4,7 +4,7 @@
   "description": "#ubuntu-si bot",
   "main": "server.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha -R spec --compilers coffee:coffee-script",
+    "test": "./node_modules/.bin/mocha -R spec --compilers coffee:coffee-script/register",
     "start": "./node_modules/.bin/coffee bot.coffee"
   },
   "repository": "",
@@ -26,8 +26,8 @@
     "chai": "latest",
     "mocha": "latest",
     "ddg": "latest",
-    "URIjs": "~1.11.2",
-    "mathjs": "~0.17.1",
-    "suncalc": "~1.2.2"
+    "URIjs": "latest",
+    "mathjs": "latest",
+    "suncalc": "latest"
   }
 }

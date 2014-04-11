@@ -47,9 +47,9 @@ module.exports = (bot) ->
     zahod = moment(time.sunset).format("HH:mm:ss")
     kulminacija = moment(time.solarNoon).format("HH:mm:ss")
     dolg = moment.duration(moment(time.sunset).diff(moment(time.sunrise)))/1000
-    if suncalc.getMoonFraction(new Date) == 0 
+    if suncalc.getMoonIllumination(new Date) == 0 
       luna = "Prazna luna"
-    else if suncalc.getMoonFraction(new Date) == 1
+    else if suncalc.getMoonIllumination(new Date) == 1
       luna = "Polna luna"
     else
       luna = "Luna je v ščipu"
