@@ -12,7 +12,6 @@ class TestRedis
     get:()->
       return {then: @then}
     set:(key,value)->
-      console.log key, value
       return {then: @then}
     setex:()->
       return {then: @then}

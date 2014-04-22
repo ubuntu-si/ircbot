@@ -4,32 +4,34 @@ cheerio = require 'cheerio'
 
 module.exports = (bot) ->
 
-  arsoAvto = (r)->
+  arsoAvto = (re)->
     ArsoPotresi (pots)->
       for tpm in pots
-        if Number(tpm.m) > 4
-          redis.get("irc:#{bot.keyhash(tpm.date)}:potres").then (posted)->
-            console.log tpm
-            console.log posted
-            if !posted
-              redis.set("irc:#{bot.keyhash(tpm.date)}:potres", true)
-              r "M #{tpm.m} > #{tpm.loc} @#{tpm.date}  https://maps.google.com/?q=#{tpm.lat}+N,+#{tpm.lon}+E"
+        ((pot, r)->
+          if Number(pot.m) > 4
+            redis.get("irc:#{pot.date}:potres").then (posted)->
+              if !posted
+                redis.set("irc:#{pot.date}:potres", true)
+                r "M #{pot.m} > #{pot.loc} @#{pot.date}  https://maps.google.com/?q=#{pot.lat}+N,+#{pot.lon}+E"
+              else
+                return
+        )(tpm, re)
 
   ArsoPotresi = (cb)->
     # #glavna td.vsebina > table > tbody > tr
     bot.fetchHTML "http://www.arso.gov.si/potresi/obvestila%20o%20potresih/aip/", ($)->
       apotresi = []
-      $("#glavna td.vsebina table tr").each (i,e)->
-        if i >= 1
-          e = cheerio(e)
-          if Number(e.find("td:nth-child(4)").text()) != NaN
-            apotresi.push {
-              date: e.find("td:nth-child(1)").text().trim(),
-              lat: e.find("td:nth-child(2)").text().trim(),
-              lon: e.find("td:nth-child(3)").text().trim(),
-              m: Number(e.find("td:nth-child(4)").text()),
-              loc: e.find("td:nth-child(6)").text().trim(),
-            }
+      for e in $("#glavna td.vsebina table tr")
+        e = cheerio(e)
+        magnituda = Number(e.find("td:nth-child(4)").text())
+        if magnituda > 0
+          apotresi.push {
+            date: e.find("td:nth-child(1)").text().trim(),
+            lat: e.find("td:nth-child(2)").text().trim(),
+            lon: e.find("td:nth-child(3)").text().trim(),
+            m: magnituda,
+            loc: e.find("td:nth-child(6)").text().trim(),
+          }
       cb apotresi
 
   interval = 0
@@ -37,7 +39,6 @@ module.exports = (bot) ->
     clearInterval interval
     interval = setInterval ()->
       arsoAvto(r.say)
-      console.log "ping"
     ,1000*60
 
   oddaljenost = (lat1, lon1, lat2, lon2) ->
@@ -154,12 +155,16 @@ module.exports = (bot) ->
     (match, r) ->
       ArsoPotresi (msg)->
         msg = msg[0]
-        r.reply "M#{msg.m} > #{msg.loc} @#{msg.date}  https://maps.google.com/?q=#{msg.lat}+N,+#{msg.lon}+E"
+        r.reply "M #{msg.m} > #{msg.loc} @#{msg.date}  https://maps.google.com/?q=#{msg.lat}+N,+#{msg.lon}+E"
 
   bot.regexp /^\.potresi$/i,
     ".potresi prikazi zadnji potres večji od M4"
     (match, r) ->
-      arsoAvto r.reply
+      ArsoPotresi (pots)->
+        for pot in pots
+          if Number(pot.m) > 4
+            r.reply "M #{pot.m} > #{pot.loc} @#{pot.date}  https://maps.google.com/?q=#{pot.lat}+N,+#{pot.lon}+E"
+
 
   bot.regexp /^\.vreme (.+)/i,
     ".vreme <kraj> dobi podatke o vremenu za <kraj>"
