@@ -1,8 +1,25 @@
 crypto = require 'crypto'
 suncalc = require 'suncalc'
+cheerio = require 'cheerio'
 
 module.exports = (bot) ->
 
+  potresi = (cb)->
+    # #glavna td.vsebina > table > tbody > tr
+    bot.fetchHTML "http://www.arso.gov.si/potresi/obvestila%20o%20potresih/aip/", ($)->
+      potresi = []
+      $("#glavna td.vsebina table tr").each (i,e)->
+        if i > 1
+          e = cheerio(e)
+          potresi.push {
+            date: e.find("td:nth-child(1)").text().trim(),
+            lat: e.find("td:nth-child(2)").text().trim(),
+            lon: e.find("td:nth-child(3)").text().trim(),
+            m: Number(e.find("td:nth-child(4)").text()),
+            loc: e.find("td:nth-child(6)").text().trim(),
+          }
+      cb potresi
+    
   oddaljenost = (lat1, lon1, lat2, lon2) ->
     ## http://mathworld.wolfram.com/SphericalTrigonometry.html
     R = 6371; #v KM
@@ -113,6 +130,22 @@ module.exports = (bot) ->
         catch e
           console.log  e
           cb "Neznana lokacija"
+
+  bot.regexp /^\.potres/i,
+    ".potres prikazi zadnji potres"
+    (match, r) ->
+      potresi (msg)->
+        msg = msg[0]
+        r.reply "M#{msg.m} > #{msg.loc} @#{msg.date}  https://maps.google.com/?q=#{msg.lat}+N,+#{msg.lon}+E"
+
+  bot.regexp /^\.potresi/i,
+    ".potresi prikaze zadnje potrese z magnitudo vecjo od 4(RH)"
+    (match, r) ->
+      potresi (msgs)->
+        for msg in msgs
+          if msg.m > 4
+            console.log msg
+            r.reply "M#{msg.m} > #{msg.loc} @#{msg.date}  https://maps.google.com/?q=#{msg.lat}+N,+#{msg.lon}+E"
 
   bot.regexp /^\.vreme (.+)/i,
     ".vreme <kraj> dobi podatke o vremenu za <kraj>"
