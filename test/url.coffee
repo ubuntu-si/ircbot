@@ -14,7 +14,7 @@ describe 'url.coffee', ->
     done()
 
   it 'test .nalozi veljaven url', (done)->
-    bot.test ".nalozi http://medialize.github.io/URI.js/docs.html#static-withinString", (msg)->
+    bot.test ".nalozi http://www.ubuntu.si/", (msg)->
       expect(msg).to.be.a('string')
       expect(msg.length).to.be.at.least 2
       done()

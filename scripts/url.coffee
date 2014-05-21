@@ -4,12 +4,10 @@ module.exports = (bot) ->
 
   resolve = (url, cb)->
     if is_url.test url
-      bot.fetchHTML url, (e, $)->
-        if $? and not e
-          naslov = $("title").map (i, el) ->
-              return $(this).text()
-          opis = $("meta[name=description]").map (i, el) ->
-              return $(this).attr("content")
+      bot.fetchHTML url, ($)->
+        if $
+          naslov = $("title").text()
+          opis = $("meta[name=description]").attr("content")
           cb "#{naslov}\n#{opis}"
         else
           cb "Ni HTML"
