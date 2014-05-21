@@ -235,7 +235,7 @@ Bot::fetch = (url, cb)->
   request {
     url: url,
     headers: default_headers,
-    timeout: 16000,
+    timeout: 48000,
     method: 'GET',
   }, cb
 
