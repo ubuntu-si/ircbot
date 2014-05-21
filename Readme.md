@@ -1,6 +1,6 @@
 #ubuntu-si irc bot
 
-[![Build Status](https://travis-ci.org/ubuntu-si/ircbot.png?branch=master)](https://travis-ci.org/ubuntu-si/ircbot)
+[![Build Status](https://api.shippable.com/projects/537cbb191cfdf4e401c91a8c/badge/master)](https://www.shippable.com/projects/537cbb191cfdf4e401c91a8c)
 
 Potrebuješ:
 
