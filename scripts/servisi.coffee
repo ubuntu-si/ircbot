@@ -135,12 +135,9 @@ module.exports = (bot) ->
     bot.regexp /^\.rt/,
       ".rt -- kaj se trenutno predvaja na radioterminal.si",
       (match,irc) ->
-        url = "http://t.radioterminal.si/zgodovina/sedaj.json"
-        request.get url, (e, r, b)->
-          if !e and r.statusCode is 200
-            avtor = String(JSON.parse(b).artist)
-            komad = String(JSON.parse(b).track)
-            irc.reply "Trenutno se predvaja: #{avtor} - #{komad}"
-            console.log "Trenutno se predvaja: #{avtor} - #{komad}"
+        bot.fetchJSON "http://t.radioterminal.si/zgodovina/sedaj.json", (data) ->
+          if data
+            irc.reply "Trenutno se predvaja: #{data.artist} - #{data.track}"
+            console.log "Trenutno se predvaja: #{data.artist} - #{data.track}"
           else
             irc.reply "OMG radioterminal.si is down!"
