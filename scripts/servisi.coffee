@@ -141,6 +141,5 @@ module.exports = (bot) ->
             avtor = String(JSON.parse(b).artist)
             komad = String(JSON.parse(b).track)
             irc.reply "Trenutno se predvaja: #{avtor} - #{komad}"
-            console.log "Trenutno se predvaja: #{avtor} - #{komad}"
           else
             irc.reply "OMG radioterminal.si is down!"
