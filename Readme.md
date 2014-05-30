@@ -11,6 +11,8 @@ Potrebuješ:
 Preden začneš:
 
  - ```npm install```
+ Na Ubuntu 14.04 moraš namestit še
+ - ```sudo apt-get install nodejs-legacy```
 
 Zaženeš:
 
@@ -20,6 +22,9 @@ Zaženeš:
 Tesiraš & razvijaš lokalno:
 
   - ```./node_modules/.bin/mocha -R spec --compilers coffee:coffee-script test/vreme.coffee``` testiraš specifično funkcionalnost
+Na Ubuntu 14.04 pa uporabi
+  - ```./node_modules/.bin/mocha -R spec --compilers coffee:coffee-script/register test/vreme.coffee``` testiraš specifično funkcionalnost
+
   - ```npm test``` če želiš kompleten projekt
 
 ##Ukazi:
