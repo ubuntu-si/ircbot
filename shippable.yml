@@ -1,7 +1,8 @@
 language: node_js
 node_js:
   - "0.10"
-before_script: mkdir -p shippable/codecoverage
 after_script: 
-  - ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- -u tdd 
-  - ./node_modules/.bin/istanbul report cobertura --dir  shippable/codecoverage/
+  - mkdir -p shippable/codecoverage
+  - npm isntall istanbul
+  - ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- -R spec -u tdd --compilers coffee:coffee-script/register
+  - ./node_modules/.bin/istanbul report cobertura --dir shippable/codecoverage/

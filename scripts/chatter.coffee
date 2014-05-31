@@ -40,9 +40,9 @@ module.exports = (bot) ->
     ".pic <query> -- Prikaži naključno sliko",
     (match, r) ->
       url = "http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=#{encodeURI(match[1].trim())}"
-      console.log url
+      #console.log url
       bot.fetchJSONCached redis, 60*60, url, (data)->
-        console.log data
+        #console.log data
         r.reply bot.random(data.responseData.results).unescapedUrl
       
   bot.regexp /^\.roll (.+)/,

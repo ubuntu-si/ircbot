@@ -11,7 +11,6 @@ describe 'vreme.coffee', ->
 
   it 'test .potres', (done)->
     bot.test ".potres", (msg)->
-      console.log msg
       expect(msg).to.be.a('string')
       expect(msg.length).to.be.at.least 20
       done()

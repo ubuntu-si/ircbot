@@ -27,7 +27,8 @@ class BotTest extends fat.Bot
 
   prepClient: ->
     @client  =
-        say: console.log
+        say: ->
+          return
 
   test: (message, cb)->
     @emit 'user:talk',

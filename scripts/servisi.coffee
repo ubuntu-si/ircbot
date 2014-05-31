@@ -105,7 +105,7 @@ module.exports = (bot) ->
               else
                 msg = "#{naslov} #{cas}\nOcena: #{ocena} MT: #{metascore}\n#{opis}\nPovezava: #{url_filma}"
 
-              console.log msg
+              #console.log msg
               redis.setex("imdb:#{ime}", 24*60*5, msg)
               cb msg
           else
@@ -138,6 +138,6 @@ module.exports = (bot) ->
         bot.fetchJSON "http://t.radioterminal.si/zgodovina/sedaj.json", (data) ->
           if data
             irc.reply "Trenutno se predvaja: #{data.artist} - #{data.track}"
-            console.log "Trenutno se predvaja: #{data.artist} - #{data.track}"
+            #console.log "Trenutno se predvaja: #{data.artist} - #{data.track}"
           else
             irc.reply "OMG radioterminal.si is down!"
