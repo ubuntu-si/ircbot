@@ -17,7 +17,7 @@ describe 'servisi.coffee', ->
     bot.test ".stran localhost", (msg)->
         expect(msg).to.be.a('string')
         done()
-        
+
   # generic test
   it 'should display help', (done)->
     bot.help.should.be.an 'array'
@@ -50,4 +50,9 @@ describe 'servisi.coffee', ->
     bot.test ".imdb The Hobbit The Desolation of Smaug", (msg)->
       expect(msg).to.be.a('string')
       expect(msg.length).to.be.at.least 140
+      done()
+
+  it 'test .rt', (done)->
+    bot.test ".rt", (msg)->
+      expect(msg).to.be.a('string')
       done()

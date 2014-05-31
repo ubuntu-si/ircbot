@@ -44,9 +44,9 @@ module.exports = (bot) ->
       res = mathjs.eval(f)
       if res.value?
         r.reply String(res.value.toFixed(2))
-      else 
+      else
         r.reply String(res.toFixed(2))
-      
+
   bot.regexp /^.pretvori ([\d,.]+) (.+) (.+)/,
     ".pretvori <vrednost> <valuta> <valuta> -- Pretvori med valutami (primer .pretvori 10 eur usd)",
     (match, r) ->
@@ -54,7 +54,7 @@ module.exports = (bot) ->
       zamenjaj = (v, f, t, cb)=>
         url = "http://rate-exchange.appspot.com/currency?from=#{f}&to=#{t}"
         v = Number(v.replace(",","."))
-        
+
         if v
           request.get url, (e, r, body)->
             if !e and r.statusCode is 200
@@ -104,7 +104,7 @@ module.exports = (bot) ->
                 msg = "#{naslov} #{cas}\nOcena: #{ocena} MT: #{metascore}\n#{opis}\nTrailer: #{trailer.split("?")[0]}\nPovezava: #{url_filma}"
               else
                 msg = "#{naslov} #{cas}\nOcena: #{ocena} MT: #{metascore}\n#{opis}\nPovezava: #{url_filma}"
-              
+
               console.log msg
               redis.setex("imdb:#{ime}", 24*60*5, msg)
               cb msg
@@ -131,3 +131,13 @@ module.exports = (bot) ->
               irc.reply "#{domena} ni dosegljiva"
           else
             irc.reply "http://isup.me ni na voljo!"
+
+    bot.regexp /^\.rt/,
+      ".rt -- kaj se trenutno predvaja na radioterminal.si",
+      (match,irc) ->
+        bot.fetchJSON "http://t.radioterminal.si/zgodovina/sedaj.json", (data) ->
+          if data
+            irc.reply "Trenutno se predvaja: #{data.artist} - #{data.track}"
+            console.log "Trenutno se predvaja: #{data.artist} - #{data.track}"
+          else
+            irc.reply "OMG radioterminal.si is down!"
