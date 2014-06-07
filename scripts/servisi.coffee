@@ -141,3 +141,27 @@ module.exports = (bot) ->
             #console.log "Trenutno se predvaja: #{data.artist} - #{data.track}"
           else
             irc.reply "OMG radioterminal.si is down!"
+
+    bot.regexp /^\.morje/,
+      ".morje -- kakšne so trenutno temperature v slovenskem morju",
+      (match,irc) ->
+        #url = [ koper, rtic, piran]
+        url = ["http://www.arso.gov.si/vode/podatki/amp/H17_t_1.html","http://www.arso.gov.si/vode/podatki/amp/H64_t_1.html","http://www.arso.gov.si/vode/podatki/amp/H24_t_1.html"]
+        number = 1
+        temperatura = (url, number, cb) =>
+          bot.fetchHTML url, ($) ->
+            postaja = $(".vsebina h1").text()
+            if number == 0
+              temperatura = $(".podatki tr td").eq(2).text()
+            else
+              temperatura = $(".podatki tr td").eq(1).text()
+            if temperatura != '-'
+              cb "#{postaja}: #{temperatura}°C"
+            else
+              cb "#{postaja}: Temperatura ni na voljo"
+        i = 0
+        while i < url.length
+          temperatura url[i], i, (answer) ->
+            console.log answer
+            irc.reply answer
+          i++
