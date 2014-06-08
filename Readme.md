@@ -55,4 +55,6 @@ Pomoč:
   .napoved Vremenska napoved
   .url <nick> Prikaži urlje, ki jih je objavil <nick>
   .nalozi <url> Prikaži opis in naslov za <url>
+  .rt -- Izpiše kaj se trenutno predvaja na radioterminal.si
+  .morje -- Izpiše temperature slovenskega morja (Koper, Debeli rtič ter Piran)
 ```

@@ -56,3 +56,8 @@ describe 'servisi.coffee', ->
     bot.test ".rt", (msg)->
       expect(msg).to.be.a('string')
       done()
+
+  it 'test .morje', (done)->
+    bot.test ".morje", (msg) ->
+      expect(msg).to.be.a('string')
+      done()
