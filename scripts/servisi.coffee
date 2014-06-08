@@ -145,23 +145,22 @@ module.exports = (bot) ->
     bot.regexp /^\.morje/,
       ".morje -- kakšne so trenutno temperature v slovenskem morju",
       (match,irc) ->
-        #url = [ koper, rtic, piran]
-        url = ["http://www.arso.gov.si/vode/podatki/amp/H17_t_1.html","http://www.arso.gov.si/vode/podatki/amp/H64_t_1.html","http://www.arso.gov.si/vode/podatki/amp/H24_t_1.html"]
-        number = 1
-        temperatura = (url, number, cb) =>
+        urls = [
+          "http://www.arso.gov.si/vode/podatki/amp/H17_t_1.html", #koper
+          "http://www.arso.gov.si/vode/podatki/amp/H64_t_1.html", #rtic
+          "http://www.arso.gov.si/vode/podatki/amp/H24_t_1.html", #piran
+        ]
+        msg = []
+        for url, index in urls
           bot.fetchHTML url, ($) ->
             postaja = $(".vsebina h1").text()
-            if number == 0
+            if postaja is "Postaja Koper - Jadransko morje"
               temperatura = $(".podatki tr td").eq(2).text()
             else
               temperatura = $(".podatki tr td").eq(1).text()
             if temperatura != '-'
-              cb "#{postaja}: #{temperatura}°C"
+              msg.push "#{postaja}: #{temperatura}°C"
             else
-              cb "#{postaja}: Temperatura ni na voljo"
-        i = 0
-        while i < url.length
-          temperatura url[i], i, (answer) ->
-            console.log answer
-            irc.reply answer
-          i++
+              msg.push "#{postaja}: Temperatura ni na voljo"
+            if msg.length == urls.length
+              irc.reply msg.join('\n')
