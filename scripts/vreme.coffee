@@ -8,7 +8,7 @@ module.exports = (bot) ->
     ArsoPotresi (pots)->
       for tpm in pots
         ((pot, r)->
-          if Number(pot.m) > 4
+          if Number(pot.m) > 1
             redis.get("irc:#{pot.date}:potres").then (posted)->
               if !posted
                 redis.set("irc:#{pot.date}:potres", true)
@@ -158,11 +158,11 @@ module.exports = (bot) ->
         r.reply "M #{msg.m} > #{msg.loc} @#{msg.date}  https://maps.google.com/?q=#{msg.lat}+N,+#{msg.lon}+E"
 
   bot.regexp /^\.potresi$/i,
-    ".potresi prikazi zadnji potres večji od M4"
+    ".potresi prikazi zadnji potres večji od M1"
     (match, r) ->
       ArsoPotresi (pots)->
         for pot in pots
-          if Number(pot.m) > 4
+          if Number(pot.m) > 1
             r.reply "M #{pot.m} > #{pot.loc} @#{pot.date}  https://maps.google.com/?q=#{pot.lat}+N,+#{pot.lon}+E"
 
 
