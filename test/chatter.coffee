@@ -17,3 +17,8 @@ describe 'chatter.coffee', ->
     bot.test "facepalm", (msg)->
         expect(msg).to.be.a('string')
         done()
+
+  it 'test .gif get lucky', (done)->
+    bot.test ".gif get lucky", (msg)->
+        expect(msg).to.be.a('string')
+        done()

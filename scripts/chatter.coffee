@@ -1,26 +1,26 @@
 ddg = require('ddg')
- 
+
 module.exports = (bot) ->
 
   bot.regexp /^ping$/i, (match, r) ->
     r.reply "#{r.nick}: pong"
-    
+
   bot.regexp /^\.aww/i, (match, r) ->
     bot.fetchJSON "http://www.reddit.com/r/aww.json", (result)->
       if result.data.children.count <= 0
         msg.send "Couldn't find anything cute..."
         return
-      
+
       urls = [ ]
       for child in result.data.children
         urls.push(child.data.url)
-        
+
       r.reply bot.random urls
-      
+
   bot.command /facepalm/i, (r) ->
     bot.fetchJSON "http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=facepalm", (data)->
       r.reply bot.random(data.responseData.results).unescapedUrl
-      
+
   bot.command /^wat/i, (r) ->
     bot.fetchJSON "http://watme.herokuapp.com/random", (data)->
       r.reply data.wat
@@ -30,11 +30,11 @@ module.exports = (bot) ->
 
   bot.command /^YES yes/i, (r) ->
     r.reply "The YES dance\nhttps://www.youtube.com/watch?v=eyqUj3PGHv4"
-      
+
   bot.regexp /^\.vrzi/,
     ".vrzi -- Glava ali cifra",
     (match, r) ->
-      r.reply bot.random ["glava", "cifra"]      
+      r.reply bot.random ["glava", "cifra"]
 
   bot.regexp /^\.pic (.+)/,
     ".pic <query> -- Prikaži naključno sliko",
@@ -44,7 +44,7 @@ module.exports = (bot) ->
       bot.fetchJSONCached redis, 60*60, url, (data)->
         #console.log data
         r.reply bot.random(data.responseData.results).unescapedUrl
-      
+
   bot.regexp /^\.roll (.+)/,
     ".roll <izbira1,izbira2,...> -- Universe has all the answers",
     (match, r) ->
@@ -118,3 +118,14 @@ module.exports = (bot) ->
         r.reply data.Definition
         r.reply data.Answer
         r.reply data.AbstractURL || data.Redirect
+
+  bot.regexp /^\.gif (.+)/, ".gif <query> -- Prikaže naključni gif", (match, r) ->
+      url = "http://giphy.com/search/#{encodeURI(match[1].trim().split(" ").join("-"))}"
+      bot.fetchHTML url, ($) ->
+        count = $("#searchresults .found-count").text().split(" GIFs found for")
+        if count[0] > 0
+          gif_id = $(".hoverable-gif a").eq(0).attr("data-id")
+          r.reply "http://media.giphy.com/media/#{gif_id}/giphy.gif"
+        else
+          console.log "No gif available :("
+          r.reply "No gif available :("
