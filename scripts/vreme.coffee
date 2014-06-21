@@ -160,7 +160,7 @@ module.exports = (bot) ->
   bot.regexp /^\.potresi$/i,
     ".potresi prikazi zadnji potres večji od M1"
     (match, r) ->
-      msg =""
+      msg = ""
       ArsoPotresi (pots)->
         for pot in pots
           if Number(pot.m) > 1
