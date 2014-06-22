@@ -127,5 +127,5 @@ module.exports = (bot) ->
           gif_id = $(".hoverable-gif a").eq(0).attr("data-id")
           r.reply "http://media.giphy.com/media/#{gif_id}/giphy.gif"
         else
-          console.log "No gif available :("
+         #console.log "No gif available :("
           r.reply "No gif available :("
