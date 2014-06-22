@@ -18,19 +18,16 @@ module.exports = (bot) ->
         )(tpm, re)
 
   ArsoPotresi = (cb)->
-    # #glavna td.vsebina > table > tbody > tr
-    bot.fetchHTML "http://www.arso.gov.si/potresi/obvestila%20o%20potresih/aip/", ($)->
+    bot.fetchJSON "http://potresi.herokuapp.com/potresi.json", (data)->
       apotresi = []
-      for e in $("#glavna td.vsebina table tr")
-        e = cheerio(e)
-        magnituda = Number(e.find("td:nth-child(4)").text())
-        if magnituda > 0
+      for e in data
+        if e.Magnituda > 0
           apotresi.push {
-            date: e.find("td:nth-child(1)").text().trim(),
-            lat: e.find("td:nth-child(2)").text().trim(),
-            lon: e.find("td:nth-child(3)").text().trim(),
-            m: magnituda,
-            loc: e.find("td:nth-child(6)").text().trim(),
+            date: e.Datum,
+            lat: e.Lat,
+            lon: e.Lon,
+            m: e.Magnituda,
+            loc: e.Lokacija,
           }
       cb apotresi
 
@@ -44,12 +41,12 @@ module.exports = (bot) ->
   oddaljenost = (lat1, lon1, lat2, lon2) ->
     ## http://mathworld.wolfram.com/SphericalTrigonometry.html
     R = 6371; #v KM
-    return Math.acos(Math.sin(lat1)*Math.sin(lat2) + 
+    return Math.acos(Math.sin(lat1)*Math.sin(lat2) +
                       Math.cos(lat1)*Math.cos(lat2) *
                       Math.cos(lon2-lon1)) * R
 
   yql = (yqlq, cbl) ->
-   
+
     cached_time = 15 * 60 #15min
     uri = "http://query.yahooapis.com/v1/public/yql?format=json&q=" + encodeURIComponent(yqlq)
     bot.fetchJSONCached redis, cached_time, uri, (res) ->
@@ -64,7 +61,7 @@ module.exports = (bot) ->
           id = _.first(res.place).woeid
         catch e
           id = res.place.woeid
-        
+
         yql "select item from weather.forecast where woeid = \"" + id + "\"", (res) ->
           item = res.channel.item
           cb "#{(100 / (212 - 32) * (item.condition.temp - 32)).toFixed(2)}°C #{item.link}"
@@ -85,13 +82,13 @@ module.exports = (bot) ->
     zahod = moment(time.sunset).format("HH:mm:ss")
     kulminacija = moment(time.solarNoon).format("HH:mm:ss")
     dolg = moment.duration(moment(time.sunset).diff(moment(time.sunrise)))/1000
-    if suncalc.getMoonIllumination(new Date) == 0 
+    if suncalc.getMoonIllumination(new Date) == 0
       luna = "Prazna luna"
     else if suncalc.getMoonIllumination(new Date) == 1
       luna = "Polna luna"
     else
       luna = "Luna je v ščipu"
-    
+
     msg = "Sončni vzhod: #{vzhod}, Kulminacija: #{kulminacija}, Sončni zahod: #{zahod}\nDan je dolg: #{secondsTimeSpanToHMS(dolg.toFixed(0))}s, #{luna}"
     cb msg
 
@@ -108,9 +105,9 @@ module.exports = (bot) ->
           krajg = _.first(_.first(res.results).address_components).short_name
           loc = _.first(res.results).geometry.location
           imeg = _.first(res.results).formatted_address
-          if (/Slovenia/i).test imeg 
+          if (/Slovenia/i).test imeg
             yql 'select metData.ddavg_longText, metData.rh, metData.ffavg_val, metData.domain_altitude, metData.t, metData.tsValid_issued, metData.domain_longTitle, metData.domain_lat, metData.domain_lon, metData.nn_shortText, metData.wwsyn_longText from xml where url in (select title from atom where url="http://spreadsheets.google.com/feeds/list/0AvY_vCMQloRXdE5HajQxUGF5ZEZYUjhKNG9EeVl2bFE/od6/public/basic")',
-                        
+
               # seznam = document.querySelectorAll("td a")
               #   for(i=0; i< seznam.length;i++){
               #     if(seznam[i].href.indexOf(".xml") != -1){
@@ -125,7 +122,7 @@ module.exports = (bot) ->
                   return a - b;
                 kraj = _.first(lokacije)
 
-                if kraj.metData.ddavg_longText? 
+                if kraj.metData.ddavg_longText?
                   if kraj.metData.ffavg_val?
                     veter = "Veter: #{kraj.metData.ddavg_longText} #{kraj.metData.ffavg_val} m/s"
                   else
@@ -140,13 +137,13 @@ module.exports = (bot) ->
 
                 if kraj.metData.wwsyn_longText?
                   vremenski_pojav = kraj.metData.wwsyn_longText
-                else 
+                else
                   vremenski_pojav = ""
                 vreme2 loc.lat, loc.lng, (msg)->
-                  cb """ARSO: #{kraj.metData.domain_longTitle} (#{kraj.metData.domain_altitude}m): #{kraj.metData.t}°C @#{kraj.metData.tsValid_issued}.\nVlažnost: #{kraj.metData.rh}% #{veter} #{oblacnost} #{vremenski_pojav}\n""" + msg          
+                  cb """ARSO: #{kraj.metData.domain_longTitle} (#{kraj.metData.domain_altitude}m): #{kraj.metData.t}°C @#{kraj.metData.tsValid_issued}.\nVlažnost: #{kraj.metData.rh}% #{veter} #{oblacnost} #{vremenski_pojav}\n""" + msg
           else
             vreme key, (msg)->
-              cb "#{imeg}: #{msg}"   
+              cb "#{imeg}: #{msg}"
         catch e
           cb "Neznana lokacija"
 
@@ -160,12 +157,13 @@ module.exports = (bot) ->
   bot.regexp /^\.potresi$/i,
     ".potresi prikazi zadnji potres večji od M1"
     (match, r) ->
+      msg = ""
       ArsoPotresi (pots)->
         for pot in pots
           if Number(pot.m) > 1
-            r.reply "M #{pot.m} > #{pot.loc} @#{pot.date}  https://maps.google.com/?q=#{pot.lat}+N,+#{pot.lon}+E"
-
-
+            msg += "M #{pot.m} > #{pot.loc} @#{pot.date}  https://maps.google.com/?q=#{pot.lat}+N,+#{pot.lon}+E"
+            break
+        r.reply msg
   bot.regexp /^\.vreme (.+)/i,
     ".vreme <kraj> dobi podatke o vremenu za <kraj>"
     (match, r) ->
@@ -195,4 +193,3 @@ module.exports = (bot) ->
           r.reply vsebina
         else
           r.reply "Podatka o vremenu ni..."
-
