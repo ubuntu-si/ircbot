@@ -18,19 +18,16 @@ module.exports = (bot) ->
         )(tpm, re)
 
   ArsoPotresi = (cb)->
-    # #glavna td.vsebina > table > tbody > tr
-    bot.fetchHTML "http://www.arso.gov.si/potresi/obvestila%20o%20potresih/aip/", ($)->
+    bot.fetchJSON "http://potresi.herokuapp.com/potresi.json", (data)->
       apotresi = []
-      for e in $("#glavna td.vsebina table tr")
-        e = cheerio(e)
-        magnituda = Number(e.find("td:nth-child(4)").text())
-        if magnituda > 0
+      for e in data
+        if e.Magnituda > 0
           apotresi.push {
-            date: e.find("td:nth-child(1)").text().trim(),
-            lat: e.find("td:nth-child(2)").text().trim(),
-            lon: e.find("td:nth-child(3)").text().trim(),
-            m: magnituda,
-            loc: e.find("td:nth-child(6)").text().trim(),
+            date: e.Datum,
+            lat: e.Lat,
+            lon: e.Lon,
+            m: e.Magnituda,
+            loc: e.Lokacija,
           }
       cb apotresi
 
