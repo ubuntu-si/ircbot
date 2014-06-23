@@ -1,5 +1,7 @@
 fat = require './lib/fat'
 
+console.log process.env
+
 if process.env.REDIS_HOST?
   global.redis = require('then-redis').createClient({
     host: process.env.REDIS_HOST,
@@ -19,16 +21,9 @@ require("./scripts/set-get")(bot)
 require("./scripts/vreme")(bot)
 require("./scripts/apt")(bot)
 require("./scripts/url")(bot)
--if process.env.T_CK?
-  require("./scripts/novickar")(bot)
 
 bot.command /^.pomo[čc]$/i, (r) ->
   msg = bot.help.join "\n"
   r.privmsg msg
 
 bot.connect()
-
-process.on "uncaughtException", (err) ->
-  
-  # handle the error safely
-  console.log err
