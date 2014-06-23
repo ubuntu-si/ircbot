@@ -1,8 +1,16 @@
 language: node_js
+env:
+  global:
+    secure: bEDxnOJBuultleiHjG9r+o3hJbtsMUbrJUO34RQwY0wIEJ88EQsatMIf87cYldY2MsenW0/IGzng4DV2PwYewfTdf6sa04J3gC2pQiPZ5ohB7q9dkCzIJ3X/kafNDHwo4EtrlVjBEe9kUXpNC1/MDIs07twmvNwSK6i2ljmPu0Zh3IJkmtOUYk87UbalJKcpgDu2wC/DmO9f1hehqqMSSRTSz0haFQHx3wuHE4yFKi3xYkOkCqed2BLygUuEuLQMs4SDBq9rHnM7IM84liva9iC6JqSshclNUpBOJPp97FOOe50O2gDHibpawEP3e5In9fLFrre6DX3mHNUVg5Exkw==
 node_js:
   - "0.10"
-after_script: 
+after_script:
   - mkdir -p shippable/codecoverage
   - npm isntall istanbul
   - ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- -R spec -u tdd --compilers coffee:coffee-script/register
   - ./node_modules/.bin/istanbul report cobertura --dir shippable/codecoverage/
+
+after_success :
+  - curl $SSH_CONFIG > ~/.ssh/config
+  - chmod 600 ~/.ssh/config
+  - git push dokku@rtd:ircbot master
