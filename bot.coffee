@@ -1,11 +1,8 @@
 fat = require './lib/fat'
 
-if process.env.OPENSHIFT_REDIS_HOST?
+if process.env.REDIS_HOST?
   global.redis = require('then-redis').createClient({
-    host: process.env.OPENSHIFT_REDIS_HOST,
-    port: process.env.OPENSHIFT_REDIS_PORT,
-    database: 1,
-    password: process.env.REDIS_PASSWORD
+    host: process.env.REDIS_HOST,
   })
 else
   global.redis = require('then-redis').createClient()
