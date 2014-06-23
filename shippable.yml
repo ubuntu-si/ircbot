@@ -9,7 +9,6 @@ after_script:
   - npm isntall istanbul
   - ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- -R spec -u tdd --compilers coffee:coffee-script/register
   - ./node_modules/.bin/istanbul report cobertura --dir shippable/codecoverage/
-
 after_success :
   - curl $SSH_CONFIG > ~/.ssh/config
   - chmod 600 ~/.ssh/config
