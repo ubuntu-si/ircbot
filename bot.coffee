@@ -2,10 +2,8 @@ fat = require './lib/fat'
 
 console.log process.env
 
-if process.env.REDIS_HOST?
-  global.redis = require('then-redis').createClient({
-    host: process.env.REDIS_HOST,
-  })
+if process.env.REDIS_URL?
+  global.redis = require('then-redis').createClient(process.env.REDIS_URL)
 else
   global.redis = require('then-redis').createClient()
 
