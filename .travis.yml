@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+- '0.10'
+notifications:
+  irc:
+    channels:
+      - "chat.freenode.net#ubuntu-si"
+    template:
+      - "%{repository} (%{commit}) : %{message} %{foo} "
+      - "Build details: %{build_url}"
