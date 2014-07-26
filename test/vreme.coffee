@@ -13,8 +13,8 @@ describe 'vreme.coffee', ->
     expect(bot.help.length).to.be.at.least 2
     done()
 
-  it 'test .prognoza', (done)->
-    bot.test ".prognoza", (msg)->
+  it 'test .obeti', (done)->
+    bot.test ".obeti", (msg)->
       expect(msg).to.be.a('string')
       expect(msg.length).to.be.at.least 40
       done()
@@ -42,4 +42,3 @@ describe 'vreme.coffee', ->
       expect(msg).to.be.a('string')
       expect(msg.length).to.be.at.least 20
       done()
-

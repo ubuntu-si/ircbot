@@ -51,8 +51,8 @@ Pomoč:
   .seznam -- Seznam tega kar je v shrambi
   .shrani <sporočilo> -- Shrani nekaj v shrambo
   .vreme <kraj> dobi podatke o vremenu za <kraj>
-  .prognoza Vremenska prognoza
-  .napoved Vremenska napoved
+  .obeti Vremenska napoved za prihodnje dni
+  .napoved Vremenska napoved za danes
   .url <nick> Prikaži urlje, ki jih je objavil <nick>
   .nalozi <url> Prikaži opis in naslov za <url>
   .rt -- Izpiše kaj se trenutno predvaja na radioterminal.si

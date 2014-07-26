@@ -171,25 +171,27 @@ module.exports = (bot) ->
       arso key, (msg)->
         r.reply msg
 
-  bot.command /^\.prognoza/i,
-    ".prognoza Vremenska prognoza"
+  bot.command /^\.obeti/i,
+    ".obeti Vremenska napoved za prihodnje dni"
     (r) ->
       url = "http://www.arso.gov.si/vreme/napovedi%20in%20podatki/napoved.html"
       bot.fetchHTML url, ($)->
         if $?
-          vsebina = $("td.vsebina p").eq(2).text()
+          vsebina = $("td.vsebina p").eq(4).text()
+          console.log vsebina
           r.reply vsebina
         else
           r.reply "Podatka o vremenu ni..."
 
 
   bot.command /^\.napoved/i,
-    ".napoved Vremenska napoved"
+    ".napoved Vremenska napoved za danes"
     (r) ->
       url = "http://www.arso.gov.si/vreme/napovedi%20in%20podatki/napoved.html"
       bot.fetchHTML url, ($)->
         if $?
-          vsebina = $("td.vsebina p").eq(4).text()
+          vsebina = $("td.vsebina p").eq(1).text()
+          console.log vsebina
           r.reply vsebina
         else
           r.reply "Podatka o vremenu ni..."
