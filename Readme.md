@@ -1,6 +1,6 @@
 #ubuntu-si irc bot
 
-[![Build Status](https://api.shippable.com/projects/537cbb191cfdf4e401c91a8c/badge/master)](https://www.shippable.com/projects/537cbb191cfdf4e401c91a8c)
+[ ![Codeship Status for ubuntu-si/ircbot](https://www.codeship.io/projects/7a0c6a50-f560-0131-a2a1-36bfe20e8a91/status)](https://www.codeship.io/projects/28286)
 
 Potrebuješ:
 
