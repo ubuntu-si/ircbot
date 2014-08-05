@@ -42,3 +42,9 @@ describe 'vreme.coffee', ->
       expect(msg).to.be.a('string')
       expect(msg.length).to.be.at.least 20
       done()
+
+  it 'test .radar', (done)->
+    bot.test ".radar", (msg)->
+       expect(msg).to.be.a('string')
+       expect(msg.length).to.be.at.least 40
+       done()
