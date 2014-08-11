@@ -97,15 +97,16 @@ module.exports = (bot) ->
                 metascore = "Ni podatka"
               opis = $("p[itemprop=\"description\"]").text().replace(/[\n\r]/gm,"").replace(/\s\s/g,"")
               cas = $(".infobar time[itemprop=\"duration\"]").text().replace(/[\n\r]/gm,"").replace(/\s\s/g,"")
+              zanr = $(".infobar a span[itemprop=\"genre\"]").text().match(/[A-z][a-z]+/g).join(" ")
               naslov = $("title").text().replace(" - IMDb", "")
               trailer = $("a[itemprop=\"trailer\"]").attr("href")
               if trailer?
                 trailer = "http://www.imdb.com#{trailer}"
-                msg = "#{naslov} #{cas}\nOcena: #{ocena} MT: #{metascore}\n#{opis}\nTrailer: #{trailer.split("?")[0]}\nPovezava: #{url_filma}"
+                msg = "#{naslov} #{cas} #{zanr}\nOcena: #{ocena} MT: #{metascore}\n#{opis}\nTrailer: #{trailer.split("?")[0]}\nPovezava: #{url_filma}"
               else
-                msg = "#{naslov} #{cas}\nOcena: #{ocena} MT: #{metascore}\n#{opis}\nPovezava: #{url_filma}"
+                msg = "#{naslov} #{cas} #{zanr}\nOcena: #{ocena} MT: #{metascore}\n#{opis}\nPovezava: #{url_filma}"
 
-              #console.log msg
+              console.log msg
               redis.setex("imdb:#{ime}", 24*60*5, msg)
               cb msg
           else
