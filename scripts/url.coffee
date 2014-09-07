@@ -6,11 +6,14 @@ module.exports = (bot) ->
     if is_url.test url
       bot.fetchHTML url, ($)->
         if $
-          naslov = $("title").text()
+          stack = []
+          stack.push $("title").text()
           opis = $("meta[name=description]").attr("content")
-          cb "#{naslov}\n#{opis}"
+          if opis
+            stack.push opis
+          cb stack.join("\n")
         else
-          cb "Ni HTML"
+          cb "Ni opisa"
     else
       cb "Ni URL"
 

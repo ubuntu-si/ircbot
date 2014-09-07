@@ -26,5 +26,5 @@ describe 'url.coffee', ->
 
   it 'test .nalozi ne prikaze ce ni HTML', (done)->
     bot.test ".nalozi https://gist.github.com/dz0ny/59f7896355e6fe606d87/raw/6e5d5db6b9fd53738f7579d07cb1757de99b2d5d/gistfile1.js", (msg)->
-      expect(msg).to.contain "Ni HTML"
+      expect(msg).to.contain "Ni opisa"
       done()
