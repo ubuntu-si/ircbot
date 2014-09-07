@@ -79,12 +79,12 @@ module.exports = (bot) ->
       f = match[1].trim()
 
       imdb = (ime, cb)->
-        url = "http://www.imdb.com/find?q=#{encodeURI(ime)}&s=all"
+        url = "http://www.imdb.com/find?q=#{encodeURI(ime)}&s=tt&&exact=true&ref_=fn_tt_ex"
         bot.fetchHTML url, ($)->
-          naslov = $(".findResult:first-child .result_text a").text()
-          url_filma = $(".findResult:first-child .result_text a").attr("href").split("?")[0]
-
-          if url_filma?
+          hit = $(".findResult:first-child .result_text a")
+          if hit.length
+            naslov = hit.text()
+            url_filma = hit.attr("href").split("?")[0]
             url_filma = "http://www.imdb.com#{url_filma}"
             bot.fetchHTML url_filma, ($)->
               ocena = $(".star-box-details a").eq(0).attr("title")
