@@ -136,7 +136,7 @@ module.exports = (bot) ->
     bot.regexp /^\.rt/,
       ".rt -- kaj se trenutno predvaja na radioterminal.si",
       (match,irc) ->
-        bot.fetchJSON "http://t.radioterminal.si/zgodovina/sedaj.json", (data) ->
+        bot.fetchJSON "https://m.radioterminal.si/zgodovina/sedaj.json", (data) ->
           if data
             irc.reply "Trenutno se predvaja: #{data.artist} - #{data.track}"
             #console.log "Trenutno se predvaja: #{data.artist} - #{data.track}"
