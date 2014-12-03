@@ -57,5 +57,4 @@ Pomoč:
   .nalozi <url> Prikaži opis in naslov za <url>
   .rt -- Izpiše kaj se trenutno predvaja na radioterminal.si
   .morje -- Izpiše temperature slovenskega morja (Koper, Debeli rtič ter Piran)
-  .letsrestarthisbadboy
 ```
