@@ -106,41 +106,15 @@ module.exports = (bot) ->
           loc = _.first(res.results).geometry.location
           imeg = _.first(res.results).formatted_address
           if (/Slovenia/i).test imeg
-            yql 'select metData.ddavg_longText, metData.rh, metData.ffavg_val, metData.domain_altitude, metData.t, metData.tsValid_issued, metData.domain_longTitle, metData.domain_lat, metData.domain_lon, metData.nn_shortText, metData.wwsyn_longText from xml where url in (select title from atom where url="http://spreadsheets.google.com/feeds/list/0AvY_vCMQloRXdE5HajQxUGF5ZEZYUjhKNG9EeVl2bFE/od6/public/basic")',
+            bot.fetchJSON "http://potresi.herokuapp.com/postaje.json", (lokacije)->
+              lokacije.sort (a, b)->
+                a = oddaljenost a.Lat, a.Lon, loc.lat, loc.lng
+                b = oddaljenost b.Lat, b.Lon, loc.lat, loc.lng
+                return a - b;
+              kraj = _.first(lokacije)
 
-              # seznam = document.querySelectorAll("td a")
-              #   for(i=0; i< seznam.length;i++){
-              #     if(seznam[i].href.indexOf(".xml") != -1){
-              #       console.log(seznam[i].href)
-              #     }
-              #   }
-              (lokacije)->
-                lokacije = lokacije.data
-                lokacije.sort (a, b)->
-                  a = oddaljenost a.metData.domain_lat, a.metData.domain_lon, loc.lat, loc.lng
-                  b = oddaljenost b.metData.domain_lat, b.metData.domain_lon, loc.lat, loc.lng
-                  return a - b;
-                kraj = _.first(lokacije)
-
-                if kraj.metData.ddavg_longText?
-                  if kraj.metData.ffavg_val?
-                    veter = "Veter: #{kraj.metData.ddavg_longText} #{kraj.metData.ffavg_val} m/s"
-                  else
-                    veter = "Veter: #{kraj.metData.ddavg_longText}"
-                else
-                  veter = ""
-
-                if kraj.metData.nn_shortText?
-                  oblacnost = kraj.metData.nn_shortText
-                else
-                  oblacnost = ""
-
-                if kraj.metData.wwsyn_longText?
-                  vremenski_pojav = kraj.metData.wwsyn_longText
-                else
-                  vremenski_pojav = ""
-                vreme2 loc.lat, loc.lng, (msg)->
-                  cb """ARSO: #{kraj.metData.domain_longTitle} (#{kraj.metData.domain_altitude}m): #{kraj.metData.t}°C @#{kraj.metData.tsValid_issued}.\nVlažnost: #{kraj.metData.rh}% #{veter} #{oblacnost} #{vremenski_pojav}\n""" + msg
+              vreme2 loc.lat, loc.lng, (msg)->
+                cb """ARSO: #{kraj.Title} (#{kraj.Altitude}m): #{kraj.Temp}°C @#{kraj.Valid}.\nVlažnost: #{kraj.RH}%\n""" + msg
           else
             vreme key, (msg)->
               cb "#{imeg}: #{msg}"

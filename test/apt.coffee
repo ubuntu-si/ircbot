@@ -11,7 +11,7 @@ describe 'apt.coffee', ->
   it 'test .apt libssl-dev', (done)->
     bot.test ".apt libssl-dev", (msg)->
       expect(msg).to.be.a('string')
-      msg.should.equal 'libssl-dev {lucid (10.04LTS), precise (12.04LTS), raring (13.04), saucy (13.10), trusty (14.04LTS), utopic}'
+      msg.should.equal 'libssl-dev {lucid (10.04LTS), precise (12.04LTS), trusty (14.04LTS), utopic, vivid}'
       done()
 
   it 'test .aptf evp.h', (done)->
