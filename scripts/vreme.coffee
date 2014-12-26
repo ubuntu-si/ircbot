@@ -168,7 +168,6 @@ module.exports = (bot) ->
       bot.fetchHTML url, ($)->
         if $?
           vsebina = $("td.vsebina p").eq(4).toString().replace(/<br>/g,'\n')
-          console.log $(vsebina).text()
           r.reply $(vsebina).text()
         else
           r.reply "Podatka o vremenu ni..."
@@ -181,7 +180,6 @@ module.exports = (bot) ->
       bot.fetchHTML url, ($)->
         if $?
           vsebina = $("td.vsebina p").eq(1).toString().replace(/<br>/g,'\n')
-          console.log $(vsebina).text()
           r.reply $(vsebina).text()
         else
           r.reply "Podatka o vremenu ni..."
