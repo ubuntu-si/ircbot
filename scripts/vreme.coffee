@@ -130,7 +130,6 @@ module.exports = (bot) ->
               vlaznost = if (kraj.RH) then "Vlažnost: #{kraj.RH}%" else ""
               oblacnost = if (kraj.Sky) then kraj.Sky else ""
               vreme2 loc.lat, loc.lng, (msg)->
-                console.log """ARSO: #{kraj.Title} (#{kraj.Altitude}m): #{kraj.Temp}°C @#{kraj.Valid}.\n#{vlaznost} #{veter} #{oblacnost}\n""" + msg
                 cb """ARSO: #{kraj.Title} (#{kraj.Altitude}m): #{kraj.Temp}°C @#{kraj.Valid}.\n#{vlaznost} #{veter} #{oblacnost}\n""" + msg
           else
             vreme key, (msg)->
