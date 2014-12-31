@@ -112,9 +112,26 @@ module.exports = (bot) ->
                 b = oddaljenost b.Lat, b.Lon, loc.lat, loc.lng
                 return a - b;
               kraj = _.first(lokacije)
-
+              if (kraj.WindDirection)
+                switch kraj.WindDirection
+                  when 'N' then veter = "severnik"
+                  when 'S' then veter = "južni veter"
+                  when 'E' then veter = "vzhodnik"
+                  when 'W' then veter = "zahodnik"
+                  when 'NE' then veter = "severovzhodnik"
+                  when 'NW' then veter = "severozahodnik"
+                  when 'SE' then veter = "jugovzhodnik"
+                  when 'SW' then veter = "jugozahodnik"
+                  else veter = ""
+              else
+                veter = ""
+              hitrost_vetra = if (kraj.Wind) then "#{kraj.Wind} m/s" else ""
+              veter = "#{veter} #{hitrost_vetra}"
+              vlaznost = if (kraj.RH) then "Vlažnost: #{kraj.RH}%" else ""
+              oblacnost = if (kraj.Sky) then kraj.Sky else ""
               vreme2 loc.lat, loc.lng, (msg)->
-                cb """ARSO: #{kraj.Title} (#{kraj.Altitude}m): #{kraj.Temp}°C @#{kraj.Valid}.\nVlažnost: #{kraj.RH}%\n""" + msg
+                console.log """ARSO: #{kraj.Title} (#{kraj.Altitude}m): #{kraj.Temp}°C @#{kraj.Valid}.\n#{vlaznost} #{veter} #{oblacnost}\n""" + msg
+                cb """ARSO: #{kraj.Title} (#{kraj.Altitude}m): #{kraj.Temp}°C @#{kraj.Valid}.\n#{vlaznost} #{veter} #{oblacnost}\n""" + msg
           else
             vreme key, (msg)->
               cb "#{imeg}: #{msg}"
