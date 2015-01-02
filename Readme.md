@@ -22,6 +22,7 @@ Zaženeš:
 Tesiraš & razvijaš lokalno:
 
   - ```./node_modules/.bin/mocha -R spec --compilers coffee:coffee-script test/vreme.coffee``` testiraš specifično funkcionalnost
+  
 Na Ubuntu 14.04 pa uporabi
   - ```./node_modules/.bin/mocha -R spec --compilers coffee:coffee-script/register test/vreme.coffee``` testiraš specifično funkcionalnost
 
