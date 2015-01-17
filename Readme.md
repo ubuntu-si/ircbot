@@ -11,7 +11,8 @@ Potrebuješ:
 Preden začneš:
 
  - ```npm install```
- Na Ubuntu 14.04 moraš namestit še
+ 
+Na Ubuntu 14.04 moraš namestit še
  - ```sudo apt-get install nodejs-legacy```
 
 Zaženeš:
