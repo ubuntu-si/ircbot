@@ -167,9 +167,8 @@ module.exports = (bot) ->
       url = "http://www.arso.gov.si/vreme/napovedi%20in%20podatki/napoved.html"
       bot.fetchHTML url, ($)->
         if $?
-          vsebina = $("td.vsebina p").eq(4).text()
-          console.log vsebina
-          r.reply vsebina
+          vsebina = $("td.vsebina p").eq(4).toString().replace(/<br>/g,'\n')
+          r.reply $(vsebina).text()
         else
           r.reply "Podatka o vremenu ni..."
 
@@ -180,9 +179,8 @@ module.exports = (bot) ->
       url = "http://www.arso.gov.si/vreme/napovedi%20in%20podatki/napoved.html"
       bot.fetchHTML url, ($)->
         if $?
-          vsebina = $("td.vsebina p").eq(1).text()
-          console.log vsebina
-          r.reply vsebina
+          vsebina = $("td.vsebina p").eq(1).toString().replace(/<br>/g,'\n')
+          r.reply $(vsebina).text()
         else
           r.reply "Podatka o vremenu ni..."
 
