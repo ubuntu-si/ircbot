@@ -159,7 +159,7 @@ module.exports = (bot) ->
         for url, index in urls
           bot.fetchHTML url, ($) ->
             postaja = $(".vsebina h1").text()
-            if postaja is "Postaja Koper - Jadransko morje"
+            if postaja is "Postaja Koper - kapitanija - Jadransko morje"
               temperatura = $(".podatki tr td").eq(2).text()
             else
               temperatura = $(".podatki tr td").eq(1).text()
