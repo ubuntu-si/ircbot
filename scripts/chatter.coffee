@@ -17,11 +17,11 @@ module.exports = (bot) ->
 
       r.reply bot.random urls
 
-  bot.command /facepalm/i, (r) ->
+  bot.command /^facepalm$/i, (r) ->
     bot.fetchJSON "http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=facepalm", (data)->
       r.reply bot.random(data.responseData.results).unescapedUrl
 
-  bot.command /^wat/i, (r) ->
+  bot.command /^wat$/i, (r) ->
     bot.fetchJSON "http://watme.herokuapp.com/random", (data)->
       r.reply data.wat
 
