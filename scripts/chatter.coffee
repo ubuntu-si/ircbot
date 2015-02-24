@@ -25,6 +25,9 @@ module.exports = (bot) ->
     bot.fetchJSON "http://watme.herokuapp.com/random", (data)->
       r.reply data.wat
 
+  bot.command /lol no/i, (r) ->
+    r.reply "https://i.imgur.com/BiSkH5D.png"
+
   bot.command /lignux/i, (r) ->
     r.reply "#{r.nick}: linux*"
 
