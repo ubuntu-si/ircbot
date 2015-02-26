@@ -1,11 +1,14 @@
 {
   "name": "ircbot",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "#ubuntu-si bot",
   "main": "server.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha -R spec --compilers coffee:coffee-script/register",
     "start": "./node_modules/.bin/coffee bot.coffee"
+  },
+  "engines": {
+    "node": "0.10.x"
   },
   "repository": "",
   "private": true,
