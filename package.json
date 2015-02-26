@@ -27,7 +27,6 @@
     "mocha": "latest",
     "ddg": "latest",
     "URIjs": "latest",
-    "mathjs": "latest",
     "suncalc": "latest"
   }
 }
