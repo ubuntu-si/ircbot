@@ -2,8 +2,9 @@
 module.exports = (bot) ->
 
   bot.on 'user:join', (r) ->
+    nick = r.nick.replace(/\W/g, "")
     
-    redis.lrange("irc:#{r.nick}:pass", 0 , -1).then (msg)->
+    redis.lrange("irc:#{nick}:pass", 0 , -1).then (msg)->
       console.log msg
       if msg
         if msg.length > 1
@@ -11,7 +12,7 @@ module.exports = (bot) ->
 
         for m in msg
           r.privmsg m
-        redis.del("irc:#{r.nick}:pass")
+        redis.del("irc:#{nick}:pass")
 
   bot.on 'user:talk', (r) ->
     redis.set("irc:#{r.nick}:timestamp", moment().unix())
@@ -20,7 +21,7 @@ module.exports = (bot) ->
   bot.regexp /^.videl (.+)/,
     ".videl <nick> -- Kdaj je bil uporabnik zadnjič na kanalu, sporočilo",
     (match, r) ->
-      usr = match[1]
+      usr = match[1].replace(/\W/g, "")
       console.log "iščem uporabnika #{usr}"
       
       if usr is r.nick
@@ -40,12 +41,13 @@ module.exports = (bot) ->
   bot.regexp /^\.sporoči (.*)/,
     ".sporoči <nick> <sporočilo> -- Pošlji sporočilo uporabniku, če ni prisoten",
     (match, r) ->
-      usr = r.text.replace(".sporoči ", "").split(" ")[0]
+      usr = r.text.replace(".sporoči ", "").split(" ")[0].replace(/\W/g, "")
       console.log usr
       msg = r.text.slice(r.text.indexOf(usr)+usr.length+1, r.text.length)
       
-      if usr is r.nick
-        return r.privmsg "#{r.nick}: Dobro, ne moreš sam/a sebi pošiljat sporočil no!"
+      # Seveda lahko sam sebi pošlješ sporočilo!
+      #if usr is r.nick
+      #  return r.privmsg "#{r.nick}: Dobro, ne moreš sebi pošiljat sporočil, no!"
 
       redis.llen("irc:#{usr}:pass").then (count)->
         if count > 5
