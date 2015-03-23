@@ -1,6 +1,6 @@
 fat = require './fat'
 
-class TestRedis
+class FakeRedis
     constructor: () ->
 
     lrange:()->
@@ -19,7 +19,10 @@ class TestRedis
       return {then: @then}
     then:(cb)->
       cb(false)
-global.redis = new TestRedis()
+if process.env.CI?
+  global.redis = require('then-redis').createClient()
+else
+  global.redis = new FakeRedis()
 
 class BotTest extends fat.Bot
   constructor: () ->

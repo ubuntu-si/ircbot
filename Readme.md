@@ -17,14 +17,10 @@ Na Ubuntu 14.04 moraš namestit še
 
 Zaženeš:
 
- - ```sudo docker build -t dz0ny/ircbot github.com/ubuntu-si/ircbot```
- - ``` sudo docker run -d dz0ny/ircbot```
+ - ```npm start```
 
 Tesiraš & razvijaš lokalno:
 
-  - ```./node_modules/.bin/mocha -R spec --compilers coffee:coffee-script test/vreme.coffee``` testiraš specifično funkcionalnost
-  
-Na Ubuntu 14.04 pa uporabi
   - ```./node_modules/.bin/mocha -R spec --compilers coffee:coffee-script/register test/vreme.coffee``` testiraš specifično funkcionalnost
 
   - ```npm test``` če želiš kompleten projekt
