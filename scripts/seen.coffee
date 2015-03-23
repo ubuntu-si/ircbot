@@ -2,7 +2,7 @@
 module.exports = (bot) ->
 
   bot.on 'user:join', (r) ->
-    nick = r.nick.replace(/[^a-zA-Z0-9]/g, "")
+    nick = r.nick.replace(/\W/g, "")
     
     redis.lrange("irc:#{nick}:pass", 0 , -1).then (msg)->
       console.log msg
@@ -21,7 +21,7 @@ module.exports = (bot) ->
   bot.regexp /^.videl (.+)/,
     ".videl <nick> -- Kdaj je bil uporabnik zadnjič na kanalu, sporočilo",
     (match, r) ->
-      usr = match[1].replace(/[^a-zA-Z0-9]/g, "")
+      usr = match[1].replace(/\W/g, "")
       console.log "iščem uporabnika #{usr}"
       
       if usr is r.nick
@@ -41,7 +41,7 @@ module.exports = (bot) ->
   bot.regexp /^\.sporoči (.*)/,
     ".sporoči <nick> <sporočilo> -- Pošlji sporočilo uporabniku, če ni prisoten",
     (match, r) ->
-      usr = r.text.replace(".sporoči ", "").split(" ")[0].replace(/[^a-zA-Z0-9]/g, "")
+      usr = r.text.replace(".sporoči ", "").split(" ")[0].replace(/\W/g, "")
       console.log usr
       msg = r.text.slice(r.text.indexOf(usr)+usr.length+1, r.text.length)
       
