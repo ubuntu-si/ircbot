@@ -12,10 +12,6 @@ module.exports = (bot) ->
           if opis
             stack.push opis
           cb stack.join("\n")
-        else
-          cb "Ni opisa"
-    else
-      cb "Ni URL"
 
   bot.on 'user:talk', (r) ->
     if is_url.test r.text
