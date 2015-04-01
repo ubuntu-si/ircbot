@@ -17,7 +17,7 @@ module.exports = (bot) ->
     if is_url.test r.text
       msg = "#{r.text} @#{moment().toString()}"
       redis.rpush("irc:zgodovina:#{r.nick}", msg)
-      resolve r.text, r.reply
+      #resolve r.text, r.reply
 
   bot.regexp /^\.url (.+)/i,
     ".url <nick> Prikaži urlje, ki jih je objavil <nick>"
