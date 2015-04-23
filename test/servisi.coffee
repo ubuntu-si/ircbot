@@ -57,3 +57,9 @@ describe 'servisi.coffee', ->
     bot.test ".morje", (msg) ->
       expect(msg).to.be.a('string')
       done()
+
+  it 'test .yt AURORA Running With The Wolves', (done)->
+    bot.test ".yt AURORA Running With The Wolves", (msg) ->
+      console.log msg
+      expect(msg).to.be.a('string')
+      done()

@@ -1,5 +1,6 @@
-youtube = require("youtube-feeds")
-youtube.httpProtocol = "https"
+google = require('googleapis')
+google.options ({ auth: 'AIzaSyAl1Xq9DwdE_KD4AtPaE4EJl3WZe2zCqg4' });
+youtube = google.youtube ('v3')
 humanize = require 'humanize'
 
 module.exports = (bot) ->
@@ -7,21 +8,18 @@ module.exports = (bot) ->
   bot.regexp /^.yt (.+)/,
     ".yt <iskalni niz> -- Išči na youtube",
     (match, r) ->
-
-      fixyt = (url)->
-        if url
-          return url.replace("/v/", "/watch?v=").replace("&feature=youtube_gdata_player", "")
-        else
-          return ""
-
-      f = match[1].trim()
-      youtube.feeds.videos
-        q: f
-        "max-results": 5
-      , (err, data) ->
+      youtube.search.list {
+          part: 'snippet'
+          type: 'video'
+          q: match[1].trim()
+          maxResults: 5
+          type: 'video'
+          order: 'relevance'
+          safeSearch: 'none'
+      }, (err, res) ->
         unless err
-          izbran = _.first(data.items)
-          r.reply "#{izbran.title} (#{moment.duration(izbran.duration, 'seconds').humanize()}) #{fixyt(izbran.player.default)} ♥#{humanize.numberFormat(izbran.likeCount,0)} ▶#{humanize.numberFormat(izbran.viewCount,0)}"
+          izbran = _.first(res.items)
+          r.reply "#{izbran.snippet.title} https://www.youtube.com/watch?v=#{izbran.id.videoId}"
         else
           r.reply "Ni zadetka"
 
