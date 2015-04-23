@@ -162,7 +162,7 @@ module.exports = (bot) ->
          #console.log "No gif available :("
           r.reply "No gif available :("
 
-  bot.command /((give me|spread) some )?(joy|love)( asshole)?/i, (r) ->
+  bot.command /^((give me|spread) some )?(joy|love)( asshole)?/i, (r) ->
     bot.fetchHTML 'http://thecodinglove.com/random', ($) ->
       img_src = $("#post1 > div.bodytype > p > img").first().attr('src')
       txt = $("#post1 > div.centre > h3 > a").first().text()
