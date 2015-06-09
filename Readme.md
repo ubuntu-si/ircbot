@@ -36,7 +36,6 @@ Pomoč:
   .ddg -- Vse kar zna https://api.duckduckgo.com/api ali https://api.duckduckgo.com/goodies
   .yt <iskalni niz> -- Išči na youtube
   .sc <iskalni niz> -- Išči na soundcloud
-  .calc <enačba> -- Izračunaj
   .asku <pojem> -- Išči po askubuntu, če vsebuje !! potem prikaže povezave
   .stof <pojem> -- Išči po stackoverflow, če vsebuje !! potem prikaže povezave
   .stx <pojem> -- Išči po stackexchange, če vsebuje !! potem prikaže povezave
