@@ -1,6 +1,6 @@
 #ubuntu-si irc bot
 
-[ ![Codeship Status for ubuntu-si/ircbot](https://www.codeship.io/projects/7a0c6a50-f560-0131-a2a1-36bfe20e8a91/status)](https://www.codeship.io/projects/28286)
+[![wercker status](https://app.wercker.com/status/26729d8187253b8d033b8545837c49bf/m "wercker status")](https://app.wercker.com/project/bykey/26729d8187253b8d033b8545837c49bf)
 
 Potrebuješ:
 
@@ -11,7 +11,7 @@ Potrebuješ:
 Preden začneš:
 
  - ```npm install```
- 
+
 Na Ubuntu 14.04 moraš namestit še
  - ```sudo apt-get install nodejs-legacy```
 
