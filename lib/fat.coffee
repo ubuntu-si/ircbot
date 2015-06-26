@@ -7,7 +7,7 @@ global.cheerio = require 'cheerio'
 global.request = require 'request'
 global._ = require 'underscore'
 global.moment = require 'moment'
-moment.lang("sl")
+moment.locale("sl")
 
 defaults =
   server: 'freenode'
@@ -178,7 +178,7 @@ class Bot extends events.EventEmitter
     if channels in @channels
       @client.part channel, callback
       @channels.pop channel
-    
+
   join: (channel, callback) ->
     @client.join channel, callback
     @chanels.push channel
@@ -198,10 +198,10 @@ Bot::regexp = (regex, pomoc, callback) ->
         callback(regex.exec(r.text), r)
     catch e
       console.log e
-    
+
   @on 'user:private', ifje
   @on 'user:talk', ifje
-    
+
 
 Bot::command = (regex, pomoc, callback) ->
   if typeof pomoc is "function"
