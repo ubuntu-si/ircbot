@@ -161,28 +161,28 @@ module.exports = (bot) ->
       arso key, (msg)->
         r.reply msg
 
-  bot.command /^\.obeti/i,
-    ".obeti Vremenska napoved za prihodnje dni"
-    (r) ->
-      url = "http://www.arso.gov.si/vreme/napovedi%20in%20podatki/napoved.html"
-      bot.fetchHTML url, ($)->
-        if $?
-          vsebina = $("td.vsebina p").eq(4).toString().replace(/<br>/g,'\n')
-          r.reply $(vsebina).text()
-        else
-          r.reply "Podatka o vremenu ni..."
-
-
-  bot.command /^\.napoved/i,
-    ".napoved Vremenska napoved za danes"
-    (r) ->
-      url = "http://www.arso.gov.si/vreme/napovedi%20in%20podatki/napoved.html"
-      bot.fetchHTML url, ($)->
-        if $?
-          vsebina = $("td.vsebina p").eq(1).toString().replace(/<br>/g,'\n')
-          r.reply $(vsebina).text()
-        else
-          r.reply "Podatka o vremenu ni..."
+  # bot.command /^\.obeti/i,
+  #   ".obeti Vremenska napoved za prihodnje dni"
+  #   (r) ->
+  #     url = "http://www.arso.gov.si/vreme/napovedi%20in%20podatki/napoved.html"
+  #     bot.fetchHTML url, ($)->
+  #       if $?
+  #         vsebina = $("td.vsebina p").eq(4).toString().replace(/<br>/g,'\n')
+  #         r.reply $(vsebina).text()
+  #       else
+  #         r.reply "Podatka o vremenu ni..."
+  #
+  #
+  # bot.command /^\.napoved/i,
+  #   ".napoved Vremenska napoved za danes"
+  #   (r) ->
+  #     url = "http://www.arso.gov.si/vreme/napovedi%20in%20podatki/napoved.html"
+  #     bot.fetchHTML url, ($)->
+  #       if $?
+  #         vsebina = $("td.vsebina p").eq(1).toString().replace(/<br>/g,'\n')
+  #         r.reply $(vsebina).text()
+  #       else
+  #         r.reply "Podatka o vremenu ni..."
 
   bot.command /^\.radar/i,
     ".radar Izpiše povezavo do radarske slike padavin"

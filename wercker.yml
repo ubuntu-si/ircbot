@@ -3,14 +3,14 @@ build:
   steps:
     - npm-install
     - npm-test
-    - script:
-        name: echo nodejs information
-        code: |
-          echo "node version $(node -v) running"
-          echo "npm version $(npm -v) running"
 deploy:
   steps:
-    - gekkie/dokku-deploy@0.0.9:
-       app-name: ircbot
-       host: ircbot.apps.radioterminal.si:2222
-       key-name: SSH_IRCBOT
+    - add-to-known_hosts:
+        hostname: $HOSTNAME
+    - add-ssh-key:
+        keyname: SSH
+    - script:
+        name: Push to dokku
+        code: |
+          git remote add dokku dokku@$HOSTNAME:$APP
+          git push dokku HEAD:master
