@@ -161,28 +161,56 @@ module.exports = (bot) ->
       arso key, (msg)->
         r.reply msg
 
-  # bot.command /^\.obeti/i,
-  #   ".obeti Vremenska napoved za prihodnje dni"
-  #   (r) ->
-  #     url = "http://www.arso.gov.si/vreme/napovedi%20in%20podatki/napoved.html"
-  #     bot.fetchHTML url, ($)->
-  #       if $?
-  #         vsebina = $("td.vsebina p").eq(4).toString().replace(/<br>/g,'\n')
-  #         r.reply $(vsebina).text()
-  #       else
-  #         r.reply "Podatka o vremenu ni..."
-  #
-  #
-  # bot.command /^\.napoved/i,
-  #   ".napoved Vremenska napoved za danes"
-  #   (r) ->
-  #     url = "http://www.arso.gov.si/vreme/napovedi%20in%20podatki/napoved.html"
-  #     bot.fetchHTML url, ($)->
-  #       if $?
-  #         vsebina = $("td.vsebina p").eq(1).toString().replace(/<br>/g,'\n')
-  #         r.reply $(vsebina).text()
-  #       else
-  #         r.reply "Podatka o vremenu ni..."
+  bot.command /^\.obeti/i,
+    ".obeti Vremenska napoved za prihodnje dni"
+    (r) ->
+      url = "http://meteo.arso.gov.si/uploads/probase/www/fproduct/text/sl/fcast_si_text.html"
+      bot.fetchHTML url, ($)->
+        if $?
+          vsebina = $("td.vsebina")
+          obeti = $(vsebina).toString().substring($(vsebina).toString().lastIndexOf('<h2>OBETI</h2>') + 1, $(vsebina).toString().lastIndexOf('<h2>VREMENSKA SLIKA</h2>'))
+          r.reply $(obeti).text()
+        else
+          r.reply "Podatka o vremenu ni..."
+
+
+  bot.command /^\.napoved/i,
+    ".napoved Vremenska napoved za danes"
+    (r) ->
+      url = "http://meteo.arso.gov.si/uploads/probase/www/fproduct/text/sl/fcast_si_text.html"
+      bot.fetchHTML url, ($)->
+        if $?
+          vsebina = $("td.vsebina")
+          napoved = $(vsebina).toString().substring($(vsebina).toString().lastIndexOf('<h2>NAPOVED ZA SLOVENIJO</h2>') + 1, $(vsebina).toString().lastIndexOf('<h2>OBETI</h2>'))
+          r.reply $(napoved).text()
+        else
+          r.reply "Podatka o vremenu ni..."
+
+  bot.command /^\.obeti/i,
+    ".obeti Vremenska napoved za prihodnje dni"
+    (r) ->
+      url = "http://meteo.arso.gov.si/uploads/probase/www/fproduct/text/sl/fcast_si_text.html"
+      bot.fetchHTML url, ($)->
+        if $?
+          vsebina = $("td.vsebina")
+          obeti = $(vsebina).toString().substring($(vsebina).toString().lastIndexOf('<h2>OBETI</h2>') + 1, $(vsebina).toString().lastIndexOf('<h2>VREMENSKA SLIKA</h2>'))
+          r.reply $(obeti).text()
+        else
+          r.reply "Podatka o vremenu ni..."
+
+
+  bot.command /^\.napoved/i,
+    ".napoved Vremenska napoved za danes"
+    (r) ->
+      url = "http://meteo.arso.gov.si/uploads/probase/www/fproduct/text/sl/fcast_si_text.html"
+      bot.fetchHTML url, ($)->
+        if $?
+          vsebina = $("td.vsebina")
+          napoved = $(vsebina).toString().substring($(vsebina).toString().lastIndexOf('<h2>NAPOVED ZA SLOVENIJO</h2>') + 1, $(vsebina).toString().lastIndexOf('<h2>OBETI</h2>'))
+          r.reply $(napoved).text()
+        else
+          r.reply "Podatka o vremenu ni..."
+>>>>>>> 0b8077c5db45d273af2cdf43278d1f1cddcf5fdb
 
   bot.command /^\.radar/i,
     ".radar Izpiše povezavo do radarske slike padavin"
