@@ -152,14 +152,13 @@ module.exports = (bot) ->
         r.reply data.AbstractURL || data.Redirect
 
   bot.regexp /^\.gif (.+)/, ".gif <query> -- Prikaže naključni gif", (match, r) ->
-      url = "http://giphy.com/search/#{encodeURI(match[1].trim().split(" ").join("-"))}"
-      bot.fetchHTML url, ($) ->
+      url = "http://giphy.com/search/#{encodeURI(match[1].replace(/[^a-z0-9\s]/g,"").replace(/\s\s+/g, "-"))}"
+      bot.fetchHTML url.replace(/%20/g, '-'), ($) ->
         count = $("#searchresults .found-count").text().split(" GIFs found for")
         if count[0] > 0
           gif_id = $(".hoverable-gif a").eq(0).attr("data-id")
           r.reply "http://media.giphy.com/media/#{gif_id}/giphy.gif"
         else
-         #console.log "No gif available :("
           r.reply "No gif available :("
 
   bot.command /^((give me|spread) some )?(joy|love)( asshole)?/i, (r) ->
