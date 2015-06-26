@@ -171,7 +171,6 @@ module.exports = (bot) ->
           obeti = $(vsebina).toString().substring($(vsebina).toString().lastIndexOf('<h2>OBETI</h2>') + 1, $(vsebina).toString().lastIndexOf('<h2>VREMENSKA SLIKA</h2>'))
           r.reply $(obeti).text()
         else
-          console.log "Ni ni"
           r.reply "Podatka o vremenu ni..."
 
 
@@ -185,7 +184,6 @@ module.exports = (bot) ->
           napoved = $(vsebina).toString().substring($(vsebina).toString().lastIndexOf('<h2>NAPOVED ZA SLOVENIJO</h2>') + 1, $(vsebina).toString().lastIndexOf('<h2>OBETI</h2>'))
           r.reply $(napoved).text()
         else
-          console.log "Ni ni"
           r.reply "Podatka o vremenu ni..."
 
   bot.command /^\.radar/i,
