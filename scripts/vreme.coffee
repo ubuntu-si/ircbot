@@ -164,24 +164,28 @@ module.exports = (bot) ->
   bot.command /^\.obeti/i,
     ".obeti Vremenska napoved za prihodnje dni"
     (r) ->
-      url = "http://www.arso.gov.si/vreme/napovedi%20in%20podatki/napoved.html"
+      url = "http://meteo.arso.gov.si/uploads/probase/www/fproduct/text/sl/fcast_si_text.html"
       bot.fetchHTML url, ($)->
         if $?
-          vsebina = $("td.vsebina p").eq(4).toString().replace(/<br>/g,'\n')
-          r.reply $(vsebina).text()
+          vsebina = $("td.vsebina")
+          obeti = $(vsebina).toString().substring($(vsebina).toString().lastIndexOf('<h2>OBETI</h2>') + 1, $(vsebina).toString().lastIndexOf('<h2>VREMENSKA SLIKA</h2>'))
+          r.reply $(obeti).text()
         else
+          console.log "Ni ni"
           r.reply "Podatka o vremenu ni..."
 
 
   bot.command /^\.napoved/i,
     ".napoved Vremenska napoved za danes"
     (r) ->
-      url = "http://www.arso.gov.si/vreme/napovedi%20in%20podatki/napoved.html"
+      url = "http://meteo.arso.gov.si/uploads/probase/www/fproduct/text/sl/fcast_si_text.html"
       bot.fetchHTML url, ($)->
         if $?
-          vsebina = $("td.vsebina p").eq(1).toString().replace(/<br>/g,'\n')
-          r.reply $(vsebina).text()
+          vsebina = $("td.vsebina")
+          napoved = $(vsebina).toString().substring($(vsebina).toString().lastIndexOf('<h2>NAPOVED ZA SLOVENIJO</h2>') + 1, $(vsebina).toString().lastIndexOf('<h2>OBETI</h2>'))
+          r.reply $(napoved).text()
         else
+          console.log "Ni ni"
           r.reply "Podatka o vremenu ni..."
 
   bot.command /^\.radar/i,
