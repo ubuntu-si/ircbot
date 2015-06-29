@@ -169,8 +169,7 @@ module.exports = (bot) ->
         if $?
           vsebina = $("td.vsebina")
           obeti = $(vsebina).toString().substring($(vsebina).toString().lastIndexOf('<h2>OBETI</h2>') + 1, $(vsebina).toString().lastIndexOf('<h2>VREMENSKA SLIKA</h2>'))
-          console.log $(obeti).text().replace(/h2>OBETI/g,'')
-          r.reply $(obeti).text()
+          r.reply $(obeti).text().replace(/h2>OBETI/g,'')
         else
           r.reply "Podatka o vremenu ni..."
 
@@ -182,8 +181,7 @@ module.exports = (bot) ->
         if $?
           vsebina = $("td.vsebina")
           napoved = $(vsebina).toString().substring($(vsebina).toString().lastIndexOf('<h2>NAPOVED ZA SLOVENIJO</h2>') + 1, $(vsebina).toString().lastIndexOf('<h2>OBETI</h2>'))
-          console.log $(napoved).text().replace(/h2>NAPOVED ZA SLOVENIJO/g,'')
-          r.reply $(napoved).text()
+          r.reply $(napoved).text().replace(/h2>NAPOVED ZA SLOVENIJO/g,'')
         else
           r.reply "Podatka o vremenu ni..."
 
