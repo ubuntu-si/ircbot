@@ -13,17 +13,17 @@ describe 'vreme.coffee', ->
     expect(bot.help.length).to.be.at.least 2
     done()
 
-  # it 'test .obeti', (done)->
-  #   bot.test ".obeti", (msg)->
-  #     expect(msg).to.be.a('string')
-  #     expect(msg.length).to.be.at.least 40
-  #     done()
-  #
-  # it 'test .napoved', (done)->
-  #   bot.test ".napoved", (msg)->
-  #     expect(msg).to.be.a('string')
-  #     expect(msg.length).to.be.at.least 40
-  #     done()
+   it 'test .obeti', (done)->
+     bot.test ".obeti", (msg)->
+       expect(msg).to.be.a('string')
+       expect(msg.length).to.be.at.least 40
+       done()
+  
+   it 'test .napoved', (done)->
+     bot.test ".napoved", (msg)->
+       expect(msg).to.be.a('string')
+       expect(msg.length).to.be.at.least 40
+       done()
 
   it 'test .vreme lj', (done)->
     bot.test ".vreme lj", (msg)->
