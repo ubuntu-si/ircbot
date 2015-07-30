@@ -6,3 +6,4 @@ dump.rdb
 _builds
 _steps
 _projects
+.*log
