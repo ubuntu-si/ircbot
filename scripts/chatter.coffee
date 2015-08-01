@@ -1,4 +1,5 @@
 ddg = require('ddg')
+colors = require('irc-colors')
 
 module.exports = (bot) ->
 
@@ -53,6 +54,12 @@ module.exports = (bot) ->
     (match, r) ->
       select = match[1].trim().split(",")
       r.reply bot.random select
+
+  bot.regexp /^\.rainbow (.+)/,
+    ".rainbow <msg> -- It's what we fought for",
+    (match, r) ->
+      text = match[1].trim()
+      r.reply colors.rainbow(text)
 
   bot.regexp /^\.ac (.+)/,
     ".ac <?> -- for what",
@@ -137,8 +144,8 @@ module.exports = (bot) ->
     ]
     r.reply bot.random vic
 
-  bot.regexp /^\.ddg (.+)/,
-    ".ddg -- Vse kar zna https://api.duckduckgo.com/api ali https://api.duckduckgo.com/goodies",
+  bot.regexp /^\.d (.+)/,
+    ".d -- Vse kar zna https://api.duckduckgo.com/api ali https://api.duckduckgo.com/goodies",
     (match, r) ->
       options =
         useragent: "ubuntu.si"

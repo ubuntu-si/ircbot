@@ -23,6 +23,7 @@
     "googleapis": "^2.0.2",
     "humanize": "latest",
     "irc": "latest",
+    "irc-colors": "^1.2.0",
     "mocha": "latest",
     "moment": "latest",
     "oauth": "latest",
