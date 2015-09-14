@@ -125,8 +125,8 @@ module.exports = (bot) ->
                   else veter = ""
               else
                 veter = ""
-              hitrost_vetra = if (kraj.Wind) then "#{kraj.Wind} m/s" else ""
-              veter = "#{veter} #{hitrost_vetra}"
+              hitrost_vetra = if (kraj.Wind) then "#{kraj.Wind}" else ""
+              veter = "#{veter} #{hitrost_vetra} m/s (#{(hitrost_vetra * 3.6).toFixed(1)} km/h)"
               vlaznost = if (kraj.RH) then "Vlažnost: #{kraj.RH}%" else ""
               oblacnost = if (kraj.Sky) then kraj.Sky else ""
               vreme2 loc.lat, loc.lng, (msg)->
