@@ -49,6 +49,8 @@ module.exports = (bot) ->
                 if key is t
                   vsota = Number(value * v).toFixed(2)
                   cb "#{v} #{f} je #{vsota} #{key}"
+                else
+                  cb "Sowwy :-("
             else
               console.log e
               cb "Napaka"
