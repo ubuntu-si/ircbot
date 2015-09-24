@@ -39,15 +39,16 @@ module.exports = (bot) ->
     (match, r) ->
 
       zamenjaj = (v, f, t, cb)=>
-        url = "http://rate-exchange.appspot.com/currency?from=#{f}&to=#{t}"
+        url = "http://api.fixer.io/latest?base=#{f}"
         v = Number(v.replace(",","."))
-
         if v
           request.get url, (e, r, body)->
             if !e and r.statusCode is 200
-              rate = Number(JSON.parse(body).rate)
-              vsota = Number(v * rate).toFixed(2)
-              cb "#{vsota} #{t}"
+              exchange = JSON.parse(body)
+              for key, value of exchange.rates
+                if key is t
+                  vsota = Number(value * v).toFixed(2)
+                  cb "#{v} #{f} je #{vsota} #{key}"
             else
               console.log e
               cb "Napaka"
