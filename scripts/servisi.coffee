@@ -47,9 +47,9 @@ module.exports = (bot) ->
             cb "Sowwy but something went wrong"
           else
             for key, value of res.rates
-              if key is t
+              if key is t.toUpperCase()
                 vsota = Number(value * v).toFixed(2)
-                cb "#{v} #{f} je #{vsota} #{key}"
+                cb "#{v} #{f.toUpperCase()} je #{vsota} #{key}"
 
       vrednost = match[1].trim()
       from = match[2].trim()
