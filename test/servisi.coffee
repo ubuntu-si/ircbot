@@ -63,3 +63,8 @@ describe 'servisi.coffee', ->
       console.log msg
       expect(msg).to.be.a('string')
       done()
+
+  it 'test .pretvori', (done)->
+    bot.test ".pretvori 10 EUR USD", (msg) ->
+      expect(msg).to.be.a('string')
+      done()
