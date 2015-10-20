@@ -22,10 +22,6 @@ module.exports = (bot) ->
     bot.fetchJSON "http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=facepalm", (data)->
       r.reply bot.random(data.responseData.results).unescapedUrl
 
-  bot.command /^wat$/i, (r) ->
-    bot.fetchJSON "http://watme.herokuapp.com/random", (data)->
-      r.reply data.wat
-
   bot.command /lol no/i, (r) ->
     r.reply "https://i.imgur.com/BiSkH5D.png"
 
