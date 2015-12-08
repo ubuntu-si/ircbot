@@ -18,10 +18,6 @@ module.exports = (bot) ->
 
       r.reply bot.random urls
 
-  bot.command /^facepalm$/i, (r) ->
-    bot.fetchJSON "http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=facepalm", (data)->
-      r.reply bot.random(data.responseData.results).unescapedUrl
-
   bot.command /^wat$/i, (r) ->
     bot.fetchJSON "http://watme.herokuapp.com/random", (data)->
       r.reply data.wat
@@ -40,16 +36,7 @@ module.exports = (bot) ->
     (match, r) ->
       r.reply bot.random ["glava", "cifra"]
 
-  bot.regexp /^\.pic (.+)/,
-    ".pic <query> -- Prikaži naključno sliko",
-    (match, r) ->
-      url = "http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=#{encodeURI(match[1].trim())}"
-      #console.log url
-      bot.fetchJSONCached redis, 60*60, url, (data)->
-        #console.log data
-        r.reply bot.random(data.responseData.results).unescapedUrl
-
-  bot.regexp /^\.roll (.+)/,
+    bot.regexp /^\.roll (.+)/,
     ".roll <izbira1,izbira2,...> -- Universe has all the answers",
     (match, r) ->
       select = match[1].trim().split(",")
