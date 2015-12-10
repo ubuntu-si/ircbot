@@ -20,15 +20,19 @@ module.exports = (bot) ->
   ArsoPotresi = (cb)->
     bot.fetchJSON "http://potresi.herokuapp.com/potresi.json", (data)->
       apotresi = []
-      for e in data
-        if e.Magnituda > 0
-          apotresi.push {
-            date: e.Datum,
-            lat: e.Lat,
-            lon: e.Lon,
-            m: e.Magnituda,
-            loc: e.Lokacija,
-          }
+      try
+        for e in data
+          if e.Magnituda > 0
+            apotresi.push {
+              date: e.Datum,
+              lat: e.Lat,
+              lon: e.Lon,
+              m: e.Magnituda,
+              loc: e.Lokacija,
+            }
+      catch error
+        console.log error
+        
       cb apotresi
 
   interval = 0
