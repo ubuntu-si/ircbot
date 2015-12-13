@@ -33,13 +33,18 @@ describe 'servisi.coffee', ->
   it 'test .imdb American Pie', (done)->
     bot.test ".imdb American pie", (msg)->
       expect(msg).to.be.a('string')
-      expect(msg.length).to.be.at.least 140
+      expect(msg.length).to.be.at.least 100
       done()
 
   it 'test .imdb Iron Sky', (done)->
     bot.test ".imdb Iron Sky", (msg)->
       expect(msg).to.be.a('string')
-      expect(msg.length).to.be.at.least 140
+      expect(msg.length).to.be.at.least 100
+      done()
+
+  it 'test .imdb x-men', (done)->
+    bot.test ".imdb x-men", (msg)->
+      expect(msg).to.be.a('string')
       done()
 
   it 'test .imdb The Hobbit: The Desolation of Smaug', (done)->

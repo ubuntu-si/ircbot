@@ -81,7 +81,7 @@ module.exports = (bot) ->
                 metascore = "Ni podatka"
               opis = $("p[itemprop=\"description\"]").text().replace(/[\n\r]/gm,"").replace(/\s\s/g,"")
               cas = $(".infobar time[itemprop=\"duration\"]").text().replace(/[\n\r]/gm,"").replace(/\s\s/g,"")
-              zanr = $(".infobar a span[itemprop=\"genre\"]").text().match(/[A-z][a-z]+/g).join(" ")
+              zanr = $(".infobar a span[itemprop=\"genre\"]").text().match(/[A-z][a-z]+/g)
               naslov = $("title").text().replace(" - IMDb", "")
               trailer = $("a[itemprop=\"trailer\"]").attr("href")
               if trailer?
