@@ -61,38 +61,15 @@ module.exports = (bot) ->
     ".imdb <naslov> -- Dobi osnovne podatke z IMBD ",
     (match, r) ->
       f = match[1].trim()
-
       imdb = (ime, cb)->
-        url = "http://www.imdb.com/find?q=#{encodeURI(ime)}&s=tt&&exact=true&ref_=fn_tt_ex"
-        bot.fetchHTML url, ($)->
-          hit = $(".findResult:first-child .result_text a")
-          if hit.length
-            naslov = hit.text()
-            url_filma = hit.attr("href").split("?")[0]
-            url_filma = "http://www.imdb.com#{url_filma}"
-            bot.fetchHTML url_filma, ($)->
-              ocena = $(".star-box-details a").eq(0).attr("title")
-              if ocena?
-                ocena = ocena.split(" IMDb users have given a weighted average vote of ").reverse()
-                ocena = "#{ocena[0]} (#{ocena[1]} glasov)"
-                metascore = $(".star-box-details a").eq(1).text().replace(/[\n\r]/gm,"").replace(/\s+/,"")
-              else
-                ocena = "Ni podatka"
-                metascore = "Ni podatka"
-              opis = $("p[itemprop=\"description\"]").text().replace(/[\n\r]/gm,"").replace(/\s\s/g,"")
-              cas = $(".infobar time[itemprop=\"duration\"]").text().replace(/[\n\r]/gm,"").replace(/\s\s/g,"")
-              zanr = $(".infobar a span[itemprop=\"genre\"]").text().match(/[A-z][a-z]+/g)
-              naslov = $("title").text().replace(" - IMDb", "")
-              trailer = $("a[itemprop=\"trailer\"]").attr("href")
-              if trailer?
-                trailer = "http://www.imdb.com#{trailer}"
-                msg = "#{naslov} #{cas} #{zanr}\nOcena: #{ocena} MT: #{metascore}\n#{opis}\nTrailer: #{trailer.split("?")[0]}\nPovezava: #{url_filma}"
-              else
-                msg = "#{naslov} #{cas} #{zanr}\nOcena: #{ocena} MT: #{metascore}\n#{opis}\nPovezava: #{url_filma}"
-
-              console.log msg
-              redis.setex("imdb:#{ime}", 24*60*5, msg)
-              cb msg
+        url = "http://www.omdbapi.com/?t=#{ime}&y=&r=json&tomatoes=true"
+        bot.fetchJSON url, (data) ->
+          if data.Response == "True"
+            msg = "#{data.Title} |#{data.Released} #{data.Runtime}| #{data.Genre}\n#{data.Plot}\nIMDB:#{data.imdbRating}/10 (#{data.imdbVotes} glasov) | Tomato: #{data.tomatoRating}/10 #{data.tomatoReviews} reviews (users: #{data.tomatoUserRating}/5 #{data.tomatoUserReviews} reviews) \
+            \nPovezava: https://www.imdb.com/title/#{data.imdbID}"
+            console.log msg
+            redis.setex("imdb:#{ime}", 24*60*5, msg)
+            cb msg
           else
             cb "Ne najdem!"
 
