@@ -7,7 +7,13 @@ fat = require '../lib/fat_tests'
 describe 'servisi.coffee', ->
   this.timeout 16000
   bot = require("../scripts/servisi")(new fat.BotTest())
-  
+
+  it 'test .imdb helion', (done)->
+    bot.test ".imdb helion", (msg)->
+      expect(msg).to.be.a('string')
+      expect(msg).to.equal "Ne najdem!"
+      done()
+
   it 'test .stran ubuntu.si', (done)->
     bot.test ".stran ubuntu.si", (msg)->
         expect(msg).to.be.a('string')
@@ -46,11 +52,6 @@ describe 'servisi.coffee', ->
       expect(msg).to.be.a('string')
       expect(msg).to.not.equal "Ne najdem!"
       done()
-
-  it 'test .imdb whatever boy', (done)->
-  bot.test ".imdb whatever boy", (msg)->
-    expect(msg).to.be.a('string')
-    done()
 
   it 'test .rt', (done)->
     bot.test ".rt", (msg)->
