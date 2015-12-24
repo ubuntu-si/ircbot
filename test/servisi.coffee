@@ -42,8 +42,8 @@ describe 'servisi.coffee', ->
       expect(msg.length).to.be.at.least 100
       done()
 
-  it 'test .imdb x-men', (done)->
-    bot.test ".imdb x-men", (msg)->
+  it 'test .imdb mozje x', (done)->
+    bot.test ".imdb mozje x", (msg)->
       expect(msg).to.be.a('string')
       done()
 
