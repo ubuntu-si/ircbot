@@ -1,4 +1,3 @@
-ddg = require('ddg')
 colors = require('irc-colors')
 
 module.exports = (bot) ->
@@ -130,20 +129,6 @@ module.exports = (bot) ->
       "http://rack.3.mshcdn.com/media/ZgkyMDEzLzA4LzA1LzFmL2hhcnJ5cG90dGVyLjYxNjYzLmdpZgpwCXRodW1iCTg1MHg1OTA-CmUJanBn/db79fc85/147/harry-potter.jpg"
     ]
     r.reply bot.random vic
-
-  bot.regexp /^\.d (.+)/,
-    ".d -- Vse kar zna https://api.duckduckgo.com/api ali https://api.duckduckgo.com/goodies",
-    (match, r) ->
-      options =
-        useragent: "ubuntu.si"
-        no_redirects: "1"
-        no_html: "1"
-
-      ddg.query match[1].trim(), options, (err, data) ->
-        r.reply data.AbstractText
-        r.reply data.Definition
-        r.reply data.Answer
-        r.reply data.AbstractURL || data.Redirect
 
   bot.regexp /^\.gif (.+)/, ".gif <query> -- Prikaže naključni gif", (match, r) ->
       url = "http://giphy.com/search/#{encodeURI(match[1].replace(/[^a-z0-9\s]/g,"").replace(/\s\s+/g, "-"))}"
