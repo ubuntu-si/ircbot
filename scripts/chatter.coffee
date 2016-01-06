@@ -17,10 +17,6 @@ module.exports = (bot) ->
 
       r.reply bot.random urls
 
-  bot.command /^wat$/i, (r) ->
-    bot.fetchJSON "http://watme.herokuapp.com/random", (data)->
-      r.reply data.wat
-
   bot.command /lol no/i, (r) ->
     r.reply "https://i.imgur.com/BiSkH5D.png"
 
@@ -46,12 +42,6 @@ module.exports = (bot) ->
     (match, r) ->
       text = match[1].trim()
       r.reply colors.rainbow(text)
-
-  bot.regexp /^\.ac (.+)/,
-    ".ac <?> -- for what",
-    (match, r) ->
-      select = match[1].trim()
-      r.reply "http://achievement-unlocked.heroku.com/xbox/#{escape(select)}.png"
 
   bot.command /^\.plosk/i,
     ".plosk -- Zaploskaj",
