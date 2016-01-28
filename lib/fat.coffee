@@ -243,7 +243,10 @@ Bot::fetch = (url, cb)->
 Bot::fetchJSON = (url, cb)->
   @fetch url, (e, r, body)->
     if !e and r.statusCode is 200
-      cb( JSON.parse(body) )
+      try
+        cb( JSON.parse(body) )
+      catch error
+        console.log error
     else
       console.log e
       cb false
