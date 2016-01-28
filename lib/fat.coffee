@@ -255,7 +255,7 @@ Bot::fetchJSONCached = (db, time, url, cb)->
   key = "cached:json:#{@keyhash(url)}"
   db.get(key).then (val)=>
     if val
-      cb JSON.parse val
+      cb val
     else
       @fetchJSON url, (res)->
         db.setex(key, time, JSON.stringify(res))
