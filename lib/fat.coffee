@@ -243,10 +243,7 @@ Bot::fetch = (url, cb)->
 Bot::fetchJSON = (url, cb)->
   @fetch url, (e, r, body)->
     if !e and r.statusCode is 200
-      try
-        cb( JSON.parse(body) )
-      catch error
-        console.log error
+      cb( JSON.parse(body) )
     else
       console.log e
       cb false
@@ -255,7 +252,7 @@ Bot::fetchJSONCached = (db, time, url, cb)->
   key = "cached:json:#{@keyhash(url)}"
   db.get(key).then (val)=>
     if val
-      cb val
+      cb JSON.parse val
     else
       @fetchJSON url, (res)->
         db.setex(key, time, JSON.stringify(res))
