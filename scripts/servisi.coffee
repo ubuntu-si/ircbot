@@ -5,7 +5,7 @@ humanize = require 'humanize'
 
 module.exports = (bot) ->
 
-  bot.regexp /^.yt (.+)/,
+  bot.regexp /^\.yt (.+)/,
     ".yt <iskalni niz> -- Išči na youtube",
     (match, r) ->
       youtube.search.list {
@@ -23,7 +23,7 @@ module.exports = (bot) ->
         else
           r.reply "Ni zadetka"
 
-  bot.regexp /^.sc (.+)/,
+  bot.regexp /^\.sc (.+)/,
     ".sc <iskalni niz> -- Išči na soundcloud",
     (match, r) ->
       f = match[1].trim()
@@ -34,7 +34,7 @@ module.exports = (bot) ->
         else
           r.reply "Ni zadetka"
 
-  bot.regexp /^.pretvori ([\d,.]+) (.+) (.+)/,
+  bot.regexp /^\.pretvori ([\d,.]+) (.+) (.+)/,
     ".pretvori <vrednost> <valuta> <valuta> -- Pretvori med valutami (primer .pretvori 10 eur usd)",
     (match, r) ->
 
@@ -57,7 +57,7 @@ module.exports = (bot) ->
       zamenjaj vrednost, from, to, (answer)->
         r.reply "#{r.nick}: #{answer}"
 
-  bot.regexp /^.imdb (.+)/,
+  bot.regexp /^\.imdb (.+)/,
     ".imdb <naslov> -- Dobi osnovne podatke z OMDB ",
     (match, r) ->
       f = match[1].trim()
