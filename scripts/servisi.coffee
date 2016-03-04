@@ -40,7 +40,7 @@ module.exports = (bot) ->
 
       zamenjaj = (v, f, t, cb)=>
         cached_time = 24 * 60 #1 day
-        url = "http://api.fixer.io/latest?base=#{f}"
+        url = "https://api.fixer.io/latest?base=#{f}"
         v = Number(v.replace(",","."))
         bot.fetchJSONCached redis, cached_time, url, (res) ->
           unless res
