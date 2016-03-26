@@ -190,6 +190,6 @@ module.exports = (bot) ->
           r.reply "Podatka o vremenu ni..."
 
   bot.command /^\.radar/i,
-    ".radar Izpiše povezavo do radarske slike padavin"
+    ".radar Izpiše povezavo do radarske slike padavin in satelitsko sliko oblačnosti"
     (r) ->
-      r.reply "Radarska slika padavin: http://www.arso.gov.si/vreme/napovedi%20in%20podatki/radar_anim.gif"
+      r.reply "Radarska slika padavin: http://www.arso.gov.si/vreme/napovedi%20in%20podatki/radar_anim.gif\nSatelitska slika oblačnosti: http://www.arso.gov.si/vreme/napovedi%20in%20podatki/satelit.jpg"
