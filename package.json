@@ -1,6 +1,6 @@
 {
   "name": "ircbot",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "#ubuntu-si bot",
   "main": "server.js",
   "scripts": {
@@ -15,15 +15,15 @@
   "author": "dz0ny",
   "license": "BSD",
   "dependencies": {
-    "URIjs": "latest",
+    "urijs": "latest",
     "chai": "latest",
     "cheerio": "latest",
     "coffee-script": "latest",
     "ddg": "latest",
-    "googleapis": "^2.0.2",
+    "googleapis": "latest",
     "humanize": "latest",
     "irc": "latest",
-    "irc-colors": "^1.2.0",
+    "irc-colors": "latest",
     "mocha": "latest",
     "moment": "latest",
     "oauth": "latest",

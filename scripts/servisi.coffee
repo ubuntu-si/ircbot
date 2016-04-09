@@ -19,7 +19,10 @@ module.exports = (bot) ->
       }, (err, res) ->
         unless err
           izbran = _.first(res.items)
-          r.reply "#{izbran.snippet.title} https://www.youtube.com/watch?v=#{izbran.id.videoId}"
+          if izbran
+            r.reply "#{izbran.snippet.title} https://www.youtube.com/watch?v=#{izbran.id.videoId}"
+          else
+            r.reply "Ni zadetka"
         else
           r.reply "Ni zadetka"
 
