@@ -18,7 +18,7 @@ module.exports = (bot) ->
         )(tpm, re)
 
   ArsoPotresi = (cb)->
-    bot.fetchJSON "http://potresi.herokuapp.com/potresi.json", (data)->
+    bot.fetchJSON "http://arso.herokuapp.com/potresi.json", (data)->
       apotresi = []
       try
         for e in data
@@ -110,7 +110,7 @@ module.exports = (bot) ->
           loc = _.first(res.results).geometry.location
           imeg = _.first(res.results).formatted_address
           if (/Slovenia/i).test imeg
-            bot.fetchJSON "http://potresi.herokuapp.com/postaje.json", (lokacije)->
+            bot.fetchJSON "http://arso.herokuapp.com/postaje.json", (lokacije)->
               lokacije.sort (a, b)->
                 a = oddaljenost a.Lat, a.Lon, loc.lat, loc.lng
                 b = oddaljenost b.Lat, b.Lon, loc.lat, loc.lng
