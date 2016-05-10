@@ -19,6 +19,7 @@ require("./scripts/set-get")(bot)
 require("./scripts/vreme")(bot)
 require("./scripts/apt")(bot)
 require("./scripts/url")(bot)
+require("./scripts/wordpress-check")(bot)
 
 bot.command /^.pomo[čc]$/i, (r) ->
   msg = bot.help.join "\n"
