@@ -20,7 +20,7 @@ require("./scripts/vreme")(bot)
 require("./scripts/apt")(bot)
 require("./scripts/url")(bot)
 
-bot.command /^.pomo[čc]$/i, (r) ->
+bot.command /^.(pomo[čc]|help)$/i, (r) ->
   msg = bot.help.join "\n"
   r.privmsg msg
 
