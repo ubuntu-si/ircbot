@@ -21,7 +21,7 @@ require("./scripts/apt")(bot)
 require("./scripts/url")(bot)
 require("./scripts/wordpress-check")(bot)
 
-bot.command /^.pomo[čc]$/i, (r) ->
+bot.command /^.(pomo[čc]|help)$/i, (r) ->
   msg = bot.help.join "\n"
   r.privmsg msg
 
