@@ -193,3 +193,8 @@ module.exports = (bot) ->
     ".radar Izpiše povezavo do radarske slike padavin in satelitsko sliko oblačnosti"
     (r) ->
       r.reply "Radarska slika padavin: http://www.arso.gov.si/vreme/napovedi%20in%20podatki/radar_anim.gif\nSatelitska slika oblačnosti: http://www.arso.gov.si/vreme/napovedi%20in%20podatki/satelit.jpg"
+
+  bot.command /^\.toča/i,
+    ".toča Izpiše povezavo do zemljevida verjetnosti pojavljanja toče"
+    (r) ->
+      r.reply "Verjetnost toče: http://meteo.arso.gov.si//uploads/probase/www/warning/graphic/warning_hp-sr_si-sea_latest.jpg"
