@@ -19,6 +19,7 @@ require("./scripts/set-get")(bot)
 require("./scripts/vreme")(bot)
 require("./scripts/apt")(bot)
 require("./scripts/url")(bot)
+require("./scripts/promet")(bot)
 
 bot.command /^.(pomo[čc]|help)$/i, (r) ->
   msg = bot.help.join "\n"
