@@ -117,12 +117,17 @@ module.exports = (bot) ->
       ".github <niz> -- išče <niz> po opisih ter imenih skladišč na githubu",
       (match, r) ->
         f = match[1].trim().replace(" ","+")
+
         bot.fetchJSON "https://api.github.com/search/repositories?q=#{f}&order=desc", (data) ->
-          if data.total_count > 0
-            msg = ""
+          msg = ""
+          if data.total_count > 3
             for i in [0 .. 2]
               bestMatch = data.items[i]
               msg += "#{bestMatch.html_url}\n#{bestMatch.description}\n\n"
             r.reply "#{msg}"
+          else if data.total_count < 3 && data.total_count > 0
+              bestMatch = data.items[0]
+              msg = "#{bestMatch.html_url}\n#{bestMatch.description}"
+              r.reply "#{msg}"
           else
             r.reply "Ni zadetkov :("
