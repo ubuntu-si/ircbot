@@ -44,6 +44,16 @@ describe 'vreme.coffee', ->
 
   it 'test .radar', (done)->
     bot.test ".radar", (msg)->
-       expect(msg).to.be.a('string')
-       expect(msg.length).to.be.at.least 40
+       expect(msg).to.be.equal('Radarska slika padavin: http://www.arso.gov.si/vreme/napovedi%20in%20podatki/radar_anim.gif\nSatelitska slika oblačnosti: http://www.arso.gov.si/vreme/napovedi%20in%20podatki/satelit.jpg')
        done()
+
+  it 'test .toča', (done)->
+    bot.test ".toča", (msg)->
+     expect(msg).to.be.equal('Verjetnost toče: http://meteo.arso.gov.si//uploads/probase/www/warning/graphic/warning_hp-sr_si-sea_latest.jpg')
+     done()
+
+  it 'test .morje', (done)->
+    bot.test ".morje", (msg)->
+      expect(msg).to.be.a('string')
+      expect(msg.length).to.be.at.least 40
+      done()

@@ -58,24 +58,22 @@ describe 'servisi.coffee', ->
       expect(msg).to.be.a('string')
       done()
 
-  it 'test .morje', (done)->
-    bot.test ".morje", (msg) ->
-      expect(msg).to.be.a('string')
-      done()
-
   it 'test .yt AURORA Running With The Wolves', (done)->
     bot.test ".yt AURORA Running With The Wolves", (msg) ->
-      console.log msg
       expect(msg).to.be.a('string')
       done()
 
   it 'test .yt golden ticket higha', (done)->
     bot.test ".yt golden ticket higha", (msg) ->
-      console.log msg
       expect(msg).to.be.a('string')
       done()
 
   it 'test .pretvori', (done)->
     bot.test ".pretvori 10 EUR USD", (msg) ->
+      expect(msg).to.be.a('string')
+      done()
+
+  it 'test .github spotify remote', (done)->
+    bot.test ".github spotify remote", (msg) ->
       expect(msg).to.be.a('string')
       done()

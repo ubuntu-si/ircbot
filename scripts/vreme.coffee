@@ -32,7 +32,7 @@ module.exports = (bot) ->
             }
       catch error
         console.log error
-        
+
       cb apotresi
 
   interval = 0
@@ -198,3 +198,26 @@ module.exports = (bot) ->
     ".toča Izpiše povezavo do zemljevida verjetnosti pojavljanja toče"
     (r) ->
       r.reply "Verjetnost toče: http://meteo.arso.gov.si//uploads/probase/www/warning/graphic/warning_hp-sr_si-sea_latest.jpg"
+
+  bot.regexp /^\.morje/,
+    ".morje -- kakšne so trenutno temperature v slovenskem morju",
+    (match,irc) ->
+      urls = [
+        "http://www.arso.gov.si/vode/podatki/amp/H17_t_1.html", #koper
+        "http://www.arso.gov.si/vode/podatki/amp/H64_t_1.html", #rtic
+        "http://www.arso.gov.si/vode/podatki/amp/H24_t_1.html", #piran
+      ]
+      msg = []
+      for url, index in urls
+        bot.fetchHTML url, ($) ->
+          postaja = $(".vsebina h1").text()
+          if postaja is "Postaja Koper - kapitanija - Jadransko morje"
+            temperatura = $(".podatki tr td").eq(2).text()
+          else
+            temperatura = $(".podatki tr td").eq(1).text()
+          if temperatura != '-'
+            msg.push "#{postaja}: #{temperatura}°C"
+          else
+            msg.push "#{postaja}: Temperatura ni na voljo"
+          if msg.length == urls.length
+            irc.reply msg.join('\n')
