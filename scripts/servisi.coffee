@@ -120,14 +120,14 @@ module.exports = (bot) ->
 
         bot.fetchJSON "https://api.github.com/search/repositories?q=#{f}&order=desc", (data) ->
           msg = ""
-          if data.total_count > 3
+          if data.total_count >= 3
             for i in [0 .. 2]
               bestMatch = data.items[i]
-              msg += "#{bestMatch.html_url}\n#{bestMatch.description}\n\n"
+              msg += "#{bestMatch.html_url}\n---#{bestMatch.description}\n\n"
             r.reply "#{msg}"
           else if data.total_count < 3 && data.total_count > 0
               bestMatch = data.items[0]
-              msg = "#{bestMatch.html_url}\n#{bestMatch.description}"
+              msg = "#{bestMatch.html_url}\n---#{bestMatch.description}"
               r.reply "#{msg}"
           else
             r.reply "Ni zadetkov :("
