@@ -69,12 +69,12 @@ module.exports = (bot) ->
         bot.fetchJSON url, (data) ->
           if data.Response == "False"
             msg = "Ne najdem!"
-            console.log msg
+            #console.log msg
             cb msg
           if data.Response == "True"
             msg = "#{data.Title} |#{data.Released} #{data.Runtime}| #{data.Genre}\n#{data.Plot}\nIMDB:#{data.imdbRating}/10 (#{data.imdbVotes} glasov) | Tomato: #{data.tomatoRating}/10 #{data.tomatoReviews} reviews (users: #{data.tomatoUserRating}/5 #{data.tomatoUserReviews} reviews) \
             \nPovezava: https://www.imdb.com/title/#{data.imdbID}"
-            console.log msg
+            #console.log msg
             redis.setex("imdb:#{ime}", 24*60*5, msg)
             cb msg
 
@@ -109,29 +109,25 @@ module.exports = (bot) ->
             else
               ytlink = ""
             irc.reply "Trenutno se predvaja: #{data.artist} - #{data.track}. #{ytlink}"
-            console.log "Trenutno se predvaja: #{data.artist} - #{data.track}. #{ytlink}"
+            #console.log "Trenutno se predvaja: #{data.artist} - #{data.track}. #{ytlink}"
           else
             irc.reply "OMG radioterminal.si is down!"
 
-    bot.regexp /^\.morje/,
-      ".morje -- kakšne so trenutno temperature v slovenskem morju",
-      (match,irc) ->
-        urls = [
-          "http://www.arso.gov.si/vode/podatki/amp/H17_t_1.html", #koper
-          "http://www.arso.gov.si/vode/podatki/amp/H64_t_1.html", #rtic
-          "http://www.arso.gov.si/vode/podatki/amp/H24_t_1.html", #piran
-        ]
-        msg = []
-        for url, index in urls
-          bot.fetchHTML url, ($) ->
-            postaja = $(".vsebina h1").text()
-            if postaja is "Postaja Koper - kapitanija - Jadransko morje"
-              temperatura = $(".podatki tr td").eq(2).text()
-            else
-              temperatura = $(".podatki tr td").eq(1).text()
-            if temperatura != '-'
-              msg.push "#{postaja}: #{temperatura}°C"
-            else
-              msg.push "#{postaja}: Temperatura ni na voljo"
-            if msg.length == urls.length
-              irc.reply msg.join('\n')
+    bot.regexp /^\.github (.+)/,
+      ".github <niz> -- išče <niz> po opisih ter imenih skladišč na githubu",
+      (match, r) ->
+        f = match[1].trim().replace(" ","+")
+
+        bot.fetchJSON "https://api.github.com/search/repositories?q=#{f}&order=desc", (data) ->
+          msg = ""
+          if data.total_count >= 3
+            for i in [0 .. 2]
+              bestMatch = data.items[i]
+              msg += "#{bestMatch.html_url}\n---#{bestMatch.description}\n\n"
+            r.reply "#{msg}"
+          else if data.total_count < 3 && data.total_count > 0
+              bestMatch = data.items[0]
+              msg = "#{bestMatch.html_url}\n---#{bestMatch.description}"
+              r.reply "#{msg}"
+          else
+            r.reply "Ni zadetkov :("
