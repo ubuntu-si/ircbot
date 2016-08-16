@@ -32,6 +32,7 @@
     "suncalc": "latest",
     "then-redis": "latest",
     "underscore": "latest",
-    "youtube-feeds": "latest"
+    "youtube-feeds": "latest",
+    "parse-rss": "*"
   }
 }
