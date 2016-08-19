@@ -2,7 +2,7 @@ parser = require 'parse-rss'
 
 module.exports = (bot) ->
   url = "https://wordpress.org/news/category/releases/feed/"
-  interval = 1000 * 60 * 60 * 1     # interval is in ms so 1000 * 60 * 60  is 1 hr
+  interval = 1000 * 60 * 60 * 2     # interval is in ms so 1000 * 60 * 60  is 1 hr
   published = 0     # 0 = no msg has been sent, 1 = msg has been sent
 
   do wpCheck = ->
@@ -23,6 +23,6 @@ module.exports = (bot) ->
         if pubDate.getMonth() == today.getMonth() && pubDate.getDate() != today.getDate()
           published = 0
     #we should sleep 20s because we can't post our msg on bot startup since we are still not connected to the irc server
-    setTimeout sleep, 20000
+    setTimeout sleep, 1000 * 20
 
   setTimeout wpCheck, interval
