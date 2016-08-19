@@ -22,7 +22,7 @@ module.exports = (bot) ->
         # it on a day that differs from pubDate
         if pubDate.getMonth() == today.getMonth() && pubDate.getDate() != today.getDate()
           published = 0
-    #we should sleep 20s because we can't post our msg on bot startup since we are still not connected to the irc server
+    #we should sleep 20s because we can't post our msg on bot startup since we are still not connected to the irc server.
     setTimeout sleep, 1000 * 20
 
   setTimeout wpCheck, interval
