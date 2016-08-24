@@ -77,3 +77,8 @@ describe 'servisi.coffee', ->
     bot.test ".github spotify remote", (msg) ->
       expect(msg).to.be.a('string')
       done()
+
+  it 'test .time ljubljana', (done)->
+    bot.test ".time ljubljana", (msg) ->
+      expect(msg).to.be.a('string')
+      done()

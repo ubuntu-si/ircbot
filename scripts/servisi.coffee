@@ -113,7 +113,7 @@ module.exports = (bot) ->
           else
             irc.reply "OMG radioterminal.si is down!"
 
-    bot.regexp /^\.github (.+)/,
+  bot.regexp /^\.github (.+)/,
       ".github <niz> -- išče <niz> po opisih ter imenih skladišč na githubu",
       (match, r) ->
         f = match[1].trim().replace(" ","+")
@@ -131,3 +131,14 @@ module.exports = (bot) ->
               r.reply "#{msg}"
           else
             r.reply "Ni zadetkov :("
+
+  bot.regexp /^\.time (.+)/,
+    ".time <mesto> - izpiše trenutni čas v $mesto",
+    (match, r) ->
+      f = match[1].trim().replace(" ","-")
+
+      bot.fetchJSON "https://api.mkfs.si/time/#{f}", (data) ->
+        if data && ! null
+          r.reply "Trenutni čas v #{f.replace('-',' ')} je #{data.short_time}"
+        else
+          r.reply "Trenutni čas je čas za $YOLO!"
