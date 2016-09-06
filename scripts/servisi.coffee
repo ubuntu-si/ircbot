@@ -129,15 +129,31 @@ module.exports = (bot) ->
             bestMatch = data.items[0]
             msg = "#{bestMatch.html_url}\n---#{bestMatch.description}"
             r.reply "#{msg}"
-        else
-          r.reply "Ni zadetkov :("
+          else if data.total_count < 3 && data.total_count > 0
+              bestMatch = data.items[0]
+              msg = "#{bestMatch.html_url}\n---#{bestMatch.description}"
+              r.reply "#{msg}"
+          else
+            r.reply "Ni zadetkov :("
 
-  bot.regexp /^\.time (.+)/,
-   ".time <mesto> - izpiše trenutni čas v $mesto",
-   (match, r) ->
-     f = match[1].trim().replace(" ","-")
-     bot.fetchJSON "https://api.mkfs.si/time/#{f}", (data) ->
-      if data && ! null
-        r.reply "Trenutni čas v #{f.replace('-',' ')} je #{data.short_time}"
-      else
-        r.reply "Trenutni čas je čas za $YOLO!"
+    bot.regexp /^\.sskj (.+)/,
+      ".sskj <niz> -- išče <niz> v SSKJ in izpiše prvo ujemanje",
+      (match, r) ->
+        f = match[1].trim().replace(" ","+")
+        url = "http://bos.zrc-sazu.si/cgi/a03.exe?name=sskj_testa&expression=#{f}"
+        bot.fetchHTML  url, ($) ->
+          if $? &&  $("h2").text().indexOf("Zadetkov ni bilo:")  == -1
+            result = $(".nounderline").eq(0).text()
+            r.reply "#{result.substring(0,1024)}"
+          else
+            r.reply "Ni zadetkov"
+
+    bot.regexp /^\.time (.+)/,
+     ".time <mesto> - izpiše trenutni čas v $mesto",
+     (match, r) ->
+       f = match[1].trim().replace(" ","-")
+       bot.fetchJSON "https://api.mkfs.si/time/#{f}", (data) ->
+        if data && ! null
+          r.reply "Trenutni čas v #{f.replace('-',' ')} je #{data.short_time}"
+        else
+          r.reply "Trenutni čas je čas za $YOLO!"
