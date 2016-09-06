@@ -154,6 +154,6 @@ module.exports = (bot) ->
        f = match[1].trim().replace(" ","-")
        bot.fetchJSON "https://api.mkfs.si/time/#{f}", (data) ->
         if data && ! null
-          r.reply "Trenutni čas v #{f.replace('-',' ')} je #{data.short_time}"
+          r.reply "Trenutni čas v #{data.place} je #{data.short_time}"
         else
           r.reply "Trenutni čas je čas za $YOLO!"
