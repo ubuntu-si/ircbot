@@ -84,46 +84,50 @@ module.exports = (bot) ->
         else
           r.reply res
 
-    bot.regexp /^\.stran (.*)/i,
-      ".stran <domena> -- Ali stran dela?",
-      (match, irc) ->
-        domena = match[1].trim()
-        url = "http://isup.me/#{domena}"
-        bot.fetch url, (error, response, body)->
-          if !error and response.statusCode is 200
-            dostopna = body.indexOf("is up")
-            if dostopna != -1
-              irc.reply "#{domena} je dosegljiva!"
-            else
-              irc.reply "#{domena} ni dosegljiva"
+  bot.regexp /^\.stran (.*)/i,
+    ".stran <domena> -- Ali stran dela?",
+    (match, irc) ->
+      domena = match[1].trim()
+      url = "http://isup.me/#{domena}"
+      bot.fetch url, (error, response, body)->
+        if !error and response.statusCode is 200
+          dostopna = body.indexOf("is up")
+          if dostopna != -1
+            irc.reply "#{domena} je dosegljiva!"
           else
-            irc.reply "http://isup.me ni na voljo!"
+            irc.reply "#{domena} ni dosegljiva"
+        else
+          irc.reply "http://isup.me ni na voljo!"
 
-    bot.regexp /^\.rt/,
-      ".rt -- kaj se trenutno predvaja na radioterminal.si",
-      (match,irc) ->
-        bot.fetchJSON "http://m.radioterminal.si/zgodovina/sedaj.json", (data) ->
-          if data
-            if (data.ytid)
-              ytlink = "https://www.youtube.com/watch?v=#{data.ytid}"
-            else
-              ytlink = ""
-            irc.reply "Trenutno se predvaja: #{data.artist} - #{data.track}. #{ytlink}"
-            #console.log "Trenutno se predvaja: #{data.artist} - #{data.track}. #{ytlink}"
+  bot.regexp /^\.rt/,
+    ".rt -- kaj se trenutno predvaja na radioterminal.si",
+    (match,irc) ->
+      bot.fetchJSON "http://m.radioterminal.si/zgodovina/sedaj.json", (data) ->
+        if data
+          if (data.ytid)
+            ytlink = "https://www.youtube.com/watch?v=#{data.ytid}"
           else
-            irc.reply "OMG radioterminal.si is down!"
+            ytlink = ""
+          irc.reply "Trenutno se predvaja: #{data.artist} - #{data.track}. #{ytlink}"
+          #console.log "Trenutno se predvaja: #{data.artist} - #{data.track}. #{ytlink}"
+        else
+          irc.reply "OMG radioterminal.si is down!"
 
-    bot.regexp /^\.github (.+)/,
-      ".github <niz> -- išče <niz> po opisih ter imenih skladišč na githubu",
-      (match, r) ->
-        f = match[1].trim().replace(" ","+")
+  bot.regexp /^\.github (.+)/,
+    ".github <niz> -- išče <niz> po opisih ter imenih skladišč na githubu",
+    (match, r) ->
+      f = match[1].trim().replace(" ","+")
 
-        bot.fetchJSON "https://api.github.com/search/repositories?q=#{f}&order=desc", (data) ->
-          msg = ""
-          if data.total_count >= 3
-            for i in [0 .. 2]
-              bestMatch = data.items[i]
-              msg += "#{bestMatch.html_url}\n---#{bestMatch.description}\n\n"
+      bot.fetchJSON "https://api.github.com/search/repositories?q=#{f}&order=desc", (data) ->
+        msg = ""
+        if data.total_count >= 3
+          for i in [0 .. 2]
+            bestMatch = data.items[i]
+            msg += "#{bestMatch.html_url}\n---#{bestMatch.description}\n\n"
+          r.reply "#{msg}"
+        else if data.total_count < 3 && data.total_count > 0
+            bestMatch = data.items[0]
+            msg = "#{bestMatch.html_url}\n---#{bestMatch.description}"
             r.reply "#{msg}"
           else if data.total_count < 3 && data.total_count > 0
               bestMatch = data.items[0]
@@ -140,6 +144,16 @@ module.exports = (bot) ->
         bot.fetchHTML  url, ($) ->
           if $? &&  $("h2").text().indexOf("Zadetkov ni bilo:")  == -1
             result = $(".nounderline").eq(0).text()
-            r.reply "#{result}"
+            r.reply "#{result.substring(0,1024)}"
           else
             r.reply "Ni zadetkov"
+
+    bot.regexp /^\.time (.+)/,
+     ".time <mesto> - izpiše trenutni čas v $mesto",
+     (match, r) ->
+       f = match[1].trim().replace(" ","-")
+       bot.fetchJSON "https://api.mkfs.si/time/#{f}", (data) ->
+        if data && ! null
+          r.reply "Trenutni čas v #{f.replace('-',' ')} je #{data.short_time}"
+        else
+          r.reply "Trenutni čas je čas za $YOLO!"

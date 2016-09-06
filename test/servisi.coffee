@@ -7,7 +7,7 @@ fat = require '../lib/fat_tests'
 describe 'servisi.coffee', ->
   this.timeout 16000
   bot = require("../scripts/servisi")(new fat.BotTest())
-  
+
   it 'test .imdb helion', (done)->
     bot.test ".imdb helion", (msg)->
       expect(msg).to.be.a('string')
@@ -79,6 +79,11 @@ describe 'servisi.coffee', ->
       done()
 
   it 'test .sskj idiot', (done)->
-    bot.test ".sskj idiot*", (msg) ->
+    bot.test ".sskj idiot", (msg) ->
       expect(msg).to.be.a('string')
       done()
+
+    it 'test .time ljubljana', (done)->
+      bot.test ".time ljubljana", (msg) ->
+        expect(msg).to.be.a('string')
+        done()
