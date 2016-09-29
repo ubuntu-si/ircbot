@@ -140,7 +140,7 @@ module.exports = (bot) ->
       ".sskj <niz> -- išče <niz> v SSKJ in izpiše prvo ujemanje",
       (match, r) ->
         f = match[1].trim().replace(" ","+")
-        url = "http://bos.zrc-sazu.si/cgi/a03.exe?name=sskj_testa&expression=#{f}"
+        url = "http://bos.zrc-sazu.si/cgi/a03.exe?name=sskj_testa&expression=#{encodeURI(f)}"
         bot.fetchHTML  url, ($) ->
           if $? &&  $("h2").text().indexOf("Zadetkov ni bilo:")  == -1
             result = $(".nounderline").eq(0).text()
