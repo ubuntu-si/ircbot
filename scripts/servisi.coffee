@@ -87,7 +87,8 @@ module.exports = (bot) ->
   bot.regexp /^\.stran (.*)/i,
     ".stran <domena> -- Ali stran dela?",
     (match, irc) ->
-      domena = match[1].trim()
+      httpmatch = /^(http|https):\/\//
+      domena = match[1].trim().replace(httpmatch,'')
       url = "http://isup.me/#{domena}"
       bot.fetch url, (error, response, body)->
         if !error and response.statusCode is 200
