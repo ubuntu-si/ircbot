@@ -67,10 +67,13 @@ module.exports = (bot) ->
           id = res.place.woeid
 
         yql "select item from weather.forecast where woeid = \"" + id + "\"", (res) ->
-          item = res.channel.item
-          cb "#{(100 / (212 - 32) * (item.condition.temp - 32)).toFixed(2)}°C #{item.link}"
+          if res?
+            item = res.channel.item
+            cb "#{(100 / (212 - 32) * (item.condition.temp - 32)).toFixed(2)}°C #{item.link}"
+          else
+            cb "Podatka o vremenu ni ... ker yahoo sucks"
       else
-        cb "Podatka o vremenu ni..."
+        cb "Podatka o vremenu ni ..."
 
 
   vreme2 = (lat, lon, cb) ->
@@ -101,9 +104,9 @@ module.exports = (bot) ->
     cached_time_geo = 356 * 24 * 60 * 60 #1 leto
     url_geo = "http://maps.googleapis.com/maps/api/geocode/json?address=#{encodeURI(key)},%20slovenija&sensor=true"
     bot.fetchJSONCached redis, cached_time_geo, url_geo, (res) ->
-      unless res # ne najde kraja
-        vreme key, (msg)->
-          cb "#{key}: #{msg}"
+      if res? # ne najde kraja
+          vreme key, (msg)->
+            cb "#{key}: #{msg}"
       else #najde kraj
         try
           krajg = _.first(_.first(res.results).address_components).short_name
