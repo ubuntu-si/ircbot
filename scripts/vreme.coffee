@@ -71,7 +71,7 @@ module.exports = (bot) ->
             item = res.channel.item
             cb "#{(100 / (212 - 32) * (item.condition.temp - 32)).toFixed(2)}°C #{item.link}"
           else
-            cb "Podatka o vremenu ni ... ker yahoo sucks"
+            cb "Podatka o vremenu ni ... ker Yahoo sucks"
       else
         cb "Podatka o vremenu ni ..."
 
