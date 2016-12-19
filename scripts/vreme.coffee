@@ -104,7 +104,7 @@ module.exports = (bot) ->
     cached_time_geo = 356 * 24 * 60 * 60 #1 leto
     url_geo = "http://maps.googleapis.com/maps/api/geocode/json?address=#{encodeURI(key)},%20slovenija&sensor=true"
     bot.fetchJSONCached redis, cached_time_geo, url_geo, (res) ->
-      if res? # ne najde kraja
+      if res.status == "ZERO_RESULTS" # ne najde kraja
           vreme key, (msg)->
             cb "#{key}: #{msg}"
       else #najde kraj
