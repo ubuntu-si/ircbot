@@ -121,12 +121,10 @@ module.exports = (bot) ->
     r.reply bot.random vic
 
   bot.regexp /^\.gif (.+)/, ".gif <query> -- Prikaže naključni gif", (match, r) ->
-      url = "http://giphy.com/search/#{encodeURI(match[1].replace(/[^a-z0-9\s]/g,"").replace(/\s\s+/g, "-"))}"
-      bot.fetchHTML url.replace(/%20/g, '-'), ($) ->
-        count = $("#searchresults .found-count").text().split(" GIFs found for")
-        if count[0] > 0
-          gif_id = $(".hoverable-gif a").eq(0).attr("data-id")
-          r.reply "http://media.giphy.com/media/#{gif_id}/giphy.gif"
+      url = "http://api.giphy.com/v1/gifs/search?q=#{encodeURI(match[1].replace(/[^a-z0-9\s]/g,"").replace(/\s\s+/g, "+"))}&api_key=dc6zaTOxFJmzC"
+      bot.fetchJSON url.replace(/%20/g,'+'), (result) ->
+        if result.pagination.total_count > 0
+          r.reply result.data[0].images.fixed_height.url
         else
           r.reply "No gif available :("
 
