@@ -17,6 +17,7 @@ describe 'chatter.coffee', ->
   it 'test .gif get lucky', (done)->
     bot.test ".gif get lucky", (msg)->
         expect(msg).to.be.a('string')
+        console.log msg
         done()
 
   it 'test spread some love', (done)->
