@@ -121,7 +121,7 @@ module.exports = (bot) ->
     r.reply bot.random vic
 
   bot.regexp /^\.gif (.+)/, ".gif <query> -- Prikaže naključni gif", (match, r) ->
-      url = "http://api.giphy.com/v1/gifs/search?q=#{encodeURI(match[1].replace(/[^a-z0-9\s]/g,"").replace(/\s\s+/g, "+"))}&api_key=dc6zaTOxFJmzC"
+      url = "http://api.giphy.com/v1/gifs/search?q=#{encodeURI(match[1].replace(/[^a-zA-Z0-9\s]/g,"").replace(/\s\s+/g, "+"))}&api_key=dc6zaTOxFJmzC"
       bot.fetchJSON url.replace(/%20/g,'+'), (result) ->
         if result.pagination.total_count > 0
           r.reply result.data[0].images.fixed_height.url
