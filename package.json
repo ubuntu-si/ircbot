@@ -33,6 +33,7 @@
     "then-redis": "latest",
     "underscore": "latest",
     "youtube-feeds": "latest",
-    "parse-rss": "*"
+    "parse-rss": "*",
+    "nodepie": "0.5.0"
   }
 }
