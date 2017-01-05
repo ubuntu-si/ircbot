@@ -23,10 +23,10 @@
 NodePie = require("nodepie")
 
 # grab settings from environment variables, with defaults
-feed_url          =  "https://www.ubuntu.si/forum/discussions/comments/all/feed.rss"
-rss_interval      = process.env.HUBOT_ALERTS_RSS_INTERVAL || 60
-broken_tz_adjust  = process.env.HUBOT_ALERTS_RSS_BROKEN_TZ_ADJUSTMENT || 0
-skip_first_string = process.env.HUBOT_ALERTS_RSS_SKIP_FIRST || "true"
+feed_url          = "https://www.ubuntu.si/forum/discussions/comments/all/feed.rss"
+rss_interval      = 60
+broken_tz_adjust  = 0
+skip_first_string = "true"
 skip_first = (skip_first_string == "true")
 
 if skip_first
