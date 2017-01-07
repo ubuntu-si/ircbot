@@ -1,15 +1,13 @@
 module.exports = (bot) ->
 
-  is_url = /(?:^https?:\/\/|^(www\.?)).+/
+  is_url = /^(https?):\/\/.+/
 
   resolve = (url, cb)->
     if is_url.test url
-      if url.substring(0,3) == "www"
-        url = "http://" + url
       bot.fetchHTML url, ($)->
         if $
           stack = []
-          stack.push $("title").text().replace(/\s\s+/g, "")
+          stack.push $("title").text()
           opis = $("meta[name=description]").attr("content")
           if opis
             stack.push opis

@@ -125,7 +125,7 @@ module.exports = (bot) ->
       bot.fetchJSON url.replace(/%20/g,'+'), (result) ->
         if result.pagination.total_count > 0
           gif = "#{result.data[0].id}.gif"
-          r.reply "http://i.giphy.com/#{gif}"
+          r.reply " http://i.giphy.com/#{gif}"
         else
           r.reply "No gif available :("
 
