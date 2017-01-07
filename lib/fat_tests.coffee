@@ -22,13 +22,17 @@ class FakeRedis
   global.redis = new FakeRedis()
 
 class BotTest extends fat.Bot
-  constructor: () ->
+  constructor: (cb) ->
     @help = ["Pomoč:"]
+    @gcb = cb
 
   prepClient: ->
     @client  =
         say: ->
           return
+
+  say: (txt, chan) ->
+    @gcb txt
 
   test: (message, cb)->
     @emit 'user:talk',

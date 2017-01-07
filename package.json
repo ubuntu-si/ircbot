@@ -8,14 +8,13 @@
     "start": "./node_modules/.bin/coffee bot.coffee"
   },
   "engines": {
-    "node": "4.1.1"
+    "node": "6.9.4"
   },
   "repository": "",
-  "private": true,
+  "private": false,
   "author": "dz0ny",
-  "license": "BSD",
+  "license": "MIT",
   "dependencies": {
-    "urijs": "latest",
     "chai": "latest",
     "cheerio": "latest",
     "coffee-script": "latest",
@@ -25,14 +24,17 @@
     "irc": "latest",
     "irc-colors": "latest",
     "mocha": "latest",
+    "mockdate": "^2.0.1",
     "moment": "latest",
     "oauth": "latest",
+    "parse-rss": "latest",
+    "redis": "^2.6.3",
+    "redis-commands": "^1.3.0",
     "request": "latest",
     "sty": "latest",
     "suncalc": "latest",
-    "then-redis": "latest",
+    "then-redis": "^2.0.1",
     "underscore": "latest",
-    "youtube-feeds": "latest",
-    "parse-rss": "*"
+    "urijs": "latest"
   }
 }

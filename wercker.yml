@@ -13,4 +13,4 @@ deploy:
         name: Push to dokku
         code: |
           git remote add dokku dokku@$HOSTNAME:$APP
-          git push dokku HEAD:master
+          git push --force dokku HEAD:master

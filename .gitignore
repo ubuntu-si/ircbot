@@ -7,3 +7,4 @@ _builds
 _steps
 _projects
 .*log
+*.patch
