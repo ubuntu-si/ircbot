@@ -1,6 +1,6 @@
 #ubuntu-si irc bot
 
-[![wercker status](https://app.wercker.com/status/26729d8187253b8d033b8545837c49bf/m "wercker status")](https://app.wercker.com/project/bykey/26729d8187253b8d033b8545837c49bf)
+[![Build Status](https://travis-ci.org/ubuntu-si/ircbot.svg?branch=master)](https://travis-ci.org/ubuntu-si/ircbot)
 
 Potrebuješ:
 
@@ -11,9 +11,6 @@ Potrebuješ:
 Preden začneš:
 
  - ```npm install```
-
-Na Ubuntu 14.04 moraš namestit še
- - ```sudo apt-get install nodejs-legacy```
 
 Zaženeš:
 
