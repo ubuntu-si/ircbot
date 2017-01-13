@@ -12,7 +12,7 @@ module.exports = (bot) ->
           stack.push $("title").text().replace(/\s\s+/g, "")
           opis = $("meta[name=description]").attr("content")
           if opis
-            stack.push opis
+            stack.push opis.replace(/\s\s+/g, "")
           cb stack.join("\n")
 
   bot.on 'user:talk', (r) ->
