@@ -138,13 +138,14 @@ module.exports = (bot) ->
             r.reply "Ni zadetkov :("
 
     bot.regexp /^\.sskj (.+)/,
-      ".sskj <niz> -- išče <niz> v SSKJ in izpiše prvo ujemanje",
+      ".sskj <niz> -- išče <niz> v SSKJ (fran.si) in izpiše prvo ujemanje",
       (match, r) ->
         f = match[1].trim().replace(" ","+")
-        url = "http://bos.zrc-sazu.si/cgi/a03.exe?name=sskj_testa&expression=#{encodeURI(f)}"
+        url = "http://www.fran.si/iskanje?View=1&Query=#{encodeURI(f)}"
         bot.fetchHTML  url, ($) ->
-          if $? &&  $("h2").text().indexOf("Zadetkov ni bilo:")  == -1
-            result = $(".nounderline").eq(0).text()
+          if $? &&  $(".fran-left-content").text().indexOf("Število zadetkov") != -1
+            $(".entry-citation").remove()
+            result = $(".results .entry .entry-content").eq(0).text()
             r.reply "#{result.substring(0,1024)}"
           else
             r.reply "Ni zadetkov"
