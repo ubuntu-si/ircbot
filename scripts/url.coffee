@@ -9,7 +9,7 @@ module.exports = (bot) ->
       bot.fetchHTML url, ($)->
         if $
           stack = []
-          stack.push $("title").text().replace(/\s\s+/g, "")
+          stack.push $("title").text().replace(/\s\s+/g, "").replace(/&nbsp;/g,'')
           opis = $("meta[name=description]").attr("content")
           if opis
             stack.push opis.replace(/\s\s+/g, "")
