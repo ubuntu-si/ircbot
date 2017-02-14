@@ -17,5 +17,5 @@ describe 'apt.coffee', ->
   it 'test .aptf evp.h', (done)->
     bot.test ".aptf evp.h", (msg)->
       expect(msg).to.be.a('string')
-      msg.should.equal '/usr/include/xmlsec1/xmlsec/openssl/evp.h > libxmlsec1-dev\n/usr/include/openssl/evp.h > libssl-dev\n/usr/include/heimdal/hcrypto/evp.h > heimdal-multidev\n/usr/include/hcrypto/evp.h > heimdal-dev'
+      msg.should.equal '/usr/include/xmlsec1/xmlsec/openssl/evp.h > libxmlsec1-dev\n/usr/include/wolfssl/openssl/evp.h > libwolfssl-dev [not ppc64el]\n/usr/include/openssl/evp.h > libssl-dev\n/usr/include/heimdal/hcrypto/evp.h > heimdal-multidev\n/usr/include/cyassl/openssl/evp.h > libwolfssl-dev [not ppc64el]'
       done()
