@@ -16,7 +16,7 @@ module.exports = (bot) ->
                   if archname.indexOf("-") == -1
                     arches.push archname
                 paketi.push "#{$(paket).text().replace("Package ","")} {#{arches.join(", ")}}"
-              cb paketi.reverse().slice(-10).join "\n"
+              cb paketi.reverse().slice(-5).join "\n"
           else
               cb "Ne najdem"
 
@@ -33,7 +33,7 @@ module.exports = (bot) ->
               paketi = []
               for paket in $("td.file")
                 paketi.push [$(paket).text().trim(), $(paket).next().text().trim()].join(" > ")
-              cb paketi.reverse().slice(-10).join "\n"
+              cb paketi.reverse().slice(-5).join "\n"
           else
             cb "Ne najdem"
 
