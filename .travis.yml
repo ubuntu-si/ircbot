@@ -1,10 +1,11 @@
 language: node_js
 node_js:
-  - "6"
-dist: trusty  
+- '6'
+dist: trusty
 sudo: false
 deploy:
   provider: script
-  script: .travis/deploy.sh
+  script:
+    - bash .travis/deploy.sh
   on:
     branch: master
