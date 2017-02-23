@@ -92,11 +92,7 @@ describe 'servisi.coffee', ->
     bot.test ".val", (msg)->
       expect(msg).to.be.a('string')
       done()
-<<<<<<< 50bf17a79698d8597b7413b8df0c6f452e4e45e9
 
-=======
-      
->>>>>>> added Bitstamp API
   it 'test .btc eur', (done)->
     bot.test ".btc eur", (msg) ->
       expect(msg).to.be.a('string')
