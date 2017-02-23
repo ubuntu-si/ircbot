@@ -263,7 +263,11 @@ Bot::keyhash = (data)->
 
 Bot::fetchHTML = (url, cb)->
   @fetch url, (e, r, body)->
-    type =  r.headers["content-type"]
+    if r is undefined
+      # something is seriously wrong - we should ignore it and carry on
+      type = "text/html; charset=utf-8"
+    else
+      type =  r.headers["content-type"]
     if !e and r.statusCode is 200 and type.indexOf('html') != -1
       cb( cheerio.load(body) )
     else
