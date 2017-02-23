@@ -158,3 +158,12 @@ module.exports = (bot) ->
           r.reply "Trenutni čas v #{data.place} je #{data.short_time}"
         else
           r.reply "Trenutni čas je čas za $YOLO!"
+ 
+    bot.regexp /^\.val/,
+      ".val -- kaj se trenutno predvaja na Val 202",
+      (match,irc) ->
+        bot.fetchJSON "http://api.rtvslo.si/onair/val202", (data) ->
+          if data
+            irc.reply "Trenutno se predvaja: #{data.response.BroadcastMonitor.Current.artistName} - #{data.response.BroadcastMonitor.Current.titleName}"
+          else
+            irc.reply "OMG val202 is down!"

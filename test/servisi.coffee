@@ -87,3 +87,7 @@ describe 'servisi.coffee', ->
       bot.test ".time ljubljana", (msg) ->
         expect(msg).to.be.a('string')
         done()
+  it 'test .val', (done)->
+    bot.test ".val", (msg)->
+      expect(msg).to.be.a('string')
+      done()
