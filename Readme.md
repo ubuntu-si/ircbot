@@ -29,7 +29,7 @@ Pomoč:
   .ac <?> -- for what
   .apt <paket> -- Najde pakete po imenu v packages.ubuntu.com
   .asku <pojem> -- Išči po askubuntu, če vsebuje !! potem prikaže povezave
-  .btc <valuta> - Izpiše trenutno BTC vrednost na Bitstamp
+  .btc <valuta> - Izpiše trenutno BTC vrednost na Bitstamp (na voljo USD, EUR)
   .ddg -- Vse kar zna https://api.duckduckgo.com/api ali https://api.duckduckgo.com/goodies
   .imdb <naslov> -- Dobi osnovne podatke z IMBD
   .morje -- Izpiše temperature slovenskega morja (Koper, Debeli rtič ter Piran)
