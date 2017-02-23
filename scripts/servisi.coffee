@@ -168,3 +168,16 @@ module.exports = (bot) ->
             irc.reply "Trenutno se predvaja: #{data.response.BroadcastMonitor.Current.artistName} - #{data.response.BroadcastMonitor.Current.titleName}"
           else
             irc.reply "OMG val202 is down!"
+    
+    bot.regexp /^\.btc (.+)/,
+      ".btc <valuta> - izpiše trenutno BTC vrednost na Bitstamp",
+        (match, r) ->
+          currency = match[1]
+          if currency == "eur" || currency = "usd" 
+            bot.fetchJSON "https://www.bitstamp.net/api/v2/ticker/btc#{currency}/", (data) ->
+              if data && ! null
+                r.reply "Vrednost BTC v #{currency.toUpperCase()}: last: #{data.last}, low: #{data.low}, high: #{data.high}, bid: #{data.bid}, ask: #{data.ask}" 
+              else
+                r.reply "Bitstamp is down"
+          else 
+            r.reply "Napačna valuta"
