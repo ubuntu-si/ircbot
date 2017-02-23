@@ -26,29 +26,30 @@ Tesiraš & razvijaš lokalno:
 
 ```
 Pomoč:
-  .vrzi -- Glava ali cifra
-  .roll <izbira1,izbira2,...> -- Universe has all the answers
   .ac <?> -- for what
-  .plosk -- Zaploskaj
-  .ddg -- Vse kar zna https://api.duckduckgo.com/api ali https://api.duckduckgo.com/goodies
-  .yt <iskalni niz> -- Išči na youtube
-  .sc <iskalni niz> -- Išči na soundcloud
-  .asku <pojem> -- Išči po askubuntu, če vsebuje !! potem prikaže povezave
-  .stof <pojem> -- Išči po stackoverflow, če vsebuje !! potem prikaže povezave
-  .stx <pojem> -- Išči po stackexchange, če vsebuje !! potem prikaže povezave
   .apt <paket> -- Najde pakete po imenu v packages.ubuntu.com
-  .pretvori <vrednost> <valuta> <valuta> -- Pretvori med valutami (primer .pretvori 10 eur usd)
+  .asku <pojem> -- Išči po askubuntu, če vsebuje !! potem prikaže povezave
+  .ddg -- Vse kar zna https://api.duckduckgo.com/api ali https://api.duckduckgo.com/goodies
   .imdb <naslov> -- Dobi osnovne podatke z IMBD
-  .stran <domena> -- Ali stran dela?
-  .videl <nick> -- Kdaj je bil uporabnik zadnjič na kanalu, sporočilo
-  .sporoči <nick> <sporočilo> -- Pošlji sporočilo uporabniku, če ni prisoten
+  .morje -- Izpiše temperature slovenskega morja (Koper, Debeli rtič ter Piran)
+  .nalozi <url> Prikaži opis in naslov za <url>
+  .napoved Vremenska napoved za danes
+  .obeti Vremenska napoved za prihodnje dni
+  .plosk -- Zaploskaj
+  .pretvori <vrednost> <valuta> <valuta> -- Pretvori med valutami (primer .pretvori 10 eur usd)
+  .roll <izbira1,izbira2,...> -- Universe has all the answers
+  .rt -- Izpiše kaj se trenutno predvaja na radioterminal.si
+  .sc <iskalni niz> -- Išči na soundcloud
   .seznam -- Seznam tega kar je v shrambi
   .shrani <sporočilo> -- Shrani nekaj v shrambo
-  .vreme <kraj> dobi podatke o vremenu za <kraj>
-  .obeti Vremenska napoved za prihodnje dni
-  .napoved Vremenska napoved za danes
+  .sporoči <nick> <sporočilo> -- Pošlji sporočilo uporabniku, če ni prisoten
+  .stof <pojem> -- Išči po stackoverflow, če vsebuje !! potem prikaže povezave
+  .stran <domena> -- Ali stran dela?
+  .stx <pojem> -- Išči po stackexchange, če vsebuje !! potem prikaže povezave
   .url <nick> Prikaži urlje, ki jih je objavil <nick>
-  .nalozi <url> Prikaži opis in naslov za <url>
-  .rt -- Izpiše kaj se trenutno predvaja na radioterminal.si
-  .morje -- Izpiše temperature slovenskega morja (Koper, Debeli rtič ter Piran)
+  .val -- Izpiše kaj se trenutno predvaja na Val 202
+  .videl <nick> -- Kdaj je bil uporabnik zadnjič na kanalu, sporočilo
+  .vreme <kraj> dobi podatke o vremenu za <kraj>
+  .vrzi -- Glava ali cifra
+  .yt <iskalni niz> -- Išči na youtube
 ```
