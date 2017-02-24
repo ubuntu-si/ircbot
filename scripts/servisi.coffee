@@ -145,7 +145,7 @@ module.exports = (bot) ->
         bot.fetchHTML  url, ($) ->
           if $? &&  $(".fran-left-content").text().indexOf("Število zadetkov") != -1
             $(".entry-citation").remove()
-            result = $(".results .entry .entry-content").eq(0).text()
+            result = $(".results .entry .entry-content").eq(0).text().replace(/\s\s+/g, "")
             r.reply "#{result.substring(0,1024)}"
           else
             r.reply "Ni zadetkov"
@@ -159,7 +159,7 @@ module.exports = (bot) ->
           r.reply "Trenutni čas v #{data.place} je #{data.short_time}"
         else
           r.reply "Trenutni čas je čas za $YOLO!"
- 
+
     bot.regexp /^\.val/,
       ".val -- kaj se trenutno predvaja na Val 202",
       (match,irc) ->
