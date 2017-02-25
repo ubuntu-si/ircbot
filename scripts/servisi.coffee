@@ -172,12 +172,10 @@ module.exports = (bot) ->
     bot.regexp /^\.btc (.+)/,
       ".btc <valuta> - izpiše trenutno BTC vrednost na Bitstamp",
         (match, r) ->
-          currency = match[1]
-          if currency == "eur" || currency = "usd"
+          currency = match[1].toLowerCase()
+          if currency == "eur" || currency == "usd"
             bot.fetchJSON "https://www.bitstamp.net/api/v2/ticker/btc#{currency}/", (data) ->
               if data && ! null
-                r.reply "Vrednost BTC v #{currency.toUpperCase()}: last: #{data.last}, low: #{data.low}, high: #{data.high}, bid: #{data.bid}, ask: #{data.ask}" 
+                r.reply "Vrednost BTC v #{currency.toUpperCase()}: last: #{data.last}, low: #{data.low}, high: #{data.high}, bid: #{data.bid}, ask: #{data.ask}"
               else
                 r.reply "Bitstamp is down"
-          else
-            r.reply "Napačna valuta"
