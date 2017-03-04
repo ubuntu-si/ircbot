@@ -52,5 +52,6 @@ Pomoč:
   .videl <nick> -- Kdaj je bil uporabnik zadnjič na kanalu, sporočilo
   .vreme <kraj> dobi podatke o vremenu za <kraj>
   .vrzi -- Glava ali cifra
+  .xkcd <parameter> -- Izpiše naslov xkcd stripa in doda povezavo. <parameter>: random - izbere naključni comic, help - izpiše pomoč 
   .yt <iskalni niz> -- Išči na youtube
 ```
