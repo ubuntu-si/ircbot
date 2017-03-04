@@ -183,7 +183,7 @@ module.exports = (bot) ->
     bot.regexp /^\.xkcd\s?(.+)?/,
         (match, r) ->
           if match[1] == "help"
-            r.reply "Za prikaz zadnjega vnosa na xkcd.com vnesi ukaz .xkcd, za prikaz naključnega vnosa vnesi .xkcd random"
+            r.reply "Za prikaz zadnjega vnosa na xkcd.com vnesi ukaz '.xkcd', za prikaz naključnega vnosa vnesi '.xkcd random'"
           else if match[1] == "random"
              bot.fetchJSON "https://xkcd.com/info.0.json", (data) ->
               if data && ! null
@@ -194,9 +194,11 @@ module.exports = (bot) ->
                     r.reply "#{data2.safe_title}: #{data2.img}"
                   else
                     r.reply "Ne najdem"
-          else
+          else if match[1] == undefined
             bot.fetchJSON "https://xkcd.com/info.0.json", (data) ->
                 if data && ! null
                   r.reply "#{data.safe_title}: #{data.img}"
                 else
                   r.reply "Ne najdem" 
+          else
+            r.reply "Ne najdem"
