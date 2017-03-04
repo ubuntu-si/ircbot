@@ -102,3 +102,27 @@ describe 'servisi.coffee', ->
     bot.test ".btc usd", (msg) ->
       expect(msg).to.be.a('string')
       done()
+
+  it 'test .xkcd', (done)->
+    bot.test ".xkcd", (msg) ->
+      expect(msg).to.be.a('string')
+      expect(msg).to.not.equal "Ne najdem"
+      done()
+
+  it 'test .xkcd help', (done)->
+    bot.test ".xkcd help", (msg) ->
+      expect(msg).to.be.a('string')
+      expect(msg).to.equal "Za prikaz zadnjega vnosa na xkcd.com vnesi ukaz '.xkcd', za prikaz naključnega vnosa vnesi '.xkcd random'"
+      done()
+
+  it 'test .xkcd random', (done)->
+    bot.test ".xkcd random", (msg) ->
+      expect(msg).to.be.a('string')
+      expect(msg).to.not.equal "Ne najdem"
+      done()
+
+  it 'test xkcd znj', (done)->
+    bot.test ".xkcd znj", (msg) ->
+      expect(msg).to.be.a('string')
+      expect(msg).to.equal "Ne najdem"
+      done()
