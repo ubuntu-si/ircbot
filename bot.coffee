@@ -1,9 +1,9 @@
 fat = require './lib/fat'
-
-console.log process.env
+Raven = require 'raven'
 
 if process.env.REDIS_URL?
   global.redis = require('then-redis').createClient(process.env.REDIS_URL)
+  Raven.config('https://35574451cc22408db3633f942dc4d0af:cf25dead00cd4a66b6c7e47d18c89e63@sentry.io/147995').install()
 else
   global.redis = require('then-redis').createClient()
 
