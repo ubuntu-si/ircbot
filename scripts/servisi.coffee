@@ -154,7 +154,7 @@ module.exports = (bot) ->
      ".time <mesto> - izpiše trenutni čas v $mesto",
      (match, r) ->
        f = match[1].trim().replace(" ","-")
-       bot.fetchJSON "https://api.mkfs.si/time/#{f}", (data) ->
+       bot.fetchJSON "https://simple-time-api.herokuapp.com/#{f}", (data) ->
         if data && ! null
           r.reply "Trenutni čas v #{data.place} je #{data.short_time}"
         else
