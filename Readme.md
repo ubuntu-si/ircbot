@@ -1,12 +1,10 @@
-#ubuntu-si irc bot
+# ubuntu-si irc bot
 
 [![Build Status](https://travis-ci.org/ubuntu-si/ircbot.svg?branch=master)](https://travis-ci.org/ubuntu-si/ircbot)
 
 Potrebuješ:
 
  - nodejs
- - redis
- - docker
 
 Preden začneš:
 
