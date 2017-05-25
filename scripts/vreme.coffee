@@ -206,9 +206,10 @@ module.exports = (bot) ->
     ".morje -- kakšne so trenutno temperature v slovenskem morju",
     (match,irc) ->
       urls = [
-        "http://www.arso.gov.si/vode/podatki/amp/H17_t_1.html", #koper
-        "http://www.arso.gov.si/vode/podatki/amp/H64_t_1.html", #rtic
-        "http://www.arso.gov.si/vode/podatki/amp/H24_t_1.html", #piran
+        "http://www.arso.gov.si/vode/podatki/amp/H9350_t_1.html", #koper
+        "http://www.arso.gov.si/vode/podatki/amp/H9410_t_1.html", #rtic
+        "http://www.arso.gov.si/vode/podatki/amp/H9400_t_1.html", #piran
+        "http://www.arso.gov.si/vode/podatki/amp/H9420_t_1.html", #tržaški zaliv
       ]
       msg = []
       for url, index in urls
