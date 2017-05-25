@@ -60,30 +60,6 @@ module.exports = (bot) ->
       zamenjaj vrednost, from, to, (answer)->
         r.reply "#{r.nick}: #{answer}"
 
-  bot.regexp /^\.imdb (.+)/,
-    ".imdb <naslov> -- Dobi osnovne podatke z OMDB ",
-    (match, r) ->
-      f = match[1].trim()
-      imdb = (ime, cb)->
-        url = "http://www.omdbapi.com/?t=#{ime}&y=&r=json&tomatoes=true"
-        bot.fetchJSON url, (data) ->
-          if data.Response == "False"
-            msg = "Ne najdem!"
-            #console.log msg
-            cb msg
-          if data.Response == "True"
-            msg = "#{data.Title} |#{data.Released} #{data.Runtime}| #{data.Genre}\n#{data.Plot}\nIMDB:#{data.imdbRating}/10 (#{data.imdbVotes} glasov) | Tomato: #{data.tomatoRating}/10 #{data.tomatoReviews} reviews (users: #{data.tomatoUserRating}/5 #{data.tomatoUserReviews} reviews) \
-            \nPovezava: https://www.imdb.com/title/#{data.imdbID}"
-            #console.log msg
-            redis.setex("imdb:#{ime}", 24*60*5, msg)
-            cb msg
-
-      redis.get("imdb:#{f}").then (res)->
-        unless res
-          imdb f, r.reply
-        else
-          r.reply res
-
   bot.regexp /^\.stran (.*)/i,
     ".stran <domena> -- Ali stran dela?",
     (match, irc) ->
@@ -199,6 +175,6 @@ module.exports = (bot) ->
                 if data && ! null
                   r.reply "#{data.safe_title}: #{data.img}"
                 else
-                  r.reply "Ne najdem" 
+                  r.reply "Ne najdem"
           else
             r.reply "Ne najdem"
