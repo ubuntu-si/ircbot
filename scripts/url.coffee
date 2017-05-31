@@ -9,10 +9,10 @@ module.exports = (bot) ->
       bot.fetchHTML url, ($)->
         if $
           stack = []
-          stack.push $("title").eq(0).text().replace(/\s\s+/g, "").replace(/&nbsp;/g,'').replace(/\n/g, "")
+          stack.push $("title").eq(0).text().replace(/\s\s+/g, "").replace(/&nbsp;/g,"").replace(/\n/g, "")
           opis = $("meta[name=description]").attr("content")
           if opis
-            stack.push opis.replace(/\s\s+/g, "").replace(/&nbsp;/g,'').replace(/\n/g, "")
+            stack.push opis.replace(/\s\s+/g, "").replace(/&nbsp;/g,"").replace(/\n/g, "")
           cb stack.join("\n")
 
   bot.on 'user:talk', (r) ->
