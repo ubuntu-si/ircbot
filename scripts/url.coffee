@@ -1,11 +1,10 @@
 module.exports = (bot) ->
 
-  is_url = /(?:^https?:\/\/|^(www\.?)).+/
+  is_url = /(https?[\w:\/\.;&\?_\-\#]+)/g;
 
   resolve = (url, cb)->
     if is_url.test url
-      if url.substring(0,3) == "www"
-        url = "http://" + url
+      url = url.match(is_url)[0]
       bot.fetchHTML url, ($)->
         if $
           stack = []
