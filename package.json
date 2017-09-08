@@ -8,7 +8,7 @@
     "start": "./node_modules/.bin/coffee bot.coffee"
   },
   "engines": {
-    "node": "6.9.4"
+    "node": "8.5.0"
   },
   "repository": "",
   "private": false,
