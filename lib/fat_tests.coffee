@@ -1,8 +1,6 @@
 fat = require './fat'
 
 class FakeRedis
-    constructor: () ->
-
     lrange:()->
       return {then: @then}
     lpush:()->
@@ -23,12 +21,17 @@ class FakeRedis
 
 class BotTest extends fat.Bot
   constructor: (cb) ->
+    super()
     @help = ["Pomoč:"]
     @gcb = cb
 
   prepClient: ->
     @client  =
+        
         say: ->
+          return
+        
+        on: ->
           return
 
   say: (txt, chan) ->

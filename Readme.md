@@ -16,7 +16,7 @@ Zaženeš:
 
 Tesiraš & razvijaš lokalno:
 
-  - ```./node_modules/.bin/mocha -R spec --compilers coffee:coffee-script/register test/vreme.coffee``` testiraš specifično funkcionalnost
+  - ```./node_modules/.bin/mocha -R spec --compilers coffee:coffeescript/register test/vreme.coffee``` testiraš specifično funkcionalnost
 
   - ```npm test``` če želiš kompleten projekt
 

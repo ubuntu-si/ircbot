@@ -36,7 +36,7 @@ class Bot extends events.EventEmitter
   sugars = [] # Unused for now
 
   constructor: (settings, nick, channels) ->
-
+    super()
     # Read package.json
     file = fs.readFileSync __dirname + '/../package.json', 'utf-8'
     @package =  JSON.parse file

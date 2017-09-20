@@ -4,7 +4,7 @@
   "description": "#ubuntu-si bot",
   "main": "server.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha -R spec --compilers coffee:coffee-script/register",
+    "test": "./node_modules/.bin/mocha -R spec --compilers coffee:coffeescript/register",
     "start": "./node_modules/.bin/coffee bot.coffee"
   },
   "engines": {
@@ -17,7 +17,7 @@
   "dependencies": {
     "chai": "latest",
     "cheerio": "latest",
-    "coffee-script": "latest",
+    "coffeescript": "^2.0.0",
     "ddg": "latest",
     "googleapis": "latest",
     "humanize": "latest",
