@@ -1,6 +1,6 @@
 module.exports = (bot) ->
 
-  is_url = /(https?[\w:\/\.;&\?_\-\#]+)/g;
+  is_url = /(https?[\w:\/\.;&\?_\-\#=]+)/g;
 
   resolve = (url, cb)->
     if is_url.test url
