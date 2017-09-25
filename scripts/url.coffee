@@ -1,11 +1,13 @@
 module.exports = (bot) ->
 
-  is_url = /(https?[\w:\/\.;&\?_\-\#=]+)/g;
+  is_url = /(((https?:\/\/)|(www\.?))[^\s]+)/
 
   resolve = (url, cb)->
     if is_url.test url
-      url = url.match(is_url)[0]
-      bot.fetchHTML url, ($)->
+      url = url.match(is_url)
+      if url[0].substring(0,3) == "www"
+        url[0] = "http://" + url[0]
+      bot.fetchHTML url[0], ($)->
         if $
           stack = []
           stack.push $("title").eq(0).text().replace(/\s\s+/g, "").replace(/&nbsp;/g,"").replace(/\n/g, "")
