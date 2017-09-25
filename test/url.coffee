@@ -14,7 +14,7 @@ describe 'url.coffee', ->
     done()
 
   it 'test .nalozi veljaven url', (done)->
-    bot.test ".nalozi https://www.google.si/", (msg)->
+    bot.test "hudo https://www.ubuntu.si/", (msg)->
       expect(msg).to.be.a('string')
       expect(msg.length).to.be.at.least 2
       done()
