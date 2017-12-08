@@ -20,6 +20,9 @@ module.exports = (bot) ->
   bot.command /lol no/i, (r) ->
     r.reply "https://i.imgur.com/BiSkH5D.png"
 
+  bot.command /hackerman/i, (r) ->
+    r.reply "https://i.imgur.com/5us23IE.jpg"
+
   bot.command /lignux/i, (r) ->
     r.reply "#{r.nick}: linux*"
 
