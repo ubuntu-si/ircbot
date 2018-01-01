@@ -96,3 +96,13 @@ describe 'servisi.coffee', ->
       expect(msg).to.be.a('string')
       expect(msg).to.equal "Ne najdem"
       done()
+
+  it 'test .eth eur', (done)->
+    bot.test ".eth eur", (msg) ->
+      expect(msg).to.be.a('string')
+      done()
+
+  it 'test .eth usd', (done)->
+    bot.test ".eth usd", (msg) ->
+      expect(msg).to.be.a('string')
+      done()

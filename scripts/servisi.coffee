@@ -155,6 +155,24 @@ module.exports = (bot) ->
                 r.reply "Vrednost BTC v #{currency.toUpperCase()}: last: #{data.last}, low: #{data.low}, high: #{data.high}, bid: #{data.bid}, ask: #{data.ask}"
               else
                 r.reply "Bitstamp is down"
+          else
+              r.reply "Nau šlo. Poskusi .btc eur ali .btc usd."
+
+    bot.regexp /^\.eth (.+)/,
+      ".eth <valuta> - izpiše trenutno ETH vrednost na coinmarketcap.com",
+        (match,r) ->
+          currency = match[1].toLowerCase()
+          if currency == "eur" || currency == "usd"
+            bot.fetchJSON "https://api.coinmarketcap.com/v1/ticker/ethereum/?convert=EUR", (data) ->
+              if data && ! null
+                if currency == "eur"
+                  r.reply "Vrednost #{data[0].name} v #{currency.toUpperCase()}: #{data[0].price_eur} (#{data[0].price_btc} BTC)"
+                else
+                    r.reply "Vrednost #{data[0].name} v #{currency.toUpperCase()}: #{data[0].price_usd} (#{data[0].price_btc} BTC)"
+              else
+                r.reply "Coinmarketcap.com is down"
+          else
+            r.reply "Nau šlo. Poskusi .eth eur ali .eth usd"
 
     bot.regexp /^\.xkcd\s?(.+)?/,
         (match, r) ->
