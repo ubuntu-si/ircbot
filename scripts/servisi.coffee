@@ -86,7 +86,6 @@ module.exports = (bot) ->
           else
             ytlink = ""
           irc.reply "Trenutno se predvaja: #{data.artist} - #{data.track}. #{ytlink}"
-          #console.log "Trenutno se predvaja: #{data.artist} - #{data.track}. #{ytlink}"
         else
           irc.reply "OMG radioterminal.si is down!"
 
@@ -131,7 +130,7 @@ module.exports = (bot) ->
      (match, r) ->
        f = match[1].trim().replace(" ","-")
        bot.fetchJSON "https://simple-time-api.herokuapp.com/#{f}", (data) ->
-        if data && ! null
+        if data
           r.reply "Trenutni čas v #{data.place} je #{data.short_time}"
         else
           r.reply "Trenutni čas je čas za $YOLO!"
@@ -151,7 +150,7 @@ module.exports = (bot) ->
           currency = match[1].toLowerCase()
           if currency == "eur" || currency == "usd"
             bot.fetchJSON "https://www.bitstamp.net/api/v2/ticker/btc#{currency}/", (data) ->
-              if data && ! null
+              if data
                 r.reply "Vrednost BTC v #{currency.toUpperCase()}: last: #{data.last}, low: #{data.low}, high: #{data.high}, bid: #{data.bid}, ask: #{data.ask}"
               else
                 r.reply "Bitstamp is down"
@@ -164,7 +163,7 @@ module.exports = (bot) ->
           currency = match[1].toLowerCase()
           if currency == "eur" || currency == "usd"
             bot.fetchJSON "https://api.coinmarketcap.com/v1/ticker/ethereum/?convert=EUR", (data) ->
-              if data && ! null
+              if data
                 if currency == "eur"
                   r.reply "Vrednost #{data[0].name} v #{currency.toUpperCase()}: #{data[0].price_eur} (#{data[0].price_btc} BTC)"
                 else
@@ -180,17 +179,17 @@ module.exports = (bot) ->
             r.reply "Za prikaz zadnjega vnosa na xkcd.com vnesi ukaz '.xkcd', za prikaz naključnega vnosa vnesi '.xkcd random'"
           else if match[1] == "random"
              bot.fetchJSON "https://xkcd.com/info.0.json", (data) ->
-              if data && ! null
+              if data
                 max = data.num
                 random = Math.floor(Math.random() * (max - 1) + 1)
                 bot.fetchJSON "https://xkcd.com/#{random}/info.0.json", (data2) ->
-                  if data2 && ! null
+                  if data2
                     r.reply "#{data2.safe_title}: #{data2.img}"
                   else
                     r.reply "Ne najdem"
           else if match[1] == undefined
             bot.fetchJSON "https://xkcd.com/info.0.json", (data) ->
-                if data && ! null
+                if data
                   r.reply "#{data.safe_title}: #{data.img}"
                 else
                   r.reply "Ne najdem"
