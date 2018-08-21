@@ -122,8 +122,8 @@ module.exports = (bot) ->
           r.reply "No gif available :("
 
   bot.command /^((give me|spread) some )?(joy|love)( asshole)?/i, (r) ->
-    bot.fetchHTML 'http://thecodinglove.com/random', ($) ->
-      img_src = $("#post1 > div.bodytype > p > img").first().attr('src')
-      txt = $("#post1 > div.centre > h3 > a").first().text()
+    bot.fetchHTML 'http://thecodinglove.com/', ($) ->
+      img_src = $(".container > .row > .blog-main > .blog-post > .blog-post-content > p > img").first().attr('src')
+      txt = $(".container > .row > .blog-main > .blog-post > .blog-post-title > a").first().text()
       txt = txt.replace(/[\n\r]/g, '')
       r.reply "#{txt} #{img_src}"
