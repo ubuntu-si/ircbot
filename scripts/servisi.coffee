@@ -1,31 +1,31 @@
-google = require('googleapis')
-google.options ({ auth: 'AIzaSyAl1Xq9DwdE_KD4AtPaE4EJl3WZe2zCqg4' });
-youtube = google.youtube ('v3')
+# google = require('googleapis')
+# google.options ({ auth: 'AIzaSyAl1Xq9DwdE_KD4AtPaE4EJl3WZe2zCqg4' });
+# youtube = google.youtube ('v3')
 humanize = require 'humanize'
 
 module.exports = (bot) ->
 
-  bot.regexp /^\.yt (.+)/,
-    ".yt <iskalni niz> -- Išči na youtube",
-    (match, r) ->
-      youtube.search.list {
-          part: 'snippet'
-          type: 'video'
-          q: match[1].trim()
-          maxResults: 5
-          type: 'video'
-          order: 'relevance'
-          safeSearch: 'none'
-      }, (err, res) ->
-        unless err
-          izbran = _.first(res.items)
-          if izbran
-            r.reply "#{izbran.snippet.title} https://www.youtube.com/watch?v=#{izbran.id.videoId}"
-          else
-            r.reply "Ni zadetka"
-        else
-          r.reply "Ni zadetka"
-
+  # bot.regexp /^\.yt (.+)/,
+  #   ".yt <iskalni niz> -- Išči na youtube",
+  #   (match, r) ->
+  #     youtube.search.list {
+  #         part: 'snippet'
+  #         type: 'video'
+  #         q: match[1].trim()
+  #         maxResults: 5
+  #         type: 'video'
+  #         order: 'relevance'
+  #         safeSearch: 'none'
+  #     }, (err, res) ->
+  #       unless err
+  #         izbran = _.first(res.items)
+  #         if izbran
+  #           r.reply "#{izbran.snippet.title} https://www.youtube.com/watch?v=#{izbran.id.videoId}"
+  #         else
+  #           r.reply "Ni zadetka"
+  #       else
+  #         r.reply "Ni zadetka"
+  #
   bot.regexp /^\.sc (.+)/,
     ".sc <iskalni niz> -- Išči na soundcloud",
     (match, r) ->
